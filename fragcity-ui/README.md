@@ -15,10 +15,12 @@ The repository also contains the existing PHP account/login and Steam OpenID flo
 
 ## Important deployment notes
 
-- The cards and sample prices in `servers.html` remain illustrative; use the real PHP purchase page for current prices, node availability, server options, wallet balance, and checkout.
+- The redesign does not invent server prices, capacity, skin inventory, player counts, or regions. Those values must be read from the original PHP application and configured database at runtime.
 - Panel actions redirect to the existing authenticated panel instead of pretending to start/stop a server from this static page.
 - Skin selection redirects to the existing backend skin-management page; applying a cosmetic depends on account permissions and server/plugin support.
 - Support submissions should be made on the real PHP support page.
+- A short FRAG CITY branded loading transition (about 430 ms) is included; it respects the reduced-motion preference.
+- The public backup repository is marked outdated/unfinished and no SQL dump or confirmed production data export was identified in the repository tree. Do not treat demo UI content as real account or commerce data.
 - Do not expose database credentials, agent secrets, RCON passwords, or payment secrets in client-side code.
 - Before production deployment, review the backend configuration and security documentation and rotate any credentials that have ever been committed to source control. Keep the current PHP backend behavior unchanged unless separately requested.
 
