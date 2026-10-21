@@ -2,7 +2,7 @@
   const $ = (s, r=document) => r.querySelector(s);
   const $$ = (s, r=document) => [...r.querySelectorAll(s)];
   const preview = /raw\.githack\.com|github\.io|github\.com$/.test(location.hostname);
-  const routes = {buyserveropen:'servers.html',servers_vps:'manage.html',weaponpaints:'skins.html',usermanual:'guides.html',support:'support.html',overview:'manage.html'};
+  const routes = {buyserveropen:'servers.html',buyserver:'servers.html',servers:'servers.html',servers_vps:'manage.html',skins:'skins.html',weaponpaints:'skins.html',usermanual:'guides.html',support:'support.html',overview:'manage.html',login:'account.html',register:'account.html',forgot_password:'account.html',reset_password:'account.html',profile:'account.html',wallet:'account.html',donations:'account.html',vip:'account.html',leaderboard:'account.html',banlist:'account.html',rules:'guides.html',privacy:'guides.html',about:'index.html'};
   // Short branded FRAG CITY transition (visual only).
   if (!document.getElementById('fc-boot')) {
     const boot = document.createElement('div');
@@ -18,7 +18,7 @@
   if (preview) $$('a[href*="index.php?page="]').forEach(a => { const m=a.href.match(/[?&]page=([^&]+)/); if(m&&routes[decodeURIComponent(m[1])]) a.href=routes[decodeURIComponent(m[1])]; });
 
   const dict = {
-  'Home':'خانه','Servers':'سرورها','Skins':'اسکین‌ها','Guides':'راهنما','Support':'پشتیبانی','Control panel':'پنل مدیریت','COUNTER-STRIKE HOSTING':'میزبانی سرور کانتر','OWN THE ARENA':'صاحب میدان باش',
+  'Home':'خانه','Servers':'سرورها','Skins':'اسکین‌ها','Guides':'راهنما','Support':'پشتیبانی','Account':'حساب کاربری','Control panel':'پنل مدیریت','COUNTER-STRIKE HOSTING':'میزبانی سرور کانتر','OWN THE ARENA':'صاحب میدان باش',
   'BUILT FOR THE NEXT ROUND':'ساخته‌شده برای راند بعدی','YOUR SERVER.':'سرور تو.','YOUR RULES.':'قوانین تو.','Create your own Counter-Strike arena. Fast setup, clear controls, and room to build your community.':'سرور اختصاصی کانتر خودت را بساز؛ راه‌اندازی آسان، کنترل شفاف و فضایی برای رشد کامیونیتی.',
   'Explore servers':'مشاهده سرورها','How it works':'چطور کار می‌کند','Made for players':'برای پلیرها ساخته شده','From first server to full community':'از اولین سرور تا کامیونیتی کامل','TACTICAL. RELIABLE. YOURS.':'تاکتیکی. قابل‌اعتماد. مال تو.',
   'Pick your setup':'انتخاب تنظیمات','Configure your server':'پیکربندی سرور','Bring your squad':'دعوت از اسکواد','Play your way':'به سبک خودت بازی کن','THE FRAG CITY EDGE':'مزیت فرگ سیتی','LESS SETUP.':'تنظیمات کمتر.','MORE GAME.':'بازی بیشتر.',
