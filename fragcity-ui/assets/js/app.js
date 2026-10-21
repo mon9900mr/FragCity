@@ -56,10 +56,10 @@
   }
   const nav=$('nav'),menu=$('.menu-toggle');if(menu&&nav)menu.addEventListener('click',()=>{const open=nav.classList.toggle('open');menu.setAttribute('aria-expanded',String(open));});
   function toast(message){const old=$('.toast');if(old)old.remove();const el=document.createElement('div');el.className='toast';el.setAttribute('role','status');el.textContent=message;document.body.appendChild(el);setTimeout(()=>el.remove(),4200);}
-  $$('.choose-plan').forEach(b=>b.addEventListener('click',()=>location.href=preview?'servers.html':'../index.php?page=buyserveropen'));
+  $('.choose-plan').forEach(b=>b.addEventListener('click',()=>{if(preview)toast(fa?'برای خرید واقعی باید سایت روی سرور PHP اجرا شود؛ این لینک فقط پیش‌نمایش است.':'Live checkout needs the PHP site; this is a static preview.');else location.href='../index.php?page=buyserveropen';}));
   $$('.demo-action').forEach(b=>b.addEventListener('click',()=>{const a=b.dataset.action;const en={start:'Preview only: connect a protected server API to start the server.',restart:'Preview only: connect a protected server API to restart the server.',stop:'Preview only: connect a protected server API to stop the server.'};const faText={start:'این فقط پیش‌نمایش است؛ برای روشن‌کردن سرور باید API امن متصل شود.',restart:'این فقط پیش‌نمایش است؛ برای راه‌اندازی مجدد باید API امن متصل شود.',stop:'این فقط پیش‌نمایش است؛ برای خاموش‌کردن سرور باید API امن متصل شود.'};toast((fa?faText:en)[a]);}));
   const filters=$$('[data-filter]');filters.forEach(b=>b.addEventListener('click',()=>{filters.forEach(x=>x.classList.remove('active'));b.classList.add('active');const type=b.dataset.filter;$$('.skin-card').forEach(c=>c.hidden=type!=='all'&&c.dataset.type!==type);}));
-  $$('.select-skin').forEach(b=>b.addEventListener('click',()=>location.href=preview?'skins.html':'../index.php?page=weaponpaints'));
+  $('.select-skin').forEach(b=>b.addEventListener('click',()=>{if(preview)toast(fa?'این انتخاب نمایشی است؛ برای مدیریت واقعی اسکین سایت PHP را باز کن.':'Skin selection is a preview. Open the PHP site for real skin management.');else location.href='../index.php?page=weaponpaints';}));
   const form=$('#support-form');if(form)form.addEventListener('submit',e=>{e.preventDefault();toast(fa?'این فرم نمایشی است؛ برای ثبت واقعی تیکت، صفحه پشتیبانی اصلی را باز کن.':'This is a preview form. Open the live support page to submit a real ticket.');});
   try{setLanguage(localStorage.getItem('fragcity-language')==='fa')}catch(e){setLanguage(false)}
 })();
