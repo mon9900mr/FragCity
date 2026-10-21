@@ -15,7 +15,23 @@
     window.setTimeout(finish, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 80 : 430);
   }
 
-  if (preview) $$('a[href*="index.php?page="]').forEach(a => { const m=a.href.match(/[?&]page=([^&]+)/); if(m&&routes[decodeURIComponent(m[1])]) a.href=routes[decodeURIComponent(m[1])]; });
+  if (preview) {
+    $('[data-backend-href]').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        const target = a.getAttribute('data-backend-href') || '';
+        const page = (target.match(/[?&]page=([^&]+)/) || [,''])[1];
+        const labels = {login:'ورود',register:'ثبت‌نام',forgot_password:'بازیابی رمز عبور',profile:'پروفایل',wallet:'کیف پول',donations:'پرداخت‌ها و حمایت مالی',vip:'عضویت VIP',leaderboard:'جدول رتبه‌بندی',banlist:'لیست بن‌ها',rules:'قوانین',privacy:'حریم خصوصی',about:'درباره ما',usermanual:'راهنمای کاربر',support:'پشتیبانی و تیکت‌ها',servers_vps:'سرورهای ثبت‌شده',skins:'مدیریت اسکین',overview:'پنل مدیریت سرور'};
+        const label = labels[decodeURIComponent(page)] || 'این قابلیت';
+        toast('پیش‌نمایش استاتیک است؛ برای باز شدن «'+label+'» باید سایت PHP روی هاست اجرا شود. این دکمه در پیش‌نمایش به کد PHP هدایت نمی‌شود.');
+      });
+    });
+    $('a[href*="index.php?page="]').forEach(a => {
+      const m = a.href.match(/[?&]page=([^&]+)/);
+      if (m && routes[decodeURIComponent(m[1])]) a.href = routes[decodeURIComponent(m[1])];
+      else if (m) a.addEventListener('click', e => { e.preventDefault(); toast('این بخش فقط در نسخه اجراشده روی هاست PHP در دسترس است.'); });
+    });
+  }
 
   const dict = {
   'Home':'خانه','Servers':'سرورها','Skins':'اسکین‌ها','Guides':'راهنما','Support':'پشتیبانی','Account':'حساب کاربری','Control panel':'پنل مدیریت','COUNTER-STRIKE HOSTING':'میزبانی سرور کانتر','OWN THE ARENA':'صاحب میدان باش',
