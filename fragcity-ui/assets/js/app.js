@@ -15,11 +15,15 @@
   }
 
   document.querySelectorAll('.choose-plan').forEach(button => {
-    button.addEventListener('click', () => toast('Preview only: "' + button.dataset.plan + '" selected. Checkout is not connected.'));
+    button.addEventListener('click', () => {
+      window.location.href = '../index.php?page=buyserveropen';
+    });
   });
 
   document.querySelectorAll('.demo-action').forEach(button => {
-    button.addEventListener('click', () => toast('Demo only: "' + button.dataset.action + '" was not sent to a live server.'));
+    button.addEventListener('click', () => {
+      window.location.href = '../panels/cs2/index.php?page=overview';
+    });
   });
 
   const filters = document.querySelectorAll('[data-filter]');
@@ -33,14 +37,14 @@
   }));
 
   document.querySelectorAll('.select-skin').forEach(button => {
-    button.addEventListener('click', () => toast('Preview selection: ' + button.dataset.skin + '. No in-game change was made.'));
+    button.addEventListener('click', () => {
+      window.location.href = '../index.php?page=weaponpaints';
+    });
   });
 
   const form = document.querySelector('#support-form');
   if (form) form.addEventListener('submit', event => {
     event.preventDefault();
-    if (!form.reportValidity()) return;
-    toast('Form preview complete. No ticket was sent or stored.');
-    form.reset();
+    window.location.href = '../index.php?page=support';
   });
 })();
