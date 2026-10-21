@@ -3,6 +3,18 @@
   const $$ = (s, r=document) => [...r.querySelectorAll(s)];
   const preview = /raw\.githack\.com|github\.io|github\.com$/.test(location.hostname);
   const routes = {buyserveropen:'servers.html',servers_vps:'manage.html',weaponpaints:'skins.html',usermanual:'guides.html',support:'support.html',overview:'manage.html'};
+  // Short branded FRAG CITY transition (visual only).
+  if (!document.getElementById('fc-boot')) {
+    const boot = document.createElement('div');
+    boot.id = 'fc-boot';
+    boot.innerHTML = '<div class="fc-boot-mark">F<span>C</span></div><div class="fc-boot-name">FRAG<span>CITY</span></div><div class="fc-boot-track"><i></i></div>';
+    boot.setAttribute('role', 'status');
+    boot.setAttribute('aria-label', 'Loading FRAG CITY');
+    document.body.appendChild(boot);
+    const finish = () => { boot.classList.add('fc-boot-out'); window.setTimeout(() => boot.remove(), 240); };
+    window.setTimeout(finish, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 80 : 430);
+  }
+
   if (preview) $$('a[href*="index.php?page="]').forEach(a => { const m=a.href.match(/[?&]page=([^&]+)/); if(m&&routes[decodeURIComponent(m[1])]) a.href=routes[decodeURIComponent(m[1])]; });
 
   const dict = {
