@@ -1291,7 +1291,7 @@ foreach ($weapons as $def => $weapon) {
     ];
 }
 
-$skinPerPage = 24;
+$skinPerPage = 1000;
 
 $skinTotalItems =
     count($weaponsList);
