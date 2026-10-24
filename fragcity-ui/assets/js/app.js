@@ -94,7 +94,7 @@
     const pageSize=48;let catalog=[],page=0,category='all',weaponChoice='all',visible=[];
     const treeLabels={rifles:'Rifles',pistols:'Pistols',snipers:'Snipers',smgs:'SMGs',heavy:'Heavy weapons',knives:'Knives',gloves:'Gloves',agents:'Agents',stickers:'Stickers',collectibles:'Collectibles',charms:'Charms',music:'Music kits',other:'Other items',otherweapons:'Other weapons'};
     const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-    const imageUrl=s=>new URL(s.image.replace(/^\//,''),new URL('../../',document.baseURI)).href;
+    const imageUrl=s=>new URL(s.image.replace(/^\//,''),new URL('../',document.baseURI)).href;
     const getWeaponChoices=cat=>[...new Set(catalog.filter(s=>s.category===cat).map(s=>s.weaponLabel||s.weapon||'Other'))].sort((a,b)=>a.localeCompare(b));
     function buildTree(){
       for(const [cat,label] of Object.entries(treeLabels)){
