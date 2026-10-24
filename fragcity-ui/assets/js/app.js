@@ -93,7 +93,7 @@
     const search=$('#skin-search'),sort=$('#skin-sort'),prev=$('#skin-prev'),next=$('#skin-next');
     let stickerSlot=0,stickerSlots=[null,null,null,null];
     const pageSize=48;let catalog=[],page=0,category='all',weaponChoice='all',visible=[];
-    const treeLabels={rifles:'Rifles',pistols:'Pistols',snipers:'Snipers',smgs:'SMGs',shotguns:'Shotguns',machineguns:'Machine guns',utility:'Knives',gloves:'Gloves',agents:'Agents'};
+    const treeLabels={rifles:'Rifles',pistols:'Pistols',snipers:'Snipers',smgs:'SMGs',shotguns:'Shotguns',machineguns:'Machine guns',utility:'Knives',gloves:'Gloves',agents:'Agents',stickers:'Stickers',charms:'Charms',music:'Music Kits',collectibles:'Collectibles'};
     const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     const imageUrl=s=>{const raw=String(s?.image||'');if(!raw)return '';if(/^https?:\/\//i.test(raw)||raw.startsWith('data:'))return raw;return new URL(raw,document.baseURI).href};
     const getWeaponChoices=cat=>[...new Set(catalog.filter(s=>s.category===cat).map(s=>s.weaponLabel||s.weapon||'Other'))].sort((a,b)=>a.localeCompare(b));
@@ -108,7 +108,7 @@
     }
     function render(){
       const q=(search?.value||'').trim().toLocaleLowerCase();
-      visible=catalog.filter(s=>(category==='all'?['rifles','pistols','snipers','smgs','shotguns','machineguns','utility','heavy'].includes(s.category):s.category===category)&&(weaponChoice==='all'||(s.weaponLabel||s.weapon||'Other')===weaponChoice)&&(!q||s.name.toLocaleLowerCase().includes(q)||(s.weapon||'').toLocaleLowerCase().includes(q)||String(s.paint).includes(q)));
+      visible=catalog.filter(s=>(category==='all'?true:s.category===category)&&(weaponChoice==='all'||(s.weaponLabel||s.weapon||'Other')===weaponChoice)&&(!q||s.name.toLocaleLowerCase().includes(q)||(s.weapon||'').toLocaleLowerCase().includes(q)||String(s.paint).includes(q)));
       const order=sort?.value||'name';
       visible.sort((a,b)=>order==='weapon'?(a.weaponLabel||a.weapon).localeCompare(b.weaponLabel||b.weapon)||a.name.localeCompare(b.name):order==='paint'?Number(a.paint)-Number(b.paint):a.name.localeCompare(b.name));
       const pages=Math.max(1,Math.ceil(visible.length/pageSize));page=Math.min(page,pages-1);
