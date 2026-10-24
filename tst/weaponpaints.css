@@ -4395,3 +4395,47 @@ body > .wp-modal#skinModal .modal-dialog {
 .wp-form-submitting .wp-btn[type="submit"] {
     pointer-events: none !important;
 }
+
+
+/* ===== FragCity Skin Lab redesign v2 ===== */
+.wp-app{--wp-accent:#39d9ff;--wp-panel:#0d1624;background:#070c14;color:#eef6ff}
+.wp-header{padding:16px clamp(12px,2vw,28px);background:rgba(5,10,18,.94);border-bottom:1px solid rgba(57,217,255,.16)}
+.wp-header-main,.wp-tabs{max-width:1600px}
+.wp-search{height:50px;border-radius:13px;border-color:#20354b;background:#0a1320}
+.wp-search:focus{border-color:var(--wp-accent);box-shadow:0 0 0 3px #39d9ff18}
+.wp-tabs{gap:8px;padding:5px 0 2px}
+.wp-tab{border:1px solid #1b2b3d;border-radius:11px;background:#0b1421;min-height:44px;padding:0 18px}
+.wp-tab.is-active,.wp-tab.active{background:linear-gradient(135deg,#12334a,#102238);border-color:#39d9ff55;color:#eafaff}
+.wp-tab i{color:#39d9ff}
+.wp-main{max-width:1600px;margin:24px auto 0}
+.wp-section-head{align-items:center;padding:20px 22px;border:1px solid #1a2a3d;border-radius:18px;background:linear-gradient(120deg,#0d1928,#0a111d);margin-bottom:20px}
+.wp-section-kicker{color:#39d9ff;letter-spacing:.08em;text-transform:uppercase}
+.wp-section-title{font-size:clamp(1.35rem,2.2vw,1.9rem)}
+.wp-items-grid{grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px}
+.wp-items-grid--skins{grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
+.wp-card{background:linear-gradient(155deg,#111e2d,#0b121e);border:1px solid #203146;border-radius:15px;overflow:hidden;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+.wp-card:hover{transform:translateY(-3px);border-color:#39d9ff70;box-shadow:0 12px 30px #0007,0 0 0 1px #39d9ff12}
+.wp-card-media{min-height:145px;background:radial-gradient(ellipse at center,#1c3044 0, #0b1420 70%);padding:12px}
+.wp-items-grid--skins .wp-card-media{min-height:160px}
+.wp-card-image{width:100%;height:145px;object-fit:contain;filter:drop-shadow(0 12px 10px #0008);transition:transform .2s ease}
+.wp-card:hover .wp-card-image{transform:scale(1.045)}
+.wp-card-content{padding:13px 14px}
+.wp-card-title{font-size:.9rem;font-weight:800;line-height:1.45}
+.wp-card-action{margin-top:12px}
+.wp-btn--primary{background:linear-gradient(120deg,#087ca8,#16b9dc);border:0;color:#03111a;border-radius:9px;font-weight:900}
+.wp-meta-pill{background:#0a1725;border-color:#21364b;color:#a9c5d9}
+.wp-pagination{gap:6px;flex-wrap:wrap}
+.wp-page-btn{border-radius:9px;border-color:#20354a;background:#0b1421}
+.wp-page-btn.is-active{background:#0c7797;border-color:#39d9ff;color:white}
+.wp-skin-categories{display:flex;gap:8px;overflow:auto;padding:4px 0 16px;scrollbar-width:thin}
+.wp-skin-category{flex:0 0 auto;border:1px solid #20354a;border-radius:999px;padding:9px 15px;background:#0b1421;color:#a8bfd1;font:inherit;font-size:.8rem;font-weight:800;cursor:pointer;transition:.18s}
+.wp-skin-category:hover,.wp-skin-category.is-active{color:#eafaff;border-color:#39d9ff88;background:linear-gradient(120deg,#10344a,#10243a);box-shadow:0 0 20px #39d9ff0c}
+.wp-skin-category-count{display:inline-block;margin-inline-start:7px;color:#39d9ff;font-size:.72rem}
+.wp-skin-results{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 12px;color:#8da7bb;font-size:.82rem}
+.wp-item.is-category-hidden{display:none!important}
+.wp-app .wp-modal{backdrop-filter:blur(12px)}
+.wp-app .wp-modal-dialog{max-width:min(1100px,96vw)}
+.wp-app .wp-modal-content{background:#091321;border:1px solid #25425b;border-radius:18px;color:#edf7ff;box-shadow:0 30px 100px #000b}
+.wp-app .wp-modal-header,.wp-app .wp-modal-footer{border-color:#1c3045}
+.wp-app .wp-modal input,.wp-app .wp-modal select{background:#0b1726;color:#eef6ff;border-color:#254058}
+@media(max-width:700px){.wp-header{padding:12px}.wp-header-main{flex-wrap:wrap}.wp-search-wrap{flex-basis:100%;max-width:none}.wp-team-switcher{margin-inline-start:auto}.wp-main{width:calc(100% - 22px)}.wp-section-head{align-items:flex-start;flex-direction:column;padding:16px}.wp-items-grid,.wp-items-grid--skins{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.wp-card-media,.wp-items-grid--skins .wp-card-media{min-height:115px;padding:7px}.wp-card-image{height:110px}.wp-card-content{padding:10px}.wp-card-title{font-size:.78rem}.wp-tab{padding:0 12px}}
