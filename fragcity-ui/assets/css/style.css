@@ -73,3 +73,20 @@
 @media(max-width:900px){.skin-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:620px){.skin-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.skin-image{height:clamp(130px,34vw,185px);min-height:130px;padding:9px}.skin-tree{max-height:320px}.skin-toolbar{grid-template-columns:1fr}}
 @media(max-width:360px){.skin-grid{grid-template-columns:1fr}.skin-image{height:210px}}
+
+/* Horizontal category bar and contextual right-side customizer */
+.skin-tree-horizontal{max-height:none;overflow:visible;margin:16px 0 22px;padding:10px;background:#131316;border:1px solid #303037}
+.skin-tree-horizontal .skin-tree-root{display:flex;flex-direction:row;align-items:stretch;gap:7px;flex-wrap:wrap}
+.skin-tree-horizontal .skin-tree-node{width:auto;display:flex;align-items:center;justify-content:center;gap:8px;padding:11px 14px;background:#1a1a1f;border:1px solid #303037;white-space:nowrap}
+.skin-tree-horizontal .skin-tree-node.active,.skin-tree-horizontal .skin-tree-node[aria-expanded="true"]{border-color:#ee4d56;background:#30191d;color:#fff}
+.skin-tree-horizontal .tree-chevron{font-size:13px;transition:transform .15s}
+.skin-tree-horizontal .skin-tree-node[aria-expanded="true"] .tree-chevron{transform:rotate(180deg)}
+.skin-tree-horizontal .skin-tree-children{flex-basis:100%;width:100%;margin:0;padding:10px;display:flex;flex-direction:row;flex-wrap:wrap;gap:7px;border-left:0;border-top:1px solid #34343b}
+.skin-tree-horizontal .skin-tree-children[hidden]{display:none!important}
+.skin-tree-horizontal .skin-tree-leaf{width:auto;min-width:100px;justify-content:space-between;background:#1b1b20;border:1px solid #33333a}
+.skin-tree-horizontal .skin-tree-leaf.active{border-color:#ed4b55;background:#351a1e}
+.skin-customizer[hidden]{display:none!important}
+.skin-customizer{position:relative;margin:20px 0;padding:18px;border:1px solid #e34a53;background:#131316;box-shadow:0 12px 40px #0008}
+.customizer-layout{grid-template-columns:minmax(0,1fr) minmax(280px,.9fr)}
+.customizer-options{background:#17171b;padding:14px;border:1px solid #303037}
+@media(max-width:650px){.skin-tree-horizontal .skin-tree-root{gap:5px}.skin-tree-horizontal .skin-tree-node{padding:9px 10px;font-size:11px}.skin-tree-horizontal .skin-tree-children{gap:5px}.skin-tree-horizontal .skin-tree-leaf{min-width:calc(50% - 5px)}}
