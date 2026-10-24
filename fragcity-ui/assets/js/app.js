@@ -93,10 +93,11 @@
     const search=$('#skin-search'),sort=$('#skin-sort'),prev=$('#skin-prev'),next=$('#skin-next');
     let stickerSlot=0,stickerSlots=[null,null,null,null];
     const pageSize=48;let catalog=[],page=0,category='all',weaponChoice='all',visible=[];
-    const treeLabels={rifles:'Rifles',pistols:'Pistols',snipers:'Snipers',smgs:'SMGs',heavy:'Heavy weapons',knives:'Knives',gloves:'Gloves',agents:'Agents',stickers:'Stickers',collectibles:'Collectibles',charms:'Charms',music:'Music kits',other:'Other items',otherweapons:'Other weapons'};
+    const treeLabels={rifles:'Rifles',pistols:'Pistols',snipers:'Snipers',smgs:'SMGs',heavy:'Heavy weapons',music:'Music kits',stickers:'Stickers',charms:'Charms'};
     const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     const imageUrl=s=>new URL(s.image.replace(/^\//,''),new URL('../',document.baseURI)).href;
     const getWeaponChoices=cat=>[...new Set(catalog.filter(s=>s.category===cat).map(s=>s.weaponLabel||s.weapon||'Other'))].sort((a,b)=>a.localeCompare(b));
+    const mainCategory=s=>['stickers','charms','music'].includes(s.category)?s.category:s.category==='rifles'||s.category==='pistols'||s.category==='snipers'||s.category==='smgs'||s.category==='heavy'?s.category:null;
     function buildTree(){
       for(const [cat,label] of Object.entries(treeLabels)){
         const host=$(`[data-tree-children="${cat}"]`);if(!host)continue;
@@ -107,7 +108,7 @@
     }
     function render(){
       const q=(search?.value||'').trim().toLocaleLowerCase();
-      visible=catalog.filter(s=>(category==='all'||s.category===category)&&(weaponChoice==='all'||(s.weaponLabel||s.weapon||'Other')===weaponChoice)&&(!q||s.name.toLocaleLowerCase().includes(q)||(s.weapon||'').toLocaleLowerCase().includes(q)||String(s.paint).includes(q)));
+      visible=catalog.filter(s=>(category==='all'?['rifles','pistols','snipers','smgs','heavy'].includes(s.category):s.category===category)&&(weaponChoice==='all'||(s.weaponLabel||s.weapon||'Other')===weaponChoice)&&(!q||s.name.toLocaleLowerCase().includes(q)||(s.weapon||'').toLocaleLowerCase().includes(q)||String(s.paint).includes(q)));
       const order=sort?.value||'name';
       visible.sort((a,b)=>order==='weapon'?(a.weaponLabel||a.weapon).localeCompare(b.weaponLabel||b.weapon)||a.name.localeCompare(b.name):order==='paint'?Number(a.paint)-Number(b.paint):a.name.localeCompare(b.name));
       const pages=Math.max(1,Math.ceil(visible.length/pageSize));page=Math.min(page,pages-1);
@@ -127,6 +128,9 @@
     $('.sticker-slot').forEach(b=>b.addEventListener('click',()=>{stickerSlot=Number(b.dataset.slot);$('.sticker-slot').forEach(x=>x.classList.toggle('active',x===b));renderStickerSlots();}));
     $('#preview-stickers')?.addEventListener('click',e=>{const b=e.target.closest('[data-slot]');if(!b)return;stickerSlot=Number(b.dataset.slot);$('.sticker-slot').forEach(x=>x.classList.toggle('active',Number(x.dataset.slot)===stickerSlot));renderStickerSlots();});
     $('#clear-sticker-slot')?.addEventListener('click',()=>{stickerSlots[stickerSlot]=null;try{localStorage.setItem('fragcity-sticker-slots',JSON.stringify(stickerSlots));}catch(e){}renderStickerSlots();});
+    $('#clear-charm')?.addEventListener('click',()=>{try{localStorage.removeItem('fragcity-selected-charm');}catch(e){}if($('#selected-charm-name'))$('#selected-charm-name').textContent='No charm selected';});
+    $('#close-customizer')?.addEventListener('click',()=>{const panel=$('#loadout-customizer');if(panel)panel.hidden=true;});
+    try{const charm=JSON.parse(localStorage.getItem('fragcity-selected-charm')||'null');if(charm&&$('#selected-charm-name'))$('#selected-charm-name').textContent=charm.name;}catch(e){}
     $('#customizer-type')?.addEventListener('change',e=>{category=e.target.value;weaponChoice='all';page=0;const root=$(`[data-tree-root="${category}"]`);root?.click();render();});
     $('#save-loadout')?.addEventListener('click',()=>{try{localStorage.setItem('fragcity-visual-loadout',JSON.stringify({selected:JSON.parse(localStorage.getItem('fragcity-selected-skin')||'null'),stickers:stickerSlots}));toast(fa?'لوداوت ظاهری در مرورگر ذخیره شد.':'Visual loadout saved in this browser.');}catch(e){toast('Could not save loadout.');}});
     renderStickerSlots();
@@ -158,17 +162,24 @@
       const b=e.target.closest('.select-skin');if(!b)return;const card=b.closest('.skin-card');if(!card)return;
       $$('.skin-card').forEach(c=>c.classList.remove('skin-selected'));card.classList.add('skin-selected');
       const item={name:card.dataset.skinName,weapon:card.dataset.weapon,paint:card.dataset.paint,image:card.dataset.image,type:card.dataset.type};
-      if(item.type==='stickers'){
-        stickerSlots[stickerSlot]=item;
-        try{localStorage.setItem('fragcity-sticker-slots',JSON.stringify(stickerSlots));}catch(e){}
-        renderStickerSlots();
-        toast(fa?'استیکر به اسلات انتخابی اضافه شد.':'Sticker assigned to selected slot.');
+      if(item.type==='stickers'||item.type==='charms'){
+        if(item.type==='charms'){
+          try{localStorage.setItem('fragcity-selected-charm',JSON.stringify(item));}catch(e){}
+          if($('#selected-charm-name'))$('#selected-charm-name').textContent=item.name;
+          toast(fa?'چارم انتخاب شد.':'Charm selected.');
+        }else{
+          stickerSlots[stickerSlot]=item;
+          try{localStorage.setItem('fragcity-sticker-slots',JSON.stringify(stickerSlots));}catch(e){}
+          renderStickerSlots();
+          toast(fa?'استیکر به اسلات انتخابی اضافه شد.':'Sticker assigned to selected slot.');
+        }
       }else{
         if($('#selected-skin-name'))$('#selected-skin-name').textContent=item.name;
         if($('#selected-skin-meta'))$('#selected-skin-meta').textContent=item.weapon+' · Paint ID '+item.paint;
         if($('#customizer-weapon-name'))$('#customizer-weapon-name').textContent=item.name;
         if($('#customizer-weapon-meta'))$('#customizer-weapon-meta').textContent=item.weapon+' · Paint ID '+item.paint;
         if($('#customizer-weapon-image'))$('#customizer-weapon-image').src=imageUrl({image:item.image});
+        const panel=$('#loadout-customizer');if(panel)panel.hidden=false;
         if($('#customizer-type'))$('#customizer-type').value=item.type;
         try{localStorage.setItem('fragcity-selected-skin',JSON.stringify(item));}catch(e){}
         toast(fa?'انتخاب برای شخصی‌سازی ذخیره شد.':'Selected item added to the visual customizer.');
