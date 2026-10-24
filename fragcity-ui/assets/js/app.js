@@ -87,7 +87,42 @@
   $('.choose-plan').forEach(b=>b.addEventListener('click',()=>{if(preview)toast(fa?'برای خرید واقعی باید سایت روی سرور PHP اجرا شود؛ این لینک فقط پیش‌نمایش است.':'Live checkout needs the PHP site; this is a static preview.');else location.href='../index.php?page=buyserveropen';}));
   $$('.demo-action').forEach(b=>b.addEventListener('click',()=>{const a=b.dataset.action;const en={start:'Preview only: connect a protected server API to start the server.',restart:'Preview only: connect a protected server API to restart the server.',stop:'Preview only: connect a protected server API to stop the server.'};const faText={start:'این فقط پیش‌نمایش است؛ برای روشن‌کردن سرور باید API امن متصل شود.',restart:'این فقط پیش‌نمایش است؛ برای راه‌اندازی مجدد باید API امن متصل شود.',stop:'این فقط پیش‌نمایش است؛ برای خاموش‌کردن سرور باید API امن متصل شود.'};toast((fa?faText:en)[a]);}));
   const filters=$$('[data-filter]');filters.forEach(b=>b.addEventListener('click',()=>{filters.forEach(x=>x.classList.remove('active'));b.classList.add('active');const type=b.dataset.filter;$$('.skin-card').forEach(c=>c.hidden=type!=='all'&&c.dataset.type!==type);}));
-  $('.select-skin').forEach(b=>b.addEventListener('click',()=>{if(preview)toast(fa?'این انتخاب نمایشی است؛ برای مدیریت واقعی اسکین سایت PHP را باز کن.':'Skin selection is a preview. Open the PHP site for real skin management.');else location.href='../index.php?page=weaponpaints';}));
+  $('.select-skin').forEach(b=>b.addEventListener('click',()=>{
+    const card=b.closest('.skin-card');
+    if(!card)return;
+    $('.skin-card').forEach(c=>c.classList.remove('skin-selected'));
+    card.classList.add('skin-selected');
+    const selected=$('#selected-skin-name');
+    const id=$('#selected-skin-id');
+    if(selected)selected.textContent=card.dataset.skinName||card.querySelector('h3')?.textContent||'';
+    if(id)id.value=card.dataset.paint||'';
+    const weapon=$('#selected-weapon');
+    if(weapon)weapon.value=card.dataset.weapon||'';
+    const apply=$('#apply-skin');
+    if(apply)apply.disabled=false;
+    try{localStorage.setItem('fragcity-selected-skin',JSON.stringify({name:card.dataset.skinName,weapon:card.dataset.weapon,paint:card.dataset.paint,image:card.dataset.image}));}catch(e){}
+    toast(fa?'اسکین انتخاب شد؛ حالا سرور را وارد کن و اعمال را بزن.':'Skin selected. Choose your server and press Apply skin.');
+  }));
+  const applySkin=$('#apply-skin');
+  if(applySkin)applySkin.addEventListener('click',async()=>{
+    const id=$('#selected-skin-id')?.value||'';
+    const weapon=$('#selected-weapon')?.value||'';
+    const server=$('#server-id')?.value.trim()||'';
+    const card=$('.skin-selected');
+    if(!card||!id){toast(fa?'اول یک اسکین انتخاب کن.':'Choose a skin first.');return;}
+    if(!server){toast(fa?'شناسه یا آدرس سرور را وارد کن.':'Enter your server ID or address.');$('#server-id')?.focus();return;}
+    const apiBase=(document.querySelector('meta[name="fragcity-api-base"]')?.content||'').trim().replace(/\/$/,'');
+    if(!apiBase){toast(fa?'انتخاب ثبت شد، اما API اعمال اسکین هنوز در بک‌اند تنظیم نشده؛ اسکین داخل بازی تغییر نکرد.':'Selection saved, but the backend apply-skin API is not configured. The in-game skin has NOT changed.');return;}
+    applySkin.disabled=true;
+    const old=applySkin.textContent;applySkin.textContent=fa?'در حال ارسال…':'Applying…';
+    try{
+      const response=await fetch(apiBase+'/api/skins/apply',{method:'POST',credentials:'include',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({server_id:server,weapon,paint_id:id,skin_name:card.dataset.skinName})});
+      const data=await response.json().catch(()=>({}));
+      if(!response.ok||data.success===false)throw new Error(data.message||data.error||('HTTP '+response.status));
+      toast(fa?'درخواست اسکین به سرور ارسال شد.':'Skin request sent to the server.');
+    }catch(err){toast((fa?'اعمال اسکین ناموفق بود: ':'Could not apply skin: ')+(err.message||'API error'));}
+    finally{applySkin.disabled=false;applySkin.textContent=old;}
+  });
   const form=$('#support-form');if(form)form.addEventListener('submit',e=>{e.preventDefault();toast(fa?'این فرم نمایشی است؛ برای ثبت واقعی تیکت، صفحه پشتیبانی اصلی را باز کن.':'This is a preview form. Open the live support page to submit a real ticket.');});
   try{setLanguage(localStorage.getItem('fragcity-language')==='fa')}catch(e){setLanguage(false)}
 })();
