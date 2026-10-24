@@ -6289,3 +6289,155 @@
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded',boot,{once:true}); else boot();
   document.addEventListener('shown.bs.tab',event=>{ if(event.target?.getAttribute('data-bs-target')==='#tab-skins') boot(); });
 })();
+
+
+/* =========================================================
+   FRAGCITY SKIN LAB — complete interface rebuild
+   Keeps the existing PHP save handlers and customization modals.
+========================================================= */
+(() => {
+  'use strict';
+  const initSkinLab = () => {
+    const app = document.querySelector('.wp-app');
+    const section = document.getElementById('tab-skins');
+    const head = section?.querySelector('.wp-section-head');
+    const grid = document.getElementById('skinsContainer');
+    const fade = document.getElementById('skinsFade');
+    const pagination = section?.querySelector('.wp-pagination-wrap');
+    if (!app || !section || !head || !grid || !fade || section.dataset.fcSkinLab === '1') return;
+    section.dataset.fcSkinLab = '1';
+
+    // Remove the previous incremental filter UI before building the new layout.
+    document.getElementById('wpSkinCategories')?.remove();
+    section.querySelector('.wp-skin-results')?.remove();
+
+    const previousCategoryDefs = [
+      {id:'all',label:'همه سلاح‌ها',icon:'fa-layer-group',test:()=>true},
+      {id:'pistol',label:'پیستول‌ها',icon:'fa-gun',test:n=>/glock|usp|p2000|p250|five.?seve?n|tec.?9|cz75|dual berettas|r8 revolver|desert eagle/.test(n)},
+      {id:'rifle',label:'رایفل‌ها',icon:'fa-crosshairs',test:n=>/ak.?47|m4a[14]|famas|galil|aug|sg 553|krieg|m4a1/.test(n)},
+      {id:'sniper',label:'اسنایپرها',icon:'fa-bullseye',test:n=>/awp|ssg 08|scar.?20|g3sg1/.test(n)},
+      {id:'smg',label:'SMG',icon:'fa-bolt',test:n=>/mac.?10|mp[579]|ump.?45|p90|pp.?bizon|mp7|mp9/.test(n)},
+      {id:'shotgun',label:'شاتگان‌ها',icon:'fa-fire',test:n=>/nova|xm1014|mag.?7|sawed.?off/.test(n)},
+      {id:'heavy',label:'سلاح سنگین',icon:'fa-weight-hanging',test:n=>/m249|negev/.test(n)},
+      {id:'zeus',label:'زئوس',icon:'fa-bolt-lightning',test:n=>/zeus/.test(n)},
+      {id:'other',label:'سایر سلاح‌ها',icon:'fa-ellipsis',test:n=>!previousCategoryDefs.slice(1,8).some(c=>c.test(n))}
+    ];
+    const norm = value => String(value || '').toLocaleLowerCase('en').replace(/[_-]+/g,' ').replace(/\s+/g,' ').trim();
+    const cards = [...grid.querySelectorAll('.skin-item')];
+    const cardName = card => norm(card.dataset.name || card.querySelector('.wp-card-subtitle')?.textContent || card.querySelector('.wp-card-title')?.textContent);
+    let activeCategory = 'all';
+    let query = '';
+
+    // One-page catalogue so categories never hide weapons stranded on another page.
+    const nav = document.createElement('nav');
+    nav.className = 'fc-skin-categories';
+    nav.setAttribute('aria-label','دسته‌بندی سلاح‌ها');
+    const hero = document.createElement('div');
+    hero.className = 'fc-skin-hero';
+    hero.innerHTML = '<div class="fc-skin-hero-copy"><span class="fc-eyebrow"><span class="fc-live-dot"></span> FRAGCITY ARMORY</span><h2>Skin <em>Lab</em></h2><p>سلاح رو انتخاب کن، اسکین دلخواهت رو پیدا کن و ظاهرش رو شخصی‌سازی کن.</p></div><div class="fc-hero-stats"><div><strong id="fcWeaponCount">0</strong><span>سلاح</span></div><div><strong>CS2</strong><span>آیتم‌ها</span></div></div>';
+    const toolbar = document.createElement('div');
+    toolbar.className = 'fc-skin-toolbar';
+    const searchWrap = app.querySelector('.wp-search-wrap');
+    if (searchWrap) {
+      searchWrap.classList.add('fc-skin-search');
+      toolbar.appendChild(searchWrap);
+    }
+    const sort = document.createElement('div');
+    sort.className = 'fc-skin-toolbar-note';
+    sort.innerHTML = '<span class="fc-toolbar-pulse"></span><span>کاتالوگ سلاح‌ها</span><span class="fc-toolbar-separator">/</span><span>انتخاب سریع</span>';
+    toolbar.appendChild(sort);
+    const workspace = document.createElement('div');
+    workspace.className = 'fc-skin-workspace';
+    const sidebar = document.createElement('aside');
+    sidebar.className = 'fc-skin-sidebar';
+    sidebar.innerHTML = '<div class="fc-sidebar-title"><span>دسته‌بندی</span><small>WEAPONS</small></div>';
+    sidebar.appendChild(nav);
+    const content = document.createElement('div');
+    content.className = 'fc-skin-content';
+    const results = document.createElement('div');
+    results.className = 'fc-skin-resultsbar';
+    results.innerHTML = '<div><span class="fc-results-kicker">CATALOGUE</span><h3 id="fcCategoryTitle">همه سلاح‌ها</h3></div><div class="fc-results-count"><strong id="fcVisibleCount">0</strong><span>نتیجه</span></div>';
+    const gridFrame = document.createElement('div');
+    gridFrame.className = 'fc-skin-grid-frame';
+    const gridIntro = document.createElement('div');
+    gridIntro.className = 'fc-grid-intro';
+    gridIntro.innerHTML = '<span>ARMORY COLLECTION</span><span>برای باز کردن اسکین‌ها، روی کارت سلاح کلیک کن <span aria-hidden="true">↗</span></span>';
+    // Build the new shell and move the existing live DOM nodes into it.
+    section.insertBefore(hero, head);
+    section.insertBefore(toolbar, head);
+    section.insertBefore(workspace, head);
+    workspace.append(sidebar, content);
+    content.append(head, results, gridIntro, gridFrame);
+    gridFrame.append(fade);
+    if (pagination) content.appendChild(pagination);
+    fade.classList.add('fc-grid-fade');
+    grid.classList.add('fc-skin-card-grid');
+    head.classList.add('fc-skin-section-head');
+    const meta = head.querySelector('.wp-section-meta');
+    if (meta) meta.classList.add('fc-hide-duplicate-meta');
+
+    const weaponCount = document.getElementById('fcWeaponCount');
+    if (weaponCount) weaponCount.textContent = String(cards.length);
+    const visibleCount = document.getElementById('fcVisibleCount');
+    const categoryTitle = document.getElementById('fcCategoryTitle');
+    const searchInput = document.getElementById('skinSearchGlobal');
+
+    const render = () => {
+      let visible = 0;
+      cards.forEach(card => {
+        const name = cardName(card);
+        const category = previousCategoryDefs.find(c => c.id === activeCategory) || previousCategoryDefs[0];
+        const matchesCategory = activeCategory === 'all' || category.test(name);
+        const matchesQuery = !query || name.includes(query) || norm(card.querySelector('.wp-card-title')?.textContent).includes(query);
+        const show = matchesCategory && matchesQuery;
+        card.classList.toggle('fc-card-hidden', !show);
+        if (show) visible++;
+      });
+      nav.querySelectorAll('button').forEach(button => {
+        const selected = button.dataset.fcCategory === activeCategory;
+        button.classList.toggle('is-active', selected);
+        button.setAttribute('aria-pressed', String(selected));
+      });
+      if (visibleCount) visibleCount.textContent = String(visible);
+      if (categoryTitle) categoryTitle.textContent = (previousCategoryDefs.find(c=>c.id===activeCategory)?.label || 'همه سلاح‌ها') + (query ? ' · نتیجه جستجو' : '');
+      let empty = content.querySelector('.fc-skin-empty');
+      if (!visible) {
+        if (!empty) {
+          empty = document.createElement('div');
+          empty.className = 'fc-skin-empty';
+          empty.innerHTML = '<span class="fc-empty-symbol">⌕</span><strong>سلاحی پیدا نشد</strong><p>عبارت جستجو یا دسته‌بندی دیگری رو امتحان کن.</p>';
+          gridFrame.appendChild(empty);
+        }
+      } else empty?.remove();
+    };
+
+    previousCategoryDefs.forEach(category => {
+      const count = cards.filter(card => category.id === 'all' || category.test(cardName(card))).length;
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'fc-category-button' + (category.id === 'all' ? ' is-active' : '');
+      button.dataset.fcCategory = category.id;
+      button.innerHTML = '<span class="fc-category-icon"><i class="fas '+category.icon+'"></i></span><span class="fc-category-label">'+category.label+'</span><span class="fc-category-count">'+count+'</span>';
+      button.addEventListener('click', () => { activeCategory = category.id; render(); });
+      nav.appendChild(button);
+    });
+    if (searchInput) {
+      searchInput.placeholder = 'جستجوی نام سلاح...';
+      searchInput.addEventListener('input', () => { query = norm(searchInput.value); render(); });
+    }
+    // Mark the weapon cards as clear interactive controls without changing modal hooks.
+    cards.forEach(card => {
+      const button = card.querySelector('.skin-card');
+      if (button) {
+        button.setAttribute('aria-label', 'انتخاب اسکین برای ' + (card.dataset.name || 'سلاح'));
+        button.classList.add('fc-weapon-card');
+      }
+    });
+    render();
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initSkinLab, {once:true});
+  else initSkinLab();
+  document.addEventListener('shown.bs.tab', event => {
+    if (event.target?.getAttribute('data-bs-target') === '#tab-skins') initSkinLab();
+  });
+})();
