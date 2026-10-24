@@ -93,11 +93,11 @@
     const search=$('#skin-search'),sort=$('#skin-sort'),prev=$('#skin-prev'),next=$('#skin-next');
     let stickerSlot=0,stickerSlots=[null,null,null,null];
     const pageSize=48;let catalog=[],page=0,category='all',weaponChoice='all',visible=[];
-    const treeLabels={rifles:'Rifles',pistols:'Pistols',snipers:'Snipers',smgs:'SMGs',heavy:'Heavy weapons',music:'Music kits',stickers:'Stickers',charms:'Charms'};
+    const treeLabels={rifles:'Rifles',pistols:'Pistols',snipers:'Snipers',smgs:'SMGs',shotguns:'Shotguns',machineguns:'Machine guns',utility:'Utility',music:'Music kits'};
     const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     const imageUrl=s=>new URL(s.image.replace(/^\//,''),new URL('../',document.baseURI)).href;
     const getWeaponChoices=cat=>[...new Set(catalog.filter(s=>s.category===cat).map(s=>s.weaponLabel||s.weapon||'Other'))].sort((a,b)=>a.localeCompare(b));
-    const mainCategory=s=>['stickers','charms','music'].includes(s.category)?s.category:s.category==='rifles'||s.category==='pistols'||s.category==='snipers'||s.category==='smgs'||s.category==='heavy'?s.category:null;
+    const mainCategory=s=>s.category;
     function buildTree(){
       for(const [cat,label] of Object.entries(treeLabels)){
         const host=$(`[data-tree-children="${cat}"]`);if(!host)continue;
@@ -108,7 +108,7 @@
     }
     function render(){
       const q=(search?.value||'').trim().toLocaleLowerCase();
-      visible=catalog.filter(s=>(category==='all'?['rifles','pistols','snipers','smgs','heavy'].includes(s.category):s.category===category)&&(weaponChoice==='all'||(s.weaponLabel||s.weapon||'Other')===weaponChoice)&&(!q||s.name.toLocaleLowerCase().includes(q)||(s.weapon||'').toLocaleLowerCase().includes(q)||String(s.paint).includes(q)));
+      visible=catalog.filter(s=>(category==='all'?['rifles','pistols','snipers','smgs','shotguns','machineguns','utility','heavy'].includes(s.category):s.category===category)&&(weaponChoice==='all'||(s.weaponLabel||s.weapon||'Other')===weaponChoice)&&(!q||s.name.toLocaleLowerCase().includes(q)||(s.weapon||'').toLocaleLowerCase().includes(q)||String(s.paint).includes(q)));
       const order=sort?.value||'name';
       visible.sort((a,b)=>order==='weapon'?(a.weaponLabel||a.weapon).localeCompare(b.weaponLabel||b.weapon)||a.name.localeCompare(b.name):order==='paint'?Number(a.paint)-Number(b.paint):a.name.localeCompare(b.name));
       const pages=Math.max(1,Math.ceil(visible.length/pageSize));page=Math.min(page,pages-1);
