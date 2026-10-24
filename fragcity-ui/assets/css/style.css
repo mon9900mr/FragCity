@@ -16,3 +16,18 @@
 
 /* Skin Lab controls and real catalog artwork */
 .skin-control{margin-top:24px;margin-bottom:24px}.skin-control-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}.skin-control-grid label{display:flex;flex-direction:column;gap:8px;color:#c9c8cf;font-size:11px;font-weight:700}.skin-control-grid input[type=text]{width:100%;box-sizing:border-box;background:#101013;border:1px solid #36363c;color:#fff;padding:13px;font-size:12px;outline:none}.skin-control-grid input:focus{border-color:var(--red)}.selected-preview{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:15px;background:#101013;border:1px solid #303036}.selected-preview small{font-size:9px;color:#999;letter-spacing:1px}.selected-preview strong{font-size:15px;min-height:20px}.selected-preview .button{margin-top:5px}.selected-preview .button:disabled{opacity:.45;cursor:not-allowed}.skin-image{height:160px;display:flex;align-items:center;justify-content:center;padding:12px;background:radial-gradient(ellipse at center,#29292f,#121215 75%);border-bottom:1px solid #ffffff12;overflow:hidden}.skin-image img{max-width:100%;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 10px 16px #0008);transition:transform .2s}.skin-card:hover .skin-image img{transform:scale(1.07)}.skin-card.skin-selected{border-color:var(--red);box-shadow:0 0 0 1px #f0444b33,0 10px 30px #0004}.skin-card .button{margin-top:8px}.skin-card[hidden]{display:none!important}@media(max-width:700px){.skin-control-grid{grid-template-columns:1fr}.skin-image{height:145px}}
+
+/* Full weapon artwork, consistent skin catalog cards, and category layout */
+.skin-grid{grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch;gap:18px}
+.skin-card{min-width:0;display:flex;flex-direction:column;transition:border-color .18s,transform .18s,box-shadow .18s}
+.skin-image{height:clamp(190px,19vw,270px);min-height:190px;width:100%;flex:0 0 auto;padding:20px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:radial-gradient(ellipse at 50% 58%,#303039 0,#19191e 47%,#101013 82%)}
+.skin-image img{display:block;width:auto;height:auto;max-width:100%;max-height:100%;object-fit:contain;object-position:center;flex:0 1 auto}
+.skin-card-info{display:flex;flex:1;flex-direction:column;align-items:flex-start;padding:16px;min-width:0}
+.skin-card-info h3{line-height:1.35;min-height:38px;overflow-wrap:anywhere}
+.skin-card-info p{margin:4px 0 10px}
+.skin-card-info .select-skin{margin-top:auto}
+.filter{display:inline-flex;align-items:center;gap:8px}
+.filter span{font-size:9px;color:#ff9296;background:#3a1d21;padding:2px 6px;border-radius:10px}
+@media(min-width:1100px){.skin-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:700px){.skin-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.skin-image{height:clamp(145px,34vw,205px);min-height:145px;padding:12px}.skin-card-info{padding:11px}.skin-card-info h3{font-size:12px;min-height:34px}}
+@media(max-width:380px){.skin-grid{grid-template-columns:1fr}.skin-image{height:220px}}
