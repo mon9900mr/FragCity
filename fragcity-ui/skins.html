@@ -23,12 +23,24 @@
 <label class="skin-search-label">Search all skins<input id="skin-search" type="search" placeholder="Search weapon or skin name…"></label>
 <label class="skin-sort-label">Sort<select id="skin-sort"><option value="name">Name A–Z</option><option value="weapon">Weapon</option><option value="paint">Paint ID</option></select></label>
 </div>
-<div class="filter-row" id="skin-categories" aria-label="Filter skins">
-<button class="filter active" data-filter="all" type="button">All skins <span id="skin-total">2033</span></button>
-<button class="filter" data-filter="rifles" type="button">Rifles</button><button class="filter" data-filter="pistols" type="button">Pistols</button>
-<button class="filter" data-filter="snipers" type="button">Snipers</button><button class="filter" data-filter="smgs" type="button">SMGs</button>
-<button class="filter" data-filter="heavy" type="button">Heavy</button><button class="filter" data-filter="knives" type="button">Knives</button><button class="filter" data-filter="gloves" type="button">Gloves</button>
+<nav class="skin-tree" id="skin-tree" aria-label="Browse skins by category">
+<div class="skin-tree-root">
+<button class="skin-tree-node active" type="button" data-tree-root="all"><span class="tree-chevron">›</span><span>All items</span><span class="tree-count" id="skin-total">9,998</span></button>
+<button class="skin-tree-node" type="button" data-tree-root="rifles" aria-expanded="false"><span class="tree-chevron">›</span><span>Rifles</span></button><div class="skin-tree-children" data-tree-children="rifles" hidden></div>
+<button class="skin-tree-node" type="button" data-tree-root="pistols" aria-expanded="false"><span class="tree-chevron">›</span><span>Pistols</span></button><div class="skin-tree-children" data-tree-children="pistols" hidden></div>
+<button class="skin-tree-node" type="button" data-tree-root="snipers" aria-expanded="false"><span class="tree-chevron">›</span><span>Snipers</span></button><div class="skin-tree-children" data-tree-children="snipers" hidden></div>
+<button class="skin-tree-node" type="button" data-tree-root="smgs" aria-expanded="false"><span class="tree-chevron">›</span><span>SMGs</span></button><div class="skin-tree-children" data-tree-children="smgs" hidden></div>
+<button class="skin-tree-node" type="button" data-tree-root="heavy" aria-expanded="false"><span class="tree-chevron">›</span><span>Heavy weapons</span></button><div class="skin-tree-children" data-tree-children="heavy" hidden></div>
+<button class="skin-tree-node" type="button" data-tree-root="knives" aria-expanded="false"><span class="tree-chevron">›</span><span>Knives</span></button><div class="skin-tree-children" data-tree-children="knives" hidden></div>
+<button class="skin-tree-node" type="button" data-tree-root="gloves" aria-expanded="false"><span class="tree-chevron">›</span><span>Gloves</span></button><div class="skin-tree-children" data-tree-children="gloves" hidden></div>
+<button class="skin-tree-node" type="button" data-tree-root="agents" aria-expanded="false"><span class="tree-chevron">›</span><span>Agents</span></button><div class="skin-tree-children" data-tree-children="agents" hidden></div>
+<button class="skin-tree-node" type="button" data-tree-root="stickers" aria-expanded="false"><span class="tree-chevron">›</span><span>Stickers</span></button><div class="skin-tree-children" data-tree-children="stickers" hidden></div>
+<button class="skin-tree-node" type="button" data-tree-root="collectibles" aria-expanded="false"><span class="tree-chevron">›</span><span>Collectibles</span></button><div class="skin-tree-children" data-tree-children="collectibles" hidden></div>
+<button class="skin-tree-node" type="button" data-tree-root="charms" aria-expanded="false"><span class="tree-chevron">›</span><span>Charms</span></button><div class="skin-tree-children" data-tree-children="charms" hidden></div>
+<button class="skin-tree-node" type="button" data-tree-root="music" aria-expanded="false"><span class="tree-chevron">›</span><span>Music kits</span></button><div class="skin-tree-children" data-tree-children="music" hidden></div>
+<button class="skin-tree-node" type="button" data-tree-root="other" aria-expanded="false"><span class="tree-chevron">›</span><span>Other items</span></button><div class="skin-tree-children" data-tree-children="other" hidden></div>
 </div>
+</nav>
 <div class="skin-results"><span id="skin-results-count">Loading complete catalog…</span><span id="skin-page-label"></span></div>
 <section class="skin-grid" id="skin-grid" aria-label="Complete CS2 weapon skin catalog" aria-live="polite"></section>
 <nav class="skin-pagination" aria-label="Skin catalog pages"><button class="button button-ghost" id="skin-prev" type="button" disabled>← Previous</button><span id="skin-page-number">Page 1</span><button class="button button-ghost" id="skin-next" type="button">Next →</button></nav>
