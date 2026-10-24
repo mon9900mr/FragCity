@@ -90,3 +90,12 @@
 .customizer-layout{grid-template-columns:minmax(0,1fr) minmax(280px,.9fr)}
 .customizer-options{background:#17171b;padding:14px;border:1px solid #303037}
 @media(max-width:650px){.skin-tree-horizontal .skin-tree-root{gap:5px}.skin-tree-horizontal .skin-tree-node{padding:9px 10px;font-size:11px}.skin-tree-horizontal .skin-tree-children{gap:5px}.skin-tree-horizontal .skin-tree-leaf{min-width:calc(50% - 5px)}}
+
+/* Keep every weapon family in a single horizontal category strip */
+.skin-tree-horizontal .skin-tree-root{display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:center;gap:7px;overflow-x:auto;overflow-y:visible;padding:4px 2px 9px;scrollbar-width:thin}
+.skin-tree-horizontal .skin-tree-node{flex:0 0 auto!important;white-space:nowrap}
+.skin-tree-horizontal .skin-tree-children{flex:0 0 100%!important;order:99;display:flex;flex-direction:row;flex-wrap:wrap;white-space:normal;overflow:visible}
+.skin-tree-horizontal .skin-tree-root{position:relative}
+.skin-tree-horizontal .skin-tree-children[hidden]{display:none!important}
+.skin-tree-horizontal .skin-tree-children:not([hidden]){border-top:1px solid #34343b;padding-top:12px}
+@media(max-width:650px){.skin-tree-horizontal .skin-tree-root{gap:5px}.skin-tree-horizontal .skin-tree-node{font-size:11px;padding:9px 11px}}
