@@ -86,50 +86,71 @@
   function toast(message){const old=$('.toast');if(old)old.remove();const el=document.createElement('div');el.className='toast';el.setAttribute('role','status');el.textContent=message;document.body.appendChild(el);setTimeout(()=>el.remove(),4200);}
   $$('.choose-plan').forEach(b=>b.addEventListener('click',()=>{if(preview)toast(fa?'برای خرید واقعی باید سایت روی سرور PHP اجرا شود؛ این لینک فقط پیش‌نمایش است.':'Live checkout needs the PHP site; this is a static preview.');else location.href='../index.php?page=buyserveropen';}));
   $$('.demo-action').forEach(b=>b.addEventListener('click',()=>{const a=b.dataset.action;const en={start:'Preview only: connect a protected server API to start the server.',restart:'Preview only: connect a protected server API to restart the server.',stop:'Preview only: connect a protected server API to stop the server.'};const faText={start:'این فقط پیش‌نمایش است؛ برای روشن‌کردن سرور باید API امن متصل شود.',restart:'این فقط پیش‌نمایش است؛ برای راه‌اندازی مجدد باید API امن متصل شود.',stop:'این فقط پیش‌نمایش است؛ برای خاموش‌کردن سرور باید API امن متصل شود.'};toast((fa?faText:en)[a]);}));
-  // Complete 2,033-entry backend skin catalog with searchable, paginated UI.
+  // Browse every skin image tracked in this repository with a tree-style category menu.
   const skinGrid=$('#skin-grid');
   if(skinGrid){
-    const catalogUrl=new URL('assets/data/skins_en.json',document.baseURI).href;
+    const catalogUrl=new URL('assets/data/all-skins.json',document.baseURI).href;
     const search=$('#skin-search'),sort=$('#skin-sort'),prev=$('#skin-prev'),next=$('#skin-next');
-    const pageSize=48;let catalog=[],page=0,category='all',visible=[];
-    const categoryOf=s=>{
-      const w=(s.weapon||'').toLowerCase();
-      if(/knife|bayonet|dagger|kukri|sword/.test(w))return 'knives';
-      if(/glove/.test(w))return 'gloves';
-      if(/awp|ssg08|scar20|g3sg1/.test(w))return 'snipers';
-      if(/deagle|usp|glock|p250|p2000|fiveseven|tec9|cz75|revolver|elite/.test(w))return 'pistols';
-      if(/mac10|mp9|mp7|mp5sd|ump45|p90|bizon|ppbizon/.test(w))return 'smgs';
-      if(/nova|xm1014|mag7|sawedoff|m249|negev/.test(w))return 'heavy';
-      return 'rifles';
-    };
+    const pageSize=48;let catalog=[],page=0,category='all',weaponChoice='all',visible=[];
+    const treeLabels={rifles:'Rifles',pistols:'Pistols',snipers:'Snipers',smgs:'SMGs',heavy:'Heavy weapons',knives:'Knives',gloves:'Gloves',agents:'Agents',stickers:'Stickers',collectibles:'Collectibles',charms:'Charms',music:'Music kits',other:'Other items',otherweapons:'Other weapons'};
     const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-    const imageUrl=s=>'https://raw.githubusercontent.com/larnzs/FragCity-RawPHPbackend/main/img/skins/'+encodeURIComponent(s.image||'').replace(/%2F/gi,'/');
+    const imageUrl=s=>new URL(s.image.replace(/^\//,''),new URL('../../',document.baseURI)).href;
+    const getWeaponChoices=cat=>[...new Set(catalog.filter(s=>s.category===cat).map(s=>s.weaponLabel||s.weapon||'Other'))].sort((a,b)=>a.localeCompare(b));
+    function buildTree(){
+      for(const [cat,label] of Object.entries(treeLabels)){
+        const host=$(`[data-tree-children="${cat}"]`);if(!host)continue;
+        const choices=getWeaponChoices(cat);
+        if(!choices.length){host.innerHTML='<button class="skin-tree-leaf" type="button" data-tree-select="all">All items</button>';continue;}
+        host.innerHTML='<button class="skin-tree-leaf active" type="button" data-tree-select="'+esc(cat)+'" data-weapon-choice="all">All '+esc(label.toLowerCase())+' <span>'+catalog.filter(s=>s.category===cat).length.toLocaleString()+'</span></button>'+choices.map(w=>'<button class="skin-tree-leaf" type="button" data-tree-select="'+esc(cat)+'" data-weapon-choice="'+esc(w)+'">'+esc(w)+' <span>'+catalog.filter(s=>s.category===cat&&(s.weaponLabel||s.weapon||'Other')===w).length.toLocaleString()+'</span></button>').join('');
+      }
+    }
     function render(){
       const q=(search?.value||'').trim().toLocaleLowerCase();
-      visible=catalog.filter(s=>(category==='all'||categoryOf(s)===category)&&(!q||s.name.toLocaleLowerCase().includes(q)||s.weapon.toLocaleLowerCase().includes(q)||String(s.paint).includes(q)));
+      visible=catalog.filter(s=>(category==='all'||s.category===category)&&(weaponChoice==='all'||(s.weaponLabel||s.weapon||'Other')===weaponChoice)&&(!q||s.name.toLocaleLowerCase().includes(q)||(s.weapon||'').toLocaleLowerCase().includes(q)||String(s.paint).includes(q)));
       const order=sort?.value||'name';
-      visible.sort((a,b)=>order==='weapon'?a.weapon.localeCompare(b.weapon)||a.name.localeCompare(b.name):order==='paint'?Number(a.paint)-Number(b.paint):a.name.localeCompare(b.name));
+      visible.sort((a,b)=>order==='weapon'?(a.weaponLabel||a.weapon).localeCompare(b.weaponLabel||b.weapon)||a.name.localeCompare(b.name):order==='paint'?Number(a.paint)-Number(b.paint):a.name.localeCompare(b.name));
       const pages=Math.max(1,Math.ceil(visible.length/pageSize));page=Math.min(page,pages-1);
-      skinGrid.innerHTML=visible.slice(page*pageSize,(page+1)*pageSize).map(s=>`<article class="skin-card" data-type="${categoryOf(s)}" data-skin-name="${esc(s.name)}" data-weapon="${esc(s.weapon)}" data-paint="${esc(s.paint)}" data-image="${esc(s.image)}"><div class="skin-image"><img src="${imageUrl(s)}" alt="${esc(s.name)}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://placehold.co/640x300/17171b/eeeeee?text=Skin+image+unavailable'"></div><div class="skin-card-info"><small>${esc(s.weapon.replace(/^weapon_/,'').replace(/_/g,' ').toUpperCase())}</small><h3>${esc(s.name)}</h3><p>Paint ID: ${esc(s.paint)}</p><button class="button button-ghost select-skin" type="button">Select skin</button></div></article>`).join('');
+      skinGrid.innerHTML=visible.slice(page*pageSize,(page+1)*pageSize).map(s=>'<article class="skin-card" data-type="'+esc(s.category)+'" data-skin-name="'+esc(s.name)+'" data-weapon="'+esc(s.weapon)+'" data-paint="'+esc(s.paint)+'" data-image="'+esc(s.image)+'"><div class="skin-image"><img src="'+esc(imageUrl(s))+'" alt="'+esc(s.name)+'" loading="lazy" decoding="async" onerror="this.onerror=null;this.src=\'https://placehold.co/640x300/17171b/eeeeee?text=Image+unavailable\'"></div><div class="skin-card-info"><small>'+esc(s.weaponLabel||s.categoryLabel||s.weapon)+'</small><h3>'+esc(s.name)+'</h3><p>Paint / item ID: '+esc(s.paint)+'</p><button class="button button-ghost select-skin" type="button">Select item</button></div></article>').join('');
       $('#skin-total').textContent=catalog.length.toLocaleString();
-      $('#skin-results-count').textContent=visible.length.toLocaleString()+' skins';
+      $('#skin-results-count').textContent=visible.length.toLocaleString()+' items';
       $('#skin-page-number').textContent='Page '+(page+1)+' / '+pages;
       prev.disabled=page===0;next.disabled=page>=pages-1;
       const selected=localStorage.getItem('fragcity-selected-skin');
       if(selected){try{const s=JSON.parse(selected);const c=$$('.skin-card').find(x=>x.dataset.skinName===s.name);if(c)c.classList.add('skin-selected');}catch(e){}}
     }
-    fetch(catalogUrl).then(r=>{if(!r.ok)throw new Error('Catalog HTTP '+r.status);return r.json();}).then(data=>{catalog=data.filter(s=>s.name&&s.image&&s.weapon);render();}).catch(err=>{$('#skin-results-count').textContent='Could not load skin catalog. Open the site from a web server, not file://.';console.error(err);});
-    $$('[data-filter]').forEach(b=>b.addEventListener('click',()=>{$$('[data-filter]').forEach(x=>x.classList.remove('active'));b.classList.add('active');category=b.dataset.filter;page=0;render();}));
+    fetch(catalogUrl).then(r=>{if(!r.ok)throw new Error('Catalog HTTP '+r.status);return r.json();}).then(data=>{catalog=data.filter(s=>s.name&&s.image&&s.category);buildTree();render();}).catch(err=>{$('#skin-results-count').textContent='Could not load catalog. Open this page via a web server, not file://.';console.error(err);});
+    $$('.skin-tree-node').forEach(b=>b.addEventListener('click',()=>{
+      const cat=b.dataset.treeRoot;
+      if(cat==='all'){category='all';weaponChoice='all';$$('.skin-tree-node').forEach(x=>{x.classList.remove('active');if(x!==b)x.setAttribute('aria-expanded','false');});$$('.skin-tree-children').forEach(x=>x.hidden=true);b.classList.add('active');}
+      else{
+        const host=$(`[data-tree-children="${cat}"]`),expanded=b.getAttribute('aria-expanded')==='true';
+        b.setAttribute('aria-expanded',String(!expanded));if(host)host.hidden=expanded;
+        $$('.skin-tree-node').forEach(x=>x.classList.toggle('active',x===b));
+        category=cat;weaponChoice='all';
+        if(host&&!expanded){host.querySelectorAll('.skin-tree-leaf').forEach(x=>x.classList.remove('active'));host.querySelector('[data-weapon-choice="all"]')?.classList.add('active');}
+      }
+      page=0;render();
+    }));
+    $('#skin-tree')?.addEventListener('click',e=>{
+      const leaf=e.target.closest('[data-tree-select]');if(!leaf)return;
+      category=leaf.dataset.treeSelect;weaponChoice=leaf.dataset.weaponChoice||'all';page=0;
+      const parent=leaf.closest('.skin-tree-children');
+      if(parent){parent.querySelectorAll('.skin-tree-leaf').forEach(x=>x.classList.toggle('active',x===leaf));const cat=parent.dataset.treeChildren;$$('.skin-tree-node').forEach(x=>x.classList.toggle('active',x.dataset.treeRoot===cat));}
+      else{$$('.skin-tree-node').forEach(x=>x.classList.toggle('active',x.dataset.treeRoot==='all'));}
+      render();
+    });
     search?.addEventListener('input',()=>{page=0;render();});sort?.addEventListener('change',()=>{page=0;render();});
     prev?.addEventListener('click',()=>{if(page>0){page--;render();skinGrid.scrollIntoView({behavior:'smooth',block:'start'});}});
     next?.addEventListener('click',()=>{if((page+1)*pageSize<visible.length){page++;render();skinGrid.scrollIntoView({behavior:'smooth',block:'start'});}});
     skinGrid.addEventListener('click',e=>{
       const b=e.target.closest('.select-skin');if(!b)return;const card=b.closest('.skin-card');if(!card)return;
       $$('.skin-card').forEach(c=>c.classList.remove('skin-selected'));card.classList.add('skin-selected');
-      $('#selected-skin-name').textContent=card.dataset.skinName;$('#selected-skin-id').value=card.dataset.paint;$('#selected-weapon').value=card.dataset.weapon;
+      if($('#selected-skin-name'))$('#selected-skin-name').textContent=card.dataset.skinName;
+      if($('#selected-skin-id'))$('#selected-skin-id').value=card.dataset.paint;
+      if($('#selected-weapon'))$('#selected-weapon').value=card.dataset.weapon;
       const apply=$('#apply-skin');if(apply)apply.disabled=false;
       try{localStorage.setItem('fragcity-selected-skin',JSON.stringify({name:card.dataset.skinName,weapon:card.dataset.weapon,paint:card.dataset.paint,image:card.dataset.image}));}catch(e){}
-      toast(fa?'اسکین انتخاب شد؛ حالا سرور را وارد کن و اعمال را بزن.':'Skin selected. Choose your server and press Apply skin.');
+      toast(fa?'آیتم انتخاب شد؛ حالا سرور را وارد کن و اعمال را بزن.':'Item selected. Choose your server and press Apply.');
     });
   }
   const apiInput=$('#api-base-url');if(apiInput){try{apiInput.value=localStorage.getItem('fragcity-api-base')||'';}catch(e){}apiInput.addEventListener('change',()=>{try{localStorage.setItem('fragcity-api-base',apiInput.value.trim());}catch(e){}});}
