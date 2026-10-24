@@ -84,13 +84,13 @@
   }
   const nav=$('nav'),menu=$('.menu-toggle');if(menu&&nav)menu.addEventListener('click',()=>{const open=nav.classList.toggle('open');menu.setAttribute('aria-expanded',String(open));});
   function toast(message){const old=$('.toast');if(old)old.remove();const el=document.createElement('div');el.className='toast';el.setAttribute('role','status');el.textContent=message;document.body.appendChild(el);setTimeout(()=>el.remove(),4200);}
-  $('.choose-plan').forEach(b=>b.addEventListener('click',()=>{if(preview)toast(fa?'برای خرید واقعی باید سایت روی سرور PHP اجرا شود؛ این لینک فقط پیش‌نمایش است.':'Live checkout needs the PHP site; this is a static preview.');else location.href='../index.php?page=buyserveropen';}));
+  $$('.choose-plan').forEach(b=>b.addEventListener('click',()=>{if(preview)toast(fa?'برای خرید واقعی باید سایت روی سرور PHP اجرا شود؛ این لینک فقط پیش‌نمایش است.':'Live checkout needs the PHP site; this is a static preview.');else location.href='../index.php?page=buyserveropen';}));
   $$('.demo-action').forEach(b=>b.addEventListener('click',()=>{const a=b.dataset.action;const en={start:'Preview only: connect a protected server API to start the server.',restart:'Preview only: connect a protected server API to restart the server.',stop:'Preview only: connect a protected server API to stop the server.'};const faText={start:'این فقط پیش‌نمایش است؛ برای روشن‌کردن سرور باید API امن متصل شود.',restart:'این فقط پیش‌نمایش است؛ برای راه‌اندازی مجدد باید API امن متصل شود.',stop:'این فقط پیش‌نمایش است؛ برای خاموش‌کردن سرور باید API امن متصل شود.'};toast((fa?faText:en)[a]);}));
-  const filters=$$('[data-filter]');filters.forEach(b=>b.addEventListener('click',()=>{filters.forEach(x=>x.classList.remove('active'));b.classList.add('active');const type=b.dataset.filter;$$('.skin-card').forEach(c=>c.hidden=type!=='all'&&c.dataset.type!==type);}));
+  const filters=$$('[data-filter]');filters.forEach(b=>b.addEventListener('click',()=>{filters.forEach(x=>x.classList.remove('active'));b.classList.add('active');const type=b.dataset.filter;$$$('.skin-card').forEach(c=>c.hidden=type!=='all'&&c.dataset.type!==type);}));
   $('.select-skin').forEach(b=>b.addEventListener('click',()=>{
     const card=b.closest('.skin-card');
     if(!card)return;
-    $('.skin-card').forEach(c=>c.classList.remove('skin-selected'));
+    $$('.skin-card').forEach(c=>c.classList.remove('skin-selected'));
     card.classList.add('skin-selected');
     const selected=$('#selected-skin-name');
     const id=$('#selected-skin-id');
