@@ -6209,3 +6209,83 @@
     }
 
 })();
+
+/* ===== Skin Lab category navigation v2 ===== */
+(() => {
+  'use strict';
+  const boot = () => {
+    const root = document.querySelector('.wp-app');
+    const grid = document.getElementById('skinsContainer');
+    if (!root || !grid || grid.dataset.wpCategoriesReady === '1') return;
+    grid.dataset.wpCategoriesReady = '1';
+
+    const categories = [
+      {id:'all',label:'همه سلاح‌ها',match:()=>true},
+      {id:'pistol',label:'Pistols',match:n=>/glock|usp|p2000|p250|five.?seve?n|tec.?9|cz75|dual berettas|r8 revolver|desert eagle/.test(n)},
+      {id:'rifle',label:'Rifles',match:n=>/ak.?47|m4a[14]|famas|galil|aug|sg 553|krieg|krieg 553/.test(n)},
+      {id:'sniper',label:'Snipers',match:n=>/awp|ssg 08|scar.?20|g3sg1/.test(n)},
+      {id:'smg',label:'SMGs',match:n=>/mac.?10|mp[579]|ump.?45|p90|pp.?bizon|mp7|mp9/.test(n)},
+      {id:'shotgun',label:'Shotguns',match:n=>/nova|xm1014|mag.?7|sawed.?off/.test(n)},
+      {id:'heavy',label:'Heavy',match:n=>/m249|negev/.test(n)},
+      {id:'zeus',label:'Zeus',match:n=>/zeus/.test(n)}
+    ];
+    const head = document.querySelector('#tab-skins .wp-section-head');
+    if (!head || document.getElementById('wpSkinCategories')) return;
+    const nav = document.createElement('div');
+    nav.id = 'wpSkinCategories';
+    nav.className = 'wp-skin-categories';
+    nav.setAttribute('aria-label','دسته‌بندی سلاح‌ها');
+    const result = document.createElement('div');
+    result.className = 'wp-skin-results';
+    result.innerHTML = '<span>برای پیدا کردن سلاح، دسته را انتخاب کن</span><span id="wpSkinVisibleCount"></span>';
+    head.insertAdjacentElement('afterend', nav);
+    nav.insertAdjacentElement('afterend', result);
+
+    const cards = [...grid.querySelectorAll('.skin-item')];
+    const norm = value => String(value || '').toLocaleLowerCase('en').replace(/[_-]+/g,' ').trim();
+    const getName = card => norm(card.dataset.name || card.querySelector('.wp-card-title')?.textContent);
+    const render = active => {
+      let visible = 0;
+      cards.forEach(card => {
+        const name = getName(card);
+        const show = active === 'all' || !!categories.find(c => c.id === active)?.match(name);
+        card.classList.toggle('is-category-hidden',!show);
+        if(show) visible++;
+      });
+      nav.querySelectorAll('button').forEach(btn => {
+        const on = btn.dataset.category === active;
+        btn.classList.toggle('is-active',on);
+        btn.setAttribute('aria-pressed',String(on));
+      });
+      const count = document.getElementById('wpSkinVisibleCount');
+      if(count) count.textContent = visible + ' سلاح';
+    };
+    categories.forEach(cat => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'wp-skin-category' + (cat.id === 'all' ? ' is-active' : '');
+      btn.dataset.category = cat.id;
+      btn.innerHTML = cat.label + ' <span class="wp-skin-category-count">' +
+        cards.filter(card => cat.id === 'all' || cat.match(getName(card))).length + '</span>';
+      btn.addEventListener('click',() => render(cat.id));
+      nav.appendChild(btn);
+    });
+    const search = document.getElementById('skinSearchGlobal');
+    if (search) search.addEventListener('input',() => {
+      const query = norm(search.value);
+      cards.forEach(card => {
+        if (!query) return;
+        const matches = getName(card).includes(query);
+        card.classList.toggle('is-category-hidden',!matches);
+      });
+      if(query) {
+        nav.querySelectorAll('button').forEach(btn=>btn.classList.toggle('is-active',btn.dataset.category==='all'));
+        const count = document.getElementById('wpSkinVisibleCount');
+        if(count) count.textContent = cards.filter(c=>!c.classList.contains('is-category-hidden')).length + ' نتیجه';
+      } else render(nav.querySelector('.is-active')?.dataset.category || 'all');
+    });
+    render('all');
+  };
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded',boot,{once:true}); else boot();
+  document.addEventListener('shown.bs.tab',event=>{ if(event.target?.getAttribute('data-bs-target')==='#tab-skins') boot(); });
+})();
