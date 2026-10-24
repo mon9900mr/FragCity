@@ -4535,3 +4535,26 @@ body > .wp-modal#skinModal .modal-dialog {
 .wp-app .selection-meta{color:#7e9bb0;font-size:.68rem}
 @media(max-width:1050px){.fc-skin-workspace{grid-template-columns:190px minmax(0,1fr);gap:12px}.fc-skin-card-grid,.wp-items-grid.fc-skin-card-grid{grid-template-columns:repeat(auto-fill,minmax(165px,1fr))}.fc-skin-hero{padding:26px}}
 @media(max-width:760px){.wp-header{padding:12px}.wp-header-main{flex-wrap:wrap}.wp-search-wrap{flex-basis:100%;max-width:none}.wp-team-switcher{margin-inline-start:auto}.wp-main{padding:14px 10px 0}.wp-tabs{padding-top:12px}.wp-tab{padding:0 12px;min-height:40px}.fc-skin-hero{align-items:flex-start;flex-direction:column;padding:22px 18px;border-radius:15px}.fc-skin-hero h2{font-size:2.3rem}.fc-hero-stats{width:100%}.fc-hero-stats>div{flex:1}.fc-skin-toolbar{align-items:stretch;flex-direction:column}.fc-skin-search{max-width:none}.fc-skin-toolbar-note{font-size:.7rem}.fc-skin-workspace{grid-template-columns:1fr}.fc-skin-sidebar{position:static;padding:10px}.fc-sidebar-title{padding:4px 4px 10px}.fc-skin-categories{flex-direction:row;overflow-x:auto;padding:0 0 4px;scrollbar-width:thin}.fc-category-button{width:auto;flex:0 0 auto;min-height:40px;padding:5px 8px}.fc-category-icon{width:27px;height:27px}.fc-category-label{white-space:nowrap}.fc-skin-section-head{padding:14px}.fc-skin-section-head .wp-section-title{font-size:1.1rem}.fc-skin-card-grid,.wp-items-grid.fc-skin-card-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.fc-skin-card-grid .wp-card-media{min-height:105px;padding:8px}.fc-skin-card-grid .wp-card-media img,.fc-skin-card-grid .wp-card-image{max-height:90px}.fc-skin-card-grid .wp-card-content{padding:10px}.fc-skin-card-grid .wp-card-title{font-size:.76rem}.fc-skin-card-grid .wp-card-subtitle{font-size:.68rem}.fc-grid-intro{font-size:.61rem}.fc-grid-intro>span:last-child{text-align:end}.wp-app .wp-modal-body{padding:10px}.wp-app .selection-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}}
+
+
+/* Skin Lab polish: results header and modal nodes are rendered outside .wp-app. */
+.fc-skin-resultsbar{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:5px 3px 15px}
+.fc-results-kicker{font-size:.62rem;font-weight:950;letter-spacing:.17em;color:#48d9f0}
+.fc-skin-resultsbar h3{margin:4px 0 0;color:#edf8ff;font-size:1.2rem;font-weight:900}
+.fc-results-count{display:flex;align-items:baseline;gap:7px;padding:8px 12px;border:1px solid #20394c;border-radius:10px;background:#0c1825;color:#8aa4b8;font-size:.73rem}
+.fc-results-count strong{font-size:1rem;color:#4adef5}
+.wp-modal{backdrop-filter:blur(13px)}
+.wp-modal .modal-dialog{max-width:min(1120px,96vw)}
+.wp-modal .modal-content{background:#091321;border:1px solid #28445b;border-radius:18px;color:#edf7ff;box-shadow:0 28px 90px #000c;overflow:hidden}
+.wp-modal .wp-modal-header{padding:19px 22px;background:linear-gradient(110deg,#101f2e,#0b1521);border-bottom:1px solid #1e3448}
+.wp-modal .wp-modal-title{font-size:1.15rem;font-weight:900}
+.wp-modal .wp-modal-eyebrow{color:#45d9f2;font-size:.68rem;letter-spacing:.1em}
+.wp-modal .wp-modal-body{padding:20px;background:#09121e}
+.wp-modal .selection-grid{grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:11px}
+.wp-modal .selection-card{border:1px solid #20384d;border-radius:12px;background:#0d1927;overflow:hidden;transition:border-color .2s,transform .2s}
+.wp-modal .selection-card:hover{border-color:#39d9f5a0;transform:translateY(-2px)}
+.wp-modal .selection-card.is-selected{border-color:#3cdef5;box-shadow:0 0 0 1px #3cdef55c,0 0 22px #3cdef510}
+.wp-modal .selection-image{background:radial-gradient(ellipse at center,#1a3042,#0b1420 75%);padding:8px}
+.wp-modal .selection-title{color:#e8f4fc;font-size:.78rem;font-weight:800}
+.wp-modal .selection-meta{color:#7e9bb0;font-size:.68rem}
+@media(max-width:760px){.fc-skin-resultsbar{padding-bottom:10px}.fc-skin-resultsbar h3{font-size:1rem}.wp-modal .modal-dialog{margin:.5rem auto;width:calc(100% - 16px)}.wp-modal .wp-modal-body{padding:10px}.wp-modal .selection-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}}
