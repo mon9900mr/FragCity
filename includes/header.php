@@ -101,6 +101,7 @@ $mobileNavItems = [
         </nav>
 
         <div class="shock-user-area-wrapper">
+            <button type="button" class="fc-home-language" id="fcHomeLanguage" aria-label="تغییر زبان به انگلیسی" title="تغییر زبان">EN</button>
             <?php if ($isLoggedIn): ?>
                 <div class="frag-user-area">
                     <div class="frag-dropdown" id="shockUserDropdown">
