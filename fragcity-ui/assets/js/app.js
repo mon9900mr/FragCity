@@ -95,7 +95,7 @@
     const pageSize=48;let catalog=[],page=0,category='all',weaponChoice='all',visible=[];
     const treeLabels={rifles:'Rifles',pistols:'Pistols',snipers:'Snipers',smgs:'SMGs',shotguns:'Shotguns',machineguns:'Machine guns',utility:'Utility',music:'Music kits'};
     const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-    const imageUrl=s=>new URL(s.image.replace(/^\//,''),new URL('../',document.baseURI)).href;
+    const imageUrl=s=>{const raw=String(s?.image||'');try{return new URL(raw,document.baseURI).href}catch(e){return raw}};
     const getWeaponChoices=cat=>[...new Set(catalog.filter(s=>s.category===cat).map(s=>s.weaponLabel||s.weapon||'Other'))].sort((a,b)=>a.localeCompare(b));
     const mainCategory=s=>s.category;
     function buildTree(){
@@ -113,7 +113,7 @@
       visible.sort((a,b)=>order==='weapon'?(a.weaponLabel||a.weapon).localeCompare(b.weaponLabel||b.weapon)||a.name.localeCompare(b.name):order==='paint'?Number(a.paint)-Number(b.paint):a.name.localeCompare(b.name));
       const pages=Math.max(1,Math.ceil(visible.length/pageSize));page=Math.min(page,pages-1);
       skinGrid.innerHTML=visible.slice(page*pageSize,(page+1)*pageSize).map(s=>'<article class="skin-card" data-type="'+esc(s.category)+'" data-skin-name="'+esc(s.name)+'" data-weapon="'+esc(s.weapon)+'" data-paint="'+esc(s.paint)+'" data-image="'+esc(s.image)+'"><div class="skin-image"><img src="'+esc(imageUrl(s))+'" alt="'+esc(s.name)+'" loading="lazy" decoding="async" onerror="this.onerror=null;this.src=\'https://placehold.co/640x300/17171b/eeeeee?text=Image+unavailable\'"></div><div class="skin-card-info"><small>'+esc(s.weaponLabel||s.categoryLabel||s.weapon)+'</small><h3>'+esc(s.name)+'</h3><p>Paint / item ID: '+esc(s.paint)+'</p><button class="button button-ghost select-skin" type="button">Select item</button></div></article>').join('');
-      $('#skin-total').textContent=catalog.length.toLocaleString();
+      const totalNode=$('#skin-total');if(totalNode)totalNode.textContent=catalog.length.toLocaleString();
       $('#skin-results-count').textContent=visible.length.toLocaleString()+' items';
       $('#skin-page-number').textContent='Page '+(page+1)+' / '+pages;
       prev.disabled=page===0;next.disabled=page>=pages-1;
@@ -134,7 +134,51 @@
     $('#customizer-type')?.addEventListener('change',e=>{category=e.target.value;weaponChoice='all';page=0;const root=$(`[data-tree-root="${category}"]`);root?.click();render();});
     $('#save-loadout')?.addEventListener('click',()=>{try{localStorage.setItem('fragcity-visual-loadout',JSON.stringify({selected:JSON.parse(localStorage.getItem('fragcity-selected-skin')||'null'),stickers:stickerSlots}));toast(fa?'لوداوت ظاهری در مرورگر ذخیره شد.':'Visual loadout saved in this browser.');}catch(e){toast('Could not save loadout.');}});
     renderStickerSlots();
-    fetch(catalogUrl).then(r=>{if(!r.ok)throw new Error('Catalog HTTP '+r.status);return r.json();}).then(data=>{catalog=data.filter(s=>s.name&&s.image&&s.category);buildTree();render();}).catch(err=>{$('#skin-results-count').textContent='Could not load catalog. Open this page via a web server, not file://.';console.error(err);});
+    async function loadCatalog(){
+      const normalizeCategory=(item)=>{
+        const raw=String(item.category?.name||item.category||'').toLowerCase();
+        const weapon=String(item.weapon?.name||item.weaponLabel||item.weapon||'').toLowerCase();
+        const text=raw+' '+weapon;
+        if(/music kit/.test(text))return 'music';
+        if(/sticker/.test(text))return 'stickers';
+        if(/charm/.test(text))return 'charms';
+        if(/shotgun/.test(text))return 'shotguns';
+        if(/smg|submachine/.test(text))return 'smgs';
+        if(/sniper|awp|ssg 08|scar-20|g3sg1/.test(text))return 'snipers';
+        if(/machinegun|machine gun|negev|m249/.test(text))return 'machineguns';
+        if(/pistol|glock|usp-s|p2000|p250|five-seven|tec-9|cz75|dual berettas|desert eagle|r8 revolver/.test(text))return 'pistols';
+        if(/rifle|ak-47|m4a1|m4a4|famas|galil|aug|sg 553/.test(text))return 'rifles';
+        if(/knife|glove/.test(text))return 'utility';
+        return '';
+      };
+      const mapItem=(s)=>{
+        const weapon=typeof s.weapon==='object'?(s.weapon.name||'Unknown weapon'):String(s.weaponLabel||s.weapon||'Unknown weapon');
+        const category=normalizeCategory(s);
+        return {name:s.name||s.market_hash_name||'',image:s.image||s.icon_url||'',category,weapon,weaponLabel:weapon,categoryLabel:category,paint:s.paint_index??s.paint??s.paint_id??''};
+      };
+      let data=[];
+      try{
+        const local=await fetch(catalogUrl,{cache:'no-store'});
+        if(!local.ok)throw new Error('Catalog HTTP '+local.status);
+        const parsed=await local.json();
+        if(Array.isArray(parsed)&&parsed.length)data=parsed;
+      }catch(e){console.warn('Local skin catalog unavailable:',e);}
+      if(!data.length){
+        const response=await fetch('https://bymykel.github.io/CSGO-API/api/en/skins.json');
+        if(!response.ok)throw new Error('Remote catalog HTTP '+response.status);
+        const remote=await response.json();
+        data=(Array.isArray(remote)?remote:[]).map(mapItem).filter(s=>s.name&&s.image&&s.category&&['rifles','pistols','snipers','smgs','shotguns','machineguns','utility'].includes(s.category));
+      }else{
+        data=data.map(mapItem).filter(s=>s.name&&s.image&&s.category);
+      }
+      catalog=data;
+      buildTree();
+      render();
+    }
+    loadCatalog().catch(err=>{
+      $('#skin-results-count').textContent='Catalog could not load. Check your connection and refresh.';
+      console.error('FragCity skin catalog failed:',err);
+    });
     $$('.skin-tree-node').forEach(b=>b.addEventListener('click',()=>{
       const cat=b.dataset.treeRoot;
       if(cat==='all'){category='all';weaponChoice='all';$$('.skin-tree-node').forEach(x=>{x.classList.remove('active');if(x!==b)x.setAttribute('aria-expanded','false');});$$('.skin-tree-children').forEach(x=>x.hidden=true);b.classList.add('active');}
