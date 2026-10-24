@@ -4558,3 +4558,10 @@ body > .wp-modal#skinModal .modal-dialog {
 .wp-modal .selection-title{color:#e8f4fc;font-size:.78rem;font-weight:800}
 .wp-modal .selection-meta{color:#7e9bb0;font-size:.68rem}
 @media(max-width:760px){.fc-skin-resultsbar{padding-bottom:10px}.fc-skin-resultsbar h3{font-size:1rem}.wp-modal .modal-dialog{margin:.5rem auto;width:calc(100% - 16px)}.wp-modal .wp-modal-body{padding:10px}.wp-modal .selection-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}}
+
+/* Skin changer disabled on request. Keep all image assets and source data intact. */
+.wp-tab[data-bs-target="#tab-skins"],
+#tab-skins,
+#skinModal {
+    display: none !important;
+}
