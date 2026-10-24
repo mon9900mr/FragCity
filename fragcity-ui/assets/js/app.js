@@ -103,6 +103,7 @@
     try{localStorage.setItem('fragcity-selected-skin',JSON.stringify({name:card.dataset.skinName,weapon:card.dataset.weapon,paint:card.dataset.paint,image:card.dataset.image}));}catch(e){}
     toast(fa?'اسکین انتخاب شد؛ حالا سرور را وارد کن و اعمال را بزن.':'Skin selected. Choose your server and press Apply skin.');
   }));
+  const apiInput=$('#api-base-url');if(apiInput){try{apiInput.value=localStorage.getItem('fragcity-api-base')||'';}catch(e){}apiInput.addEventListener('change',()=>{try{localStorage.setItem('fragcity-api-base',apiInput.value.trim());}catch(e){}});}
   const applySkin=$('#apply-skin');
   if(applySkin)applySkin.addEventListener('click',async()=>{
     const id=$('#selected-skin-id')?.value||'';
@@ -111,7 +112,7 @@
     const card=$('.skin-selected');
     if(!card||!id){toast(fa?'اول یک اسکین انتخاب کن.':'Choose a skin first.');return;}
     if(!server){toast(fa?'شناسه یا آدرس سرور را وارد کن.':'Enter your server ID or address.');$('#server-id')?.focus();return;}
-    const apiBase=(document.querySelector('meta[name="fragcity-api-base"]')?.content||'').trim().replace(/\/$/,'');
+    const apiBase=($('#api-base-url')?.value||'').trim().replace(/\/$/,'');
     if(!apiBase){toast(fa?'انتخاب ثبت شد، اما API اعمال اسکین هنوز در بک‌اند تنظیم نشده؛ اسکین داخل بازی تغییر نکرد.':'Selection saved, but the backend apply-skin API is not configured. The in-game skin has NOT changed.');return;}
     applySkin.disabled=true;
     const old=applySkin.textContent;applySkin.textContent=fa?'در حال ارسال…':'Applying…';
