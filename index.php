@@ -369,6 +369,20 @@ $headerScriptVersion = asset_version($headerScriptPath);
  */
 $pageAssets = [
 
+    'home' => [
+        'css' => [
+            '/css/home.css?v=' . asset_version(
+                __DIR__ . '/css/home.css'
+            ),
+        ],
+        'js' => [
+            '/js/home.js?v=' . asset_version(
+                __DIR__ . '/js/home.js'
+            ),
+        ],
+    ],
+
+
     'skins' => [
         'css' => [
             'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css',
