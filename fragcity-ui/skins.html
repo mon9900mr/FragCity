@@ -10,14 +10,14 @@
 <main class="inner-page">
 <div class="eyebrow"><i></i> WEAPON PAINT CUSTOMIZER</div><h1>SKIN <span class="red">LAB.</span></h1>
 <p class="page-intro">Choose a weapon finish, enter the server you own, then send the selection to the configured FragCity backend. Visual selection works in this preview; in-game changes require the server plugin and an authenticated apply-skin API.</p>
-<section class="skin-control panel-box">
-<div class="panel-title"><h3>Apply a weapon finish</h3><span>SERVER LINK</span></div>
-<div class="skin-control-grid">
-<label>Server ID / address<input id="server-id" type="text" placeholder="e.g. your-server-id or host:port" autocomplete="off"></label>
-<label>Backend API base URL<input id="api-base-url" type="url" placeholder="https://your-domain.example" autocomplete="url"></label>
-<div class="selected-preview"><small>SELECTED FINISH</small><strong id="selected-skin-name">No skin selected</strong><input id="selected-skin-id" type="hidden"><input id="selected-weapon" type="hidden"><button class="button" id="apply-skin" type="button" disabled>Apply skin ↗</button></div>
-</div>
-<p class="notice">Security: do not put RCON passwords, agent tokens, or API secrets in this page. The backend must verify your login and ownership of the selected server.</p>
+<section class="skin-customizer panel-box" aria-label="Loadout customizer">
+<div class="panel-title"><h3>Loadout customizer</h3><span>VISUAL PREVIEW</span></div>
+<div class="customizer-layout">
+<div class="customizer-preview"><div class="preview-kicker">CURRENT BUILD</div><img id="customizer-weapon-image" alt="Selected weapon preview" src="assets/img/weapon-placeholder.svg"><h3 id="customizer-weapon-name">Choose a weapon skin</h3><p id="customizer-weapon-meta">Select a weapon skin from the catalog below.</p><div class="preview-stickers" id="preview-stickers"><span>Sticker slot 1</span><span>Sticker slot 2</span><span>Sticker slot 3</span><span>Sticker slot 4</span></div></div>
+<div class="customizer-options"><label>Loadout item type<select id="customizer-type"><option value="rifles">Rifles</option><option value="pistols">Pistols</option><option value="snipers">Snipers</option><option value="smgs">SMGs</option><option value="heavy">Heavy weapons</option><option value="knives">Knives</option><option value="gloves">Gloves</option><option value="agents">Agents</option><option value="stickers">Stickers</option><option value="charms">Charms</option><option value="music">Music kits</option></select></label>
+<div class="customizer-selected"><small>SELECTED ITEM</small><strong id="selected-skin-name">Nothing selected yet</strong><span id="selected-skin-meta">Choose an item in the catalog.</span></div>
+<div class="sticker-slots"><strong>Sticker slots</strong><p>Select a sticker below, then choose a slot.</p><div class="slot-buttons"><button type="button" class="sticker-slot active" data-slot="0">Slot 1</button><button type="button" class="sticker-slot" data-slot="1">Slot 2</button><button type="button" class="sticker-slot" data-slot="2">Slot 3</button><button type="button" class="sticker-slot" data-slot="3">Slot 4</button></div><button type="button" class="button button-ghost" id="clear-sticker-slot">Clear selected slot</button></div>
+<button type="button" class="button" id="save-loadout">Save visual loadout</button><p class="fine-print">This saves a browser-side visual loadout only. Applying it in CS2 requires a compatible server plugin and backend API.</p></div></div>
 </section>
 <div class="skin-toolbar">
 <label class="skin-search-label">Search all skins<input id="skin-search" type="search" placeholder="Search weapon or skin name…"></label>
