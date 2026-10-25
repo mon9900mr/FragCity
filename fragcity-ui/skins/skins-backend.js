@@ -25,13 +25,13 @@
     return files;
   }
 
-  async function loadCatalog(catalogUrl) {
-    const [images, response] = await Promise.all([
-      scan(),
-      fetch(catalogUrl, {cache:'no-store'})
-    ]);
-    if (!response.ok) throw new Error('Skin metadata could not load (HTTP ' + response.status + ').');
-    const data = await response.json();
+  async function loadCatalog(catalogUrl, catalogData) {
+    const imagesPromise = scan().catch(error => { console.warn('FragCity image scan unavailable; using expected image paths.', error); return []; });
+    const dataPromise = Array.isArray(catalogData) ? Promise.resolve(catalogData) : fetch(catalogUrl, {cache:'no-store'}).then(response => {
+      if (!response.ok) throw new Error('Skin metadata could not load (HTTP ' + response.status + ').');
+      return response.json();
+    });
+    const [images, data] = await Promise.all([imagesPromise, dataPromise]);
     if (!Array.isArray(data) || !data.length) throw new Error('Skin metadata is empty or invalid.');
     const byFilename = new Map();
     // Prefer item renders under img/skins; use img/weapon only when no skin render exists.
