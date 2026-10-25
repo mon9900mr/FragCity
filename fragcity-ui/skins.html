@@ -39,7 +39,7 @@
       return RAW + value.split('/').map(encodeURIComponent).join('/');
     }
     const name = value.split('/').pop();
-    return IMG + (kind === 'weapons' ? 'img/weapon/' : 'img/skins/') + encodeURIComponent(name);
+    return IMG + 'img/skins/' + encodeURIComponent(name);
   };
   const safe = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   async function loadJson(file){
@@ -71,16 +71,21 @@
     $('#catalog-summary').textContent='Loading catalog data…';
     grid.innerHTML='<div class="skin-status" style="grid-column:1/-1">Fetching weapon skins, agents and gloves…</div>';
     try {
-      const catalog=await window.FragCitySkinBackend.load();
-      const skins=catalog.weapons;
-      const agents=catalog.agents;
-      const gloves=catalog.gloves;
-      const imageIndex=new Map(catalog.imageFiles.map(file=>[file.filename,file.path]));
+      let catalog;
+      try { catalog=await window.FragCitySkinBackend.load(); } catch(backendError) { console.warn('Image index unavailable; loading JSON catalogs directly:',backendError); }
+      if(!catalog || !Array.isArray(catalog.weapons) || (!catalog.weapons.length && !catalog.agents?.length && !catalog.gloves?.length)) {
+        const [weapons,agents,gloves]=await Promise.all([loadJson('data/skins_en.json'),loadJson('data/agents_en.json'),loadJson('data/gloves_en.json')]);
+        catalog={weapons,agents,gloves,imageFiles:[],sourceErrors:[{source:'image index',message:'Fallback catalog mode'}]};
+      }
+      const skins=catalog.weapons||[];
+      const agents=catalog.agents||[];
+      const gloves=catalog.gloves||[];
+      const imageIndex=new Map((catalog.imageFiles||[]).map(file=>[file.filename,file.path]));
       for(const item of skins) if(item.image && imageIndex.has(String(item.image).split('/').pop())) item.image=imageIndex.get(String(item.image).split('/').pop());
       for(const item of agents) if(item.image && imageIndex.has(String(item.image).split('/').pop())) item.image=imageIndex.get(String(item.image).split('/').pop());
       for(const item of gloves) if(item.image && imageIndex.has(String(item.image).split('/').pop())) item.image=imageIndex.get(String(item.image).split('/').pop());
       if(catalog.sourceErrors.length) console.warn('Some catalog sources failed:',catalog.sourceErrors);
-      $('#catalog-summary').textContent='Repository scan complete · '+catalog.imageFiles.length.toLocaleString()+' images indexed';
+      $('#catalog-summary').textContent=(catalog.imageFiles?.length ? 'Repository scan complete · '+catalog.imageFiles.length.toLocaleString()+' images indexed' : 'Catalog loaded · image index fallback enabled');
       state.all.weapons=addItems(skins,'weapons');
       state.all.agents=addItems(agents,'agents');
       state.all.gloves=addItems(gloves,'gloves');
