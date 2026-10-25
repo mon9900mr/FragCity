@@ -229,7 +229,7 @@
         'tec-9':30,'zeus x27':31,'p2000':32,'mp7':33,'mp9':34,'nova':35,
         'p250':36,'scar-20':38,'sg 553':39,'ssg 08':40,'glock-18':4,'glock 18':4,
         'usp-s':61,'m4a1-s':60,'five-seven':3,'cz75-auto':63,'cz75 auto':63,
-        'desert eagle':1,'dual berettas':2,'r8 revolver':64,'knife':500
+        'desert eagle':1,'dual berettas':2,'r8 revolver':64,'bayonet':500,'classic knife':503,'flip knife':505,'gut knife':506,'karambit':507,'m9 bayonet':508,'huntsman knife':509,'falchion knife':512,'bowie knife':514,'butterfly knife':515,'shadow daggers':516,'paracord knife':517,'survival knife':518,'ursus knife':519,'navaja knife':520,'nomad knife':521,'stiletto knife':522,'talon knife':523,'skeleton knife':525,'kukri knife':526,'knife':500
       };
       const match = Object.keys(aliases).find(name => raw === name || raw.startsWith(name + ' |') || raw.startsWith(name + ' '));
       return match ? aliases[match] : 0;
