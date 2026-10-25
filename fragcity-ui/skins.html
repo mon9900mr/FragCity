@@ -1,11 +1,135 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101012"><title>AWP Dragon Lore — FRAG CITY</title><link rel="stylesheet" href="assets/css/style.css">
-<style>
-:root{color-scheme:dark}.skin-page{max-width:1200px;margin:auto;padding:36px 20px 76px}.skin-hero{padding:28px clamp(20px,4vw,42px);background:linear-gradient(115deg,#261719,#141418 68%);border:1px solid #ffffff12;margin-bottom:22px}.eyebrow{color:#f0444b;font-size:11px;font-weight:900;letter-spacing:2px}.skin-hero h1{font:900 clamp(38px,7vw,68px)/1 'Barlow Condensed',sans-serif;margin:12px 0}.skin-hero p{color:#b7b5bd}.skin-card{max-width:740px;background:#17171b;border:1px solid #ffffff18;margin:0 auto;overflow:hidden}.skin-image{height:clamp(300px,48vw,520px);display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(ellipse,#3a3328,#1b1b20 72%)}.skin-image img{display:block;width:100%;height:100%;object-fit:contain;object-position:center;filter:drop-shadow(0 10px 18px #0009)}.skin-info{padding:20px}.skin-name{font-size:20px;font-weight:900}.skin-sub{font-size:12px;color:#aaa8b1;margin-top:7px}.skin-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.skin-actions button{cursor:pointer;border:1px solid #f0444b;background:#f0444b;color:white;font-weight:900;font-size:11px;padding:12px 15px}.skin-actions button.secondary{background:transparent;border-color:#444;color:#ddd}.image-status{font-size:12px;color:#bdbac4;margin-top:10px}.image-status.error{color:#ff9297}@media(max-width:600px){.skin-page{padding:22px 12px 55px}.skin-image{height:300px;padding:12px}.skin-info{padding:15px}}
-</style></head><body>
-<header class="topbar"><a class="brand" href="index.html"><span class="brand-mark">F</span><span>FRAG<span class="red">CITY</span><small>COUNTER-STRIKE HOSTING</small></span></a><button class="menu-toggle" aria-label="Toggle menu">☰</button><nav><a href="index.html">Home</a><a href="servers.html">Servers</a><a class="active" href="skins.html">Skins</a><a href="guides.html">Guides</a><a href="support.html">Support</a><a href="account.html">Account</a></nav><a class="button button-small" href="manage.html">Control panel ↗</a></header>
-<main class="skin-page"><section class="skin-hero"><div class="eyebrow">FRAG CITY / IMAGE TEST</div><h1>AWP <span class="red">DRAGON LORE.</span></h1><p>Testing one known skin first. The repository metadata identifies this skin as paint ID 344; its matching image file is not currently present in the repository image tree, so this test uses the Steam item image URL.</p></section>
-<article class="skin-card"><div class="skin-image"><img id="dragonImage" src="https://specs.gg/assets/img/cs2_skins/AWP/Dragon%20Lore.png" alt="AWP | Dragon Lore" loading="eager" decoding="async"><div id="imageError" hidden style="color:#ff9297;text-align:center">Dragon Lore image could not load from the image host.</div></div><div class="skin-info"><div class="skin-name">AWP | Dragon Lore</div><div class="skin-sub">AWP · Covert · Paint ID: 344 · The Cobblestone Collection</div><div id="imageStatus" class="image-status">Checking image…</div><div class="skin-actions"><button id="send" type="button">SEND TO BACKEND ↗</button><button id="copy" type="button" class="secondary">COPY SKIN ID</button></div></div></article></main>
-<footer><a class="brand" href="index.html"><span class="brand-mark">F</span><span>FRAG<span class="red">CITY</span><small>OWN THE ARENA</small></span></a><span>Community first. Built for Counter-Strike.</span><div><a href="guides.html">Guides</a><a href="support.html">Support</a></div></footer><script src="assets/js/app.js"></script><script>
-(()=>{const img=document.getElementById('dragonImage'),status=document.getElementById('imageStatus'),err=document.getElementById('imageError');img.addEventListener('load',()=>{status.textContent='Image loaded successfully';status.classList.remove('error')});img.addEventListener('error',()=>{img.hidden=true;err.hidden=false;status.textContent='Image host failed to return this image. The external Dragon Lore image source could not load.';status.classList.add('error')});if(img.complete&&img.naturalWidth){status.textContent='Image loaded successfully'}document.getElementById('send').addEventListener('click',async e=>{const payload={id:'weapon_awp-344.png',name:'AWP | Dragon Lore',paintId:344,image:img.src,path:'img/skins/weapon_awp-344.png',category:'weapons',game:'cs2'};window.dispatchEvent(new CustomEvent('fragcity:skin-select',{detail:payload}));if(window.FRAGCITY_BACKEND&&typeof window.FRAGCITY_BACKEND.selectSkin==='function'){try{await window.FRAGCITY_BACKEND.selectSkin(payload);e.currentTarget.textContent='SENT ✓'}catch(error){e.currentTarget.textContent='BACKEND ERROR';console.error(error)}}else{e.currentTarget.textContent='READY TO CONNECT';e.currentTarget.title='Skin selection event dispatched; connect window.FRAGCITY_BACKEND.selectSkin(payload) to your server.';console.info(payload)}});document.getElementById('copy').addEventListener('click',async e=>{try{await navigator.clipboard.writeText('weapon_awp-344.png');e.currentTarget.textContent='COPIED ✓'}catch{e.currentTarget.textContent='ID: 344'}})})();
-</script></body></html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#101012">
+  <title>Skins — FRAG CITY</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .skin-page{max-width:1320px;margin:auto;padding:34px 22px 76px}
+    .skin-hero{padding:30px clamp(20px,4vw,42px);background:linear-gradient(115deg,#261719,#141418 68%);border:1px solid #ffffff12;margin-bottom:20px}
+    .skin-hero .eyebrow{color:#f0444b;font-size:11px;font-weight:900;letter-spacing:2px}
+    .skin-hero h1{font:900 clamp(38px,7vw,68px)/1 'Barlow Condensed',sans-serif;margin:12px 0}
+    .skin-hero p{color:#b7b5bd;max-width:760px}
+    .skin-toolbar{grid-template-columns:minmax(0,1fr) 220px}
+    .skin-tree-horizontal{max-height:none;overflow:visible;margin:16px 0 22px;padding:10px;background:#131316;border:1px solid #303037}
+    .skin-tree-horizontal .skin-tree-root{display:flex;flex-direction:row;flex-wrap:nowrap;align-items:center;gap:7px;overflow-x:auto;padding:4px 2px 9px}
+    .skin-tree-horizontal .skin-tree-node{flex:0 0 auto;width:auto;white-space:nowrap;border:1px solid #303037;background:#1a1a1f}
+    .skin-tree-horizontal .skin-tree-node.active{border-color:#ee4d56;background:#30191d}
+    .skin-tree-horizontal .skin-tree-children{flex:0 0 100%;width:100%;margin:0;padding:12px 4px 4px;border:0;border-top:1px solid #34343b;display:flex;flex-direction:row;flex-wrap:wrap;gap:7px}
+    .skin-tree-horizontal .skin-tree-children[hidden]{display:none!important}
+    .skin-tree-horizontal .skin-tree-leaf{width:auto;min-width:110px;justify-content:space-between;background:#1b1b20;border:1px solid #33333a}
+    .skin-grid .skin-image{background:radial-gradient(ellipse,#28282e,#151519 75%);display:flex;align-items:center;justify-content:center}
+    .skin-grid .skin-image img{width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain;object-position:center;display:block}
+    .skin-grid .skin-image.image-missing:after{content:'IMAGE UNAVAILABLE';font-size:10px;color:#a3a2aa;letter-spacing:1px}
+    .skin-card{transition:border-color .15s,transform .15s}
+    .skin-card:hover{border-color:#8d343b;transform:translateY(-2px)}
+    .skin-card.skin-selected{border-color:#f0444b;box-shadow:0 0 0 1px #f0444b55}
+    .skin-card-info{padding:14px;display:flex;flex-direction:column;flex:1}
+    .skin-card-info h3{overflow-wrap:anywhere}
+    .skin-card-info .select-skin{margin-top:auto}
+    .skin-pagination{display:flex;align-items:center;justify-content:center;gap:14px;margin:24px 0}
+    .skin-pagination button:disabled{opacity:.35;cursor:not-allowed}
+    .skin-customizer[hidden]{display:none!important}
+    .skin-customizer{margin:26px 0;padding:20px;border:1px solid #e34a53;background:#131316}
+    .customizer-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,.9fr);gap:18px}
+    .customizer-preview{min-height:220px;background:#19191e;display:flex;align-items:center;justify-content:center;padding:18px}
+    .customizer-preview img{max-width:100%;max-height:260px;object-fit:contain}
+    .customizer-options{background:#17171b;padding:16px;border:1px solid #303037}
+    .customizer-options label{display:block;font-size:11px;color:#c9c8cf;margin:12px 0 6px}
+    .customizer-options input,.customizer-options select{width:100%;min-height:42px;background:#111115;border:1px solid #36363c;color:#fff;padding:10px}
+    .skin-note{font-size:12px;color:#aaa8b1}
+    @media(max-width:760px){.skin-page{padding:22px 12px 55px}.skin-toolbar{grid-template-columns:1fr}.customizer-layout{grid-template-columns:1fr}.skin-tree-horizontal .skin-tree-node{font-size:11px;padding:9px 10px}.skin-tree-horizontal .skin-tree-leaf{min-width:calc(50% - 5px)}}
+  </style>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="index.html"><span class="brand-mark">F</span><span>FRAG<span class="red">CITY</span><small>COUNTER-STRIKE HOSTING</small></span></a>
+  <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+  <nav><a href="index.html">Home</a><a href="servers.html">Servers</a><a class="active" href="skins.html">Skins</a><a href="guides.html">Guides</a><a href="support.html">Support</a><a href="account.html">Account</a></nav>
+  <a class="button button-small" href="manage.html">Control panel ↗</a>
+</header>
+<main class="skin-page">
+  <section class="skin-hero">
+    <div class="eyebrow">FRAG CITY / SKIN LAB</div>
+    <h1>YOUR LOADOUT.<br><span class="red">YOUR STYLE.</span></h1>
+    <p>Browse the repository skin catalog, search by name or paint ID, preview images, and save a visual loadout. Applying a skin in-game requires a configured and authenticated server backend.</p>
+  </section>
+
+  <div class="skin-toolbar">
+    <label for="skin-search">Search skins<input id="skin-search" type="search" placeholder="Search by skin name, weapon, or paint ID…" autocomplete="off"></label>
+    <label for="skin-sort">Sort by<select id="skin-sort"><option value="name">Name A–Z</option><option value="weapon">Weapon</option><option value="paint">Paint / item ID</option></select></label>
+  </div>
+
+  <div id="skin-tree" class="skin-tree skin-tree-horizontal" aria-label="Skin categories">
+    <div class="skin-tree-root">
+      <button type="button" class="skin-tree-node active" data-tree-root="all" aria-expanded="false">All items <span id="skin-total" class="tree-count">…</span></button>
+      <button type="button" class="skin-tree-node" data-tree-root="rifles" aria-expanded="false">Rifles <span class="tree-chevron">⌄</span></button>
+      <button type="button" class="skin-tree-node" data-tree-root="pistols" aria-expanded="false">Pistols <span class="tree-chevron">⌄</span></button>
+      <button type="button" class="skin-tree-node" data-tree-root="snipers" aria-expanded="false">Snipers <span class="tree-chevron">⌄</span></button>
+      <button type="button" class="skin-tree-node" data-tree-root="smgs" aria-expanded="false">SMGs <span class="tree-chevron">⌄</span></button>
+      <button type="button" class="skin-tree-node" data-tree-root="shotguns" aria-expanded="false">Shotguns <span class="tree-chevron">⌄</span></button>
+      <button type="button" class="skin-tree-node" data-tree-root="machineguns" aria-expanded="false">Machine guns <span class="tree-chevron">⌄</span></button>
+      <button type="button" class="skin-tree-node" data-tree-root="utility" aria-expanded="false">Knives <span class="tree-chevron">⌄</span></button>
+      <button type="button" class="skin-tree-node" data-tree-root="gloves" aria-expanded="false">Gloves <span class="tree-chevron">⌄</span></button>
+      <button type="button" class="skin-tree-node" data-tree-root="agents" aria-expanded="false">Agents <span class="tree-chevron">⌄</span></button>
+      <button type="button" class="skin-tree-node" data-tree-root="stickers" aria-expanded="false">Stickers <span class="tree-chevron">⌄</span></button>
+      <button type="button" class="skin-tree-node" data-tree-root="charms" aria-expanded="false">Charms <span class="tree-chevron">⌄</span></button>
+      <button type="button" class="skin-tree-node" data-tree-root="music" aria-expanded="false">Music kits <span class="tree-chevron">⌄</span></button>
+      <button type="button" class="skin-tree-node" data-tree-root="collectibles" aria-expanded="false">Collectibles <span class="tree-chevron">⌄</span></button>
+    </div>
+    <div class="skin-tree-children" data-tree-children="rifles" hidden></div>
+    <div class="skin-tree-children" data-tree-children="pistols" hidden></div>
+    <div class="skin-tree-children" data-tree-children="snipers" hidden></div>
+    <div class="skin-tree-children" data-tree-children="smgs" hidden></div>
+    <div class="skin-tree-children" data-tree-children="shotguns" hidden></div>
+    <div class="skin-tree-children" data-tree-children="machineguns" hidden></div>
+    <div class="skin-tree-children" data-tree-children="utility" hidden></div>
+    <div class="skin-tree-children" data-tree-children="gloves" hidden></div>
+    <div class="skin-tree-children" data-tree-children="agents" hidden></div>
+    <div class="skin-tree-children" data-tree-children="stickers" hidden></div>
+    <div class="skin-tree-children" data-tree-children="charms" hidden></div>
+    <div class="skin-tree-children" data-tree-children="music" hidden></div>
+    <div class="skin-tree-children" data-tree-children="collectibles" hidden>
+    </div>
+  </div>
+
+  <div class="skin-results"><span id="skin-results-count">Loading catalog…</span><span id="skin-page-number">Page 1</span></div>
+  <section id="skin-grid" class="skin-grid" aria-live="polite"></section>
+  <div class="skin-pagination"><button id="skin-prev" class="button button-ghost" type="button" disabled>← Previous</button><span id="skin-page-number-bottom">1</span><button id="skin-next" class="button button-ghost" type="button" disabled>Next →</button></div>
+
+  <section id="loadout-customizer" class="skin-customizer" hidden>
+    <div class="eyebrow">LOADOUT / CUSTOMIZER</div>
+    <h2 id="customizer-weapon-name">Choose a skin</h2>
+    <p id="customizer-weapon-meta" class="skin-note">Selected item details appear here.</p>
+    <div class="customizer-layout">
+      <div class="customizer-preview"><img id="customizer-weapon-image" alt="Selected skin preview"></div>
+      <div class="customizer-options"><input id="selected-skin-id" type="hidden"><input id="selected-weapon" type="hidden">
+        <label for="customizer-type">Item category</label>
+        <select id="customizer-type"><option value="rifles">Rifles</option><option value="pistols">Pistols</option><option value="snipers">Snipers</option><option value="smgs">SMGs</option><option value="shotguns">Shotguns</option><option value="machineguns">Machine guns</option><option value="utility">Knives</option><option value="gloves">Gloves</option><option value="agents">Agents</option></select>
+        <label for="server-id">Server ID or address</label><input id="server-id" type="text" placeholder="Enter your server ID or address">
+        <label for="api-base-url">Backend API base URL</label><input id="api-base-url" type="url" placeholder="https://your-server.example">
+        <p class="skin-note">The selection is saved locally for preview. The game server will only change if a real, authorized backend API is configured.</p>
+        <div class="skin-actions"><button id="save-loadout" class="button" type="button">Save visual loadout</button><button id="apply-skin" class="button button-ghost" type="button">Apply to server</button><button id="close-customizer" class="button button-ghost" type="button">Close</button></div>
+      </div>
+    </div>
+    <div id="preview-stickers" class="preview-stickers"></div>
+  </section>
+  <p class="skin-note">Catalog and image availability depend on the repository data and hosting access. Visual selection is not an in-game change until the backend API is deployed and connected.</p>
+</main>
+<footer><a class="brand" href="index.html"><span class="brand-mark">F</span><span>FRAG<span class="red">CITY</span><small>OWN THE ARENA</small></span></a><span>Community first. Built for Counter-Strike.</span><div><a href="guides.html">Guides</a><a href="support.html">Support</a></div></footer>
+<script src="skins/skins-backend.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+  // Keep the bottom page indicator synchronized with the shared catalog script.
+  const pageObserver = new MutationObserver(() => {
+    const top = document.getElementById('skin-page-number');
+    const bottom = document.getElementById('skin-page-number-bottom');
+    if (top && bottom) bottom.textContent = top.textContent.replace(/^Page\s*/i, '');
+  });
+  const pageNumber = document.getElementById('skin-page-number');
+  if (pageNumber) pageObserver.observe(pageNumber, {childList:true,subtree:true,characterData:true});
+</script>
+</body>
+</html>
