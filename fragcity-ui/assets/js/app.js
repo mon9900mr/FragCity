@@ -106,7 +106,7 @@
   const header=$('.topbar');
   if(header&&!$('.language-toggle')){const b=document.createElement('button');b.type='button';b.className='language-toggle';b.innerHTML='<span>فا</span> فارسی';b.setAttribute('aria-label','Switch website language');b.addEventListener('click',()=>setLanguage(!fa));const c=$('.button-small',header);if(c)c.insertAdjacentElement('afterend',b);else header.appendChild(b);}
   function setLanguage(value){
-    fa=value;document.documentElement.lang=fa?'fa':'en';document.documentElement.dir=fa?'rtl':'ltr';
+    fa=value;document.documentElement.lang=fa?'fa':'en';document.documentElement.dir=fa?'rtl':'ltr';document.dispatchEvent(new Event('fragcity-language-change'));
     const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;
     while(n=walker.nextNode()){if(!originalNodes.has(n))originalNodes.set(n,n.nodeValue);const original=originalNodes.get(n);const key=original.replace(/\s+/g,' ').trim();if(fa&&dict[key]){const lead=original.match(/^\s*/)?.[0]||'',tail=original.match(/\s*$/)?.[0]||'';n.nodeValue=lead+dict[key]+tail;}else if(!fa)n.nodeValue=original;}
     $$('input,textarea').forEach(el=>{if(!originalPlaceholders.has(el))originalPlaceholders.set(el,el.getAttribute('placeholder'));const p=originalPlaceholders.get(el);if(fa&&p)el.setAttribute('placeholder',dict[p]||p);else if(!fa&&p!==null)el.setAttribute('placeholder',p);});
@@ -152,6 +152,7 @@
       const selected=localStorage.getItem('fragcity-selected-skin');
       if(selected){try{const s=JSON.parse(selected);const c=$$('.skin-card').find(x=>x.dataset.skinName===s.name);if(c)c.classList.add('skin-selected');}catch(e){}}
     }
+    document.addEventListener('fragcity-language-change',()=>{if(catalog.length)render();});
     function renderStickerSlots(){
       const host=$('#preview-stickers');if(!host)return;
       host.innerHTML=stickerSlots.map((s,i)=>'<button type="button" class="preview-sticker '+(i===stickerSlot?'active':'')+'" data-slot="'+i+'">'+(s?'<img src="'+esc(imageUrl(s))+'" alt="'+esc(s.name)+'">':('Sticker slot '+(i+1)))+'</button>').join('');
