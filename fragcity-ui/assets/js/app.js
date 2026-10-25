@@ -249,20 +249,34 @@
         toast(fa ? 'شناسه این سلاح در کاتالوگ مشخص نیست؛ چیزی ذخیره نشد.' : 'This catalog entry has no supported weapon ID; nothing was saved.');
         return;
       }
-      const form = document.createElement('form');
-      form.method = 'POST';
-      form.action = new URL('/index.php?page=skins&tab=tab-skins', window.location.origin).href;
-      form.hidden = true;
-      const fields = {forma:String(defindex)+'-'+String(paint),team:'both',active_tab:'tab-skins',skin_page:String(page+1),wear:'0.001',seed:'0'};
-      Object.entries(fields).forEach(([name,value]) => {
-        const input = document.createElement('input');
-        input.type = 'hidden'; input.name = name; input.value = value;
-        form.appendChild(input);
-      });
-      document.body.appendChild(form);
+      const configured = backendBase();
+      if (!configured && preview) {
+        toast(fa ? 'برای ثبت اسکین باید آدرس بک‌اند Node.js تنظیم شود.' : 'Configure the Node.js backend URL to save a skin.');
+        return;
+      }
+      const apiRoot = configured || window.location.origin;
       button.disabled = true;
+      const originalLabel = button.textContent;
       button.textContent = fa ? 'در حال ثبت…' : 'Saving…';
-      form.submit();
+      fetch(new URL('/api/skins/apply', apiRoot).href, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ weaponDefindex: defindex, paintKit: paint, wear: 0.001, seed: 0 })
+      }).then(async response => {
+        const result = await response.json().catch(() => ({}));
+        if (response.status === 401) throw new Error('LOGIN_REQUIRED');
+        if (!response.ok || !result.ok) throw new Error(result.error || 'SAVE_FAILED');
+        toast(fa ? 'انتخاب اسکین برای اکانت ذخیره شد؛ اعمال داخل بازی به پلاگین سرور وابسته است.' : 'Skin selection saved for your account. In-game application requires the server plugin.');
+      }).catch(error => {
+        const message = error.message === 'LOGIN_REQUIRED'
+          ? (fa ? 'ابتدا وارد حساب کاربری شو.' : 'Please sign in first.')
+          : (fa ? 'ذخیره انجام نشد؛ اتصال بک‌اند و دیتابیس را بررسی کن.' : 'Could not save. Check the backend and database connection.');
+        toast(message);
+      }).finally(() => {
+        button.disabled = false;
+        button.textContent = originalLabel;
+      });
     });
   }
   const form=$('#support-form');if(form)form.addEventListener('submit',e=>{e.preventDefault();toast(fa?'این فرم نمایشی است؛ برای ثبت واقعی تیکت، صفحه پشتیبانی اصلی را باز کن.':'This is a preview form. Open the live support page to submit a real ticket.');});
