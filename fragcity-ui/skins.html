@@ -1,54 +1,42 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#101012">
 <title>Skins — FRAG CITY</title>
 <link rel="stylesheet" href="assets/css/style.css">
 <style>
-:root{color-scheme:dark}.skin-page{max-width:1440px;margin:auto;padding:38px max(4vw,20px) 80px}.skin-hero{padding:30px clamp(20px,4vw,48px);background:linear-gradient(115deg,#261719,#141418 68%);border:1px solid #ffffff12;margin-bottom:22px}.skin-hero .eyebrow{color:#f0444b;font-size:11px;font-weight:900;letter-spacing:2px}.skin-hero h1{font:900 clamp(40px,7vw,72px)/1 'Barlow Condensed',sans-serif;margin:12px 0}.skin-hero p{color:#b7b5bd;max-width:650px}.skin-toolbar{display:flex;gap:10px;margin:18px 0;flex-wrap:wrap}.skin-toolbar input,.skin-toolbar select{background:#19191e;color:#fff;border:1px solid #36363e;padding:13px 14px;min-width:170px}.skin-toolbar input{flex:1}.skin-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}.skin-tab{background:#1a1a1f;color:#c7c5cd;border:1px solid #33333a;padding:10px 16px;cursor:pointer;font-size:11px;font-weight:900}.skin-tab.active,.skin-tab:hover{background:#f0444b;border-color:#f0444b;color:#fff}.skin-meta{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:15px 0;color:#aaa8b1;font-size:12px}.skin-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}.skin-card{background:#17171b;border:1px solid #ffffff12;overflow:hidden;min-width:0}.skin-image{height:165px;display:grid;place-items:center;padding:10px;background:radial-gradient(ellipse,#303038,#1b1b20 70%)}.skin-image img{max-width:100%;max-height:145px;object-fit:contain;filter:drop-shadow(0 8px 12px #0008)}.skin-info{padding:11px 12px}.skin-name{font-size:12px;font-weight:800;overflow-wrap:anywhere}.skin-sub{font-size:10px;color:#96949e;margin-top:5px}.skin-status{grid-column:1/-1;padding:25px;background:#19191e;color:#c7c5cd;text-align:center;border:1px solid #ffffff12}.skin-load{text-align:center;margin:24px}.skin-load button{padding:12px 24px}.skin-error{color:#ff9297;white-space:pre-wrap;overflow-wrap:anywhere}.skin-count{color:#f0444b;font-weight:900}@media(max-width:950px){.skin-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:650px){.skin-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.skin-image{height:125px}.skin-image img{max-height:108px}.skin-page{padding-top:22px}}@media(max-width:380px){.skin-grid{grid-template-columns:1fr 1fr}}
+:root{color-scheme:dark}
+.skin-page{max-width:1440px;margin:auto;padding:38px max(4vw,20px) 80px}
+.skin-hero{padding:30px clamp(20px,4vw,48px);background:linear-gradient(115deg,#261719,#141418 68%);border:1px solid #ffffff12;margin-bottom:26px}
+.skin-hero .eyebrow{color:#f0444b;font-size:11px;font-weight:900;letter-spacing:2px}
+.skin-hero h1{font:900 clamp(40px,7vw,72px)/1 'Barlow Condensed',sans-serif;margin:12px 0}
+.skin-hero p{color:#b7b5bd;max-width:650px}
+.skin-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,320px));gap:16px}
+.skin-card{background:#17171b;border:1px solid #ffffff18;overflow:hidden;min-width:0;transition:transform .2s,border-color .2s}
+.skin-card:hover{transform:translateY(-4px);border-color:#f0444b88}
+.skin-image{height:220px;display:grid;place-items:center;padding:18px;background:radial-gradient(ellipse,#38352d,#1b1b20 72%)}
+.skin-image img{display:block;width:100%;height:100%;max-height:190px;object-fit:contain;filter:drop-shadow(0 8px 12px #0009)}
+.skin-info{padding:15px}
+.skin-name{font-size:16px;font-weight:900}
+.skin-sub{font-size:11px;color:#a5a2ad;margin-top:7px}
+.skin-tag{display:inline-block;margin-top:12px;padding:5px 8px;background:#f0444b18;border:1px solid #f0444b55;color:#ff7a80;font-size:10px;font-weight:900;letter-spacing:1px}
+@media(max-width:650px){.skin-page{padding-top:22px}.skin-grid{grid-template-columns:1fr}.skin-image{height:200px}}
 </style>
 </head>
 <body>
 <header class="topbar"><a class="brand" href="index.html"><span class="brand-mark">F</span><span>FRAG<span class="red">CITY</span><small>COUNTER-STRIKE HOSTING</small></span></a><button class="menu-toggle" aria-label="Toggle menu">☰</button><nav><a href="index.html">Home</a><a href="servers.html">Servers</a><a class="active" href="skins.html">Skins</a><a href="guides.html">Guides</a><a href="support.html">Support</a><a href="account.html">Account</a></nav><a class="button button-small" href="manage.html">Control panel ↗</a></header>
 <main class="skin-page">
-<section class="skin-hero"><div class="eyebrow">FRAG CITY / IMAGE SCANNER</div><h1>SKIN <span class="red">BROWSER.</span></h1><p>This page reads image files directly from the repository. No old skin catalog, no JSON catalog dependency.</p></section>
-<div class="skin-toolbar"><input id="skin-search" type="search" placeholder="Search by filename…" aria-label="Search images"><select id="sort-filter" aria-label="Sort images"><option value="source">Repository order</option><option value="az">Name A–Z</option><option value="za">Name Z–A</option></select></div>
-<div class="skin-tabs" aria-label="Image category"><button class="skin-tab active" data-kind="all">ALL IMAGES</button><button class="skin-tab" data-kind="weapons">WEAPONS</button><button class="skin-tab" data-kind="agents">AGENTS</button><button class="skin-tab" data-kind="gloves">GLOVES</button><button class="skin-tab" data-kind="other">OTHER</button></div>
-<div class="skin-meta"><span id="status">Scanning repository images…</span><span>FOUND: <b class="skin-count" id="count">0</b></span></div>
-<div id="skin-grid" class="skin-grid" aria-live="polite"><div class="skin-status">Scanning image files…</div></div>
-<div class="skin-load"><button id="load-more" class="button button-ghost" hidden>LOAD MORE ↓</button></div>
+<section class="skin-hero"><div class="eyebrow">FRAG CITY / SKIN SHOWCASE</div><h1>CS2 <span class="red">SKINS.</span></h1><p>A clean skin showcase. Starting with one iconic AWP finish; more skins will be added after this display is confirmed.</p></section>
+<section class="skin-grid" aria-label="Featured skins">
+<article class="skin-card">
+<div class="skin-image"><img src="https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_awp_cu_medieval_dragon_awp_light_large.cb3b8168e59e96fd33efa9578206a2aaed036fc0.png" alt="AWP Dragon Lore" loading="eager" decoding="async" onerror="this.alt='AWP Dragon Lore image could not load';this.style.display='none';this.parentElement.insertAdjacentHTML('beforeend','<span style=&quot;color:#ff9297;font-size:12px&quot;>Image failed to load</span>')"></div>
+<div class="skin-info"><div class="skin-name">AWP | Dragon Lore</div><div class="skin-sub">AWP · Covert · The Cobblestone Collection</div><span class="skin-tag">LEGENDARY SKIN</span></div>
+</article>
+</section>
 </main>
 <footer><a class="brand" href="index.html"><span class="brand-mark">F</span><span>FRAG<span class="red">CITY</span><small>OWN THE ARENA</small></span></a><span>Community first. Built for Counter-Strike.</span><div><a href="guides.html">Guides</a><a href="support.html">Support</a></div></footer>
 <script src="assets/js/app.js"></script>
-<script src="skins/skins-backend.js"></script>
-<script>
-(() => {
-  const $ = s => document.querySelector(s);
-  const state = {kind:'all',all:[],filtered:[],shown:0,pageSize:100};
-  const grid=$('#skin-grid'), search=$('#skin-search'), sort=$('#sort-filter');
-  const escapeHtml = s => String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  function filterItems(){
-    let rows=state.kind==='all'?state.all:state.all.filter(x=>x.kind===state.kind);
-    const q=search.value.trim().toLowerCase();
-    if(q) rows=rows.filter(x=>x.filename.toLowerCase().includes(q));
-    if(sort.value==='az') rows=[...rows].sort((a,b)=>a.filename.localeCompare(b.filename));
-    if(sort.value==='za') rows=[...rows].sort((a,b)=>b.filename.localeCompare(a.filename));
-    return rows;
-  }
-  function render(reset=true){
-    if(reset){state.filtered=filterItems();state.shown=0;grid.innerHTML='';}
-    const rows=state.filtered.slice(state.shown,state.shown+state.pageSize);
-    grid.insertAdjacentHTML('beforeend',rows.map(x=>'<article class="skin-card"><div class="skin-image"><img loading="lazy" decoding="async" src="'+escapeHtml(x.url)+'" alt="'+escapeHtml(x.filename)+'" onerror="this.style.opacity=0.25"></div><div class="skin-info"><div class="skin-name">'+escapeHtml(x.label)+'</div><div class="skin-sub">'+escapeHtml(x.path)+'</div></div></article>').join(''));
-    state.shown+=rows.length;
-    $('#count').textContent=state.filtered.length.toLocaleString();
-    $('#status').textContent=state.filtered.length.toLocaleString()+' images · '+state.kind+' · showing '+state.shown.toLocaleString();
-    $('#load-more').hidden=state.shown>=state.filtered.length;
-    if(!state.filtered.length)grid.innerHTML='<div class="skin-status">No images match this filter.</div>';
-  }
-  document.querySelectorAll('.skin-tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.skin-tab').forEach(x=>x.classList.toggle('active',x===b));state.kind=b.dataset.kind;render();}));
-  search.addEventListener('input',()=>render());sort.addEventListener('change',()=>render());$('#load-more').addEventListener('click',()=>render(false));
-  window.FragCitySkinBackend.scan().then(files=>{state.all=files;render();}).catch(error=>{grid.innerHTML='<div class="skin-status skin-error">Could not scan repository images.\n'+escapeHtml(error.message)+'<br><button id="retry" class="button button-ghost">RETRY</button></div>';$('#status').textContent='Image scan failed';$('#retry')?.addEventListener('click',()=>location.reload());console.error(error);});
-})();
-</script>
-</body></html>
+</body>
+</html>
