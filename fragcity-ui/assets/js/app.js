@@ -127,7 +127,7 @@
     const pageSize=48;let catalog=[],page=0,category='all',weaponChoice='all',visible=[];
     const treeLabels={rifles:'Rifles',pistols:'Pistols',snipers:'Snipers',smgs:'SMGs',shotguns:'Shotguns',machineguns:'Machine guns',utility:'Knives',gloves:'Gloves',agents:'Agents',stickers:'Stickers',charms:'Charms',music:'Music Kits',collectibles:'Collectibles'};
     const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-    const imageUrl=s=>{const raw=String(s?.image||'');if(!raw)return '';if(/^https?:\/\//i.test(raw)||raw.startsWith('data:'))return raw;return new URL(raw,document.baseURI).href};
+    const imageUrl=s=>{const raw=String(s?.imagePath||s?.image||'');if(!raw)return '';if(/^https?:\/\//i.test(raw)||raw.startsWith('data:'))return raw;const path=raw.startsWith('img/')?raw:('img/skins/'+raw.split('/').pop());return new URL('../'+path,document.baseURI).href};
     const getWeaponChoices=cat=>[...new Set(catalog.filter(s=>s.category===cat).map(s=>s.weaponLabel||s.weapon||'Other'))].sort((a,b)=>a.localeCompare(b));
     const mainCategory=s=>s.category;
     function buildTree(){
@@ -144,7 +144,7 @@
       const order=sort?.value||'name';
       visible.sort((a,b)=>order==='weapon'?(a.weaponLabel||a.weapon).localeCompare(b.weaponLabel||b.weapon)||a.name.localeCompare(b.name):order==='paint'?Number(a.paint)-Number(b.paint):a.name.localeCompare(b.name));
       const pages=Math.max(1,Math.ceil(visible.length/pageSize));page=Math.min(page,pages-1);
-      skinGrid.innerHTML=visible.slice(page*pageSize,(page+1)*pageSize).map(s=>'<article class="skin-card" data-type="'+esc(s.category)+'" data-skin-name="'+esc(s.name)+'" data-weapon="'+esc(s.weapon)+'" data-paint="'+esc(s.paint)+'" data-image="'+esc(s.image)+'"><div class="skin-image"><img src="'+esc(imageUrl(s))+'" alt="'+esc(s.name)+'" loading="lazy" decoding="async" onerror="this.onerror=null;this.src=\'https://placehold.co/640x300/17171b/eeeeee?text=Image+unavailable\'"></div><div class="skin-card-info"><small>'+esc(s.weaponLabel||s.categoryLabel||s.weapon)+'</small><h3>'+esc(s.name)+'</h3><p>Paint / item ID: '+esc(s.paint)+'</p><button class="button button-ghost select-skin" type="button">Select item</button></div></article>').join('');
+      skinGrid.innerHTML=visible.slice(page*pageSize,(page+1)*pageSize).map(s=>'<article class="skin-card" data-type="'+esc(s.category)+'" data-skin-name="'+esc(s.name)+'" data-weapon="'+esc(s.weapon)+'" data-paint="'+esc(s.paint)+'" data-image="'+esc(s.image)+'" data-image-path="'+esc(s.imagePath||'')+'"><div class="skin-image"><img src="'+esc(imageUrl(s))+'" alt="'+esc(s.name)+'" loading="lazy" decoding="async" onerror="this.onerror=null;this.style.display=\'none\';this.parentElement.classList.add(\'image-missing\')"></div><div class="skin-card-info"><small>'+esc(s.weaponLabel||s.categoryLabel||s.weapon)+'</small><h3>'+esc(s.name)+'</h3><p>Paint / item ID: '+esc(s.paint)+'</p><button class="button button-ghost select-skin" type="button">Select item</button></div></article>').join('');
       const totalNode=$('#skin-total');if(totalNode)totalNode.textContent=catalog.length.toLocaleString();
       $('#skin-results-count').textContent=visible.length.toLocaleString()+' items';
       $('#skin-page-number').textContent='Page '+(page+1)+' / '+pages;
@@ -171,7 +171,9 @@
       if(!response.ok)throw new Error('Skin catalog HTTP '+response.status);
       const data=await response.json();
       if(!Array.isArray(data)||!data.length)throw new Error('Skin catalog is empty');
-      catalog=data.filter(s=>s.name&&s.image&&s.category);
+      if(window.FragCitySkinBackend&&typeof window.FragCitySkinBackend.loadCatalog==='function'){
+        try{catalog=await window.FragCitySkinBackend.loadCatalog(catalogUrl);}catch(scanError){console.warn('Repository image scan unavailable; using catalog image paths:',scanError);catalog=data.filter(s=>s.name&&s.image&&s.category).map(s=>({...s,imagePath:String(s.image).startsWith('img/')?s.image:'img/skins/'+String(s.image).split('/').pop()}));}
+      }else{catalog=data.filter(s=>s.name&&s.image&&s.category).map(s=>({...s,imagePath:String(s.image).startsWith('img/')?s.image:'img/skins/'+String(s.image).split('/').pop()}));}
       if(!catalog.length)throw new Error('No usable skin entries');
       buildTree();render();
     }
@@ -205,7 +207,9 @@
     skinGrid.addEventListener('click',e=>{
       const b=e.target.closest('.select-skin');if(!b)return;const card=b.closest('.skin-card');if(!card)return;
       $$('.skin-card').forEach(c=>c.classList.remove('skin-selected'));card.classList.add('skin-selected');
-      const item={name:card.dataset.skinName,weapon:card.dataset.weapon,paint:card.dataset.paint,image:card.dataset.image,type:card.dataset.type};
+      const item={name:card.dataset.skinName,weapon:card.dataset.weapon,paint:card.dataset.paint,image:card.dataset.image,imagePath:card.dataset.imagePath,type:card.dataset.type};
+      if($('#selected-skin-id'))$('#selected-skin-id').value=item.paint;
+      if($('#selected-weapon'))$('#selected-weapon').value=item.weapon;
       if(item.type==='stickers'||item.type==='charms'){
         if(item.type==='charms'){
           try{localStorage.setItem('fragcity-selected-charm',JSON.stringify(item));}catch(e){}
