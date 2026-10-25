@@ -31,3 +31,16 @@ From the repository root:
 python -m http.server 8080
 ```
 Open `http://localhost:8080/fragcity-ui/`. Backend links require a PHP-capable web server and a correctly configured FragCity database; Python's static server only previews the UI.
+
+
+## Configure the PHP backend URL
+
+The GitHub Pages preview is static and cannot execute PHP. Backend actions are deliberately blocked unless a PHP-capable backend URL is configured, so the browser will not display PHP source as a page.
+
+Before enabling backend links, deploy the existing PHP application to a PHP-capable host and set `window.FRAGCITY_BACKEND_URL` to the application base URL (including its trailing slash), before `assets/js/app.js` loads. For example, in a trusted deployment-specific config script:
+
+```js
+window.FRAGCITY_BACKEND_URL = 'https://your-php-host.example/';
+```
+
+Replace the example with the real backend URL. Do not put database passwords, Steam secrets, or payment credentials in frontend JavaScript. Until this is configured, backend buttons show a clear message instead of navigating to raw PHP.
