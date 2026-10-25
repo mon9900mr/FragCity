@@ -176,6 +176,18 @@
       }else{catalog=data.filter(s=>s.name&&s.image&&s.category).map(s=>({...s,imagePath:String(s.image).startsWith('img/')?s.image:'img/skins/'+String(s.image).split('/').pop()}));}
       if(!catalog.length)throw new Error('No usable skin entries');
       buildTree();render();
+      try{
+        const saved=JSON.parse(localStorage.getItem('fragcity-selected-skin')||'null');
+        if(saved){
+          if($('#selected-skin-id'))$('#selected-skin-id').value=saved.paint||'';
+          if($('#selected-weapon'))$('#selected-weapon').value=saved.weapon||'';
+          if($('#customizer-weapon-name'))$('#customizer-weapon-name').textContent=saved.name||'';
+          if($('#customizer-weapon-meta'))$('#customizer-weapon-meta').textContent=(saved.weapon||'')+' · Paint ID '+(saved.paint||'');
+          if($('#customizer-weapon-image'))$('#customizer-weapon-image').src=imageUrl(saved);
+          const panel=$('#loadout-customizer');if(panel)panel.hidden=false;
+          if($('#customizer-type'))$('#customizer-type').value=saved.type||'rifles';
+        }
+      }catch(e){}
     }
     loadCatalog().catch(err=>{
       $('#skin-results-count').textContent='Catalog could not load. Check your connection and refresh.';
