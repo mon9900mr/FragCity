@@ -78,7 +78,7 @@ try {
     // ۵. بررسی وضعیت قبلی نود برای جلوگیری از صفر شدن تصادفی مقادیر
     $checkStmt = $pdo->prepare("SELECT node_id, cpu_usage, ram_usage FROM agent_nodes WHERE node_name = ? LIMIT 1");
     $checkStmt->execute([$nodeName]);
-    $existingNode = $checkStmt$checkStmt->fetch(PDO::FETCH_ASSOC); // Fixed fetching logic
+    $existingNode = $checkStmt->fetch(PDO::FETCH_ASSOC);
 
     // اگر داده‌های جدید دریافت نشده باشند، مقادیر قبلی حفظ می‌شوند تا عدد صفر ثبت نشود
     $cpuUsage = ($incomingCpu !== null && $incomingCpu > 0) ? $incomingCpu : ($existingNode['cpu_usage'] ?? 0);
@@ -113,6 +113,6 @@ try {
 } catch (Throwable $e) {
     respond([
         'status' => 'error',
-        'message' => 'Server error: ' . $e->getMessage()
+        'message' => 'Internal server error.'
     ], 500);
 }
