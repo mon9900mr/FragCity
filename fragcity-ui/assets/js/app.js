@@ -2,7 +2,7 @@
   const $ = (s, r=document) => r.querySelector(s);
   const $$ = (s, r=document) => [...r.querySelectorAll(s)];
   const preview = /raw\.githack\.com|github\.io|github\.com$/.test(location.hostname);
-  const routes = {buyserveropen:'servers.html',buyserver:'servers.html',servers:'servers.html',servers_vps:'manage.html',skins:'skins.html',weaponpaints:'skins.html',usermanual:'guides.html',support:'support.html',overview:'manage.html',login:'account.html',register:'account.html',forgot_password:'account.html',reset_password:'account.html',profile:'account.html',wallet:'account.html',donations:'account.html',vip:'account.html',leaderboard:'account.html',banlist:'account.html',rules:'guides.html',privacy:'guides.html',about:'index.html'};
+  const routes = {buyserveropen:'servers.html',buyserver:'servers.html',servers:'servers.html',servers_vps:'manage.html',skins:'../index.php?page=skins',weaponpaints:'../index.php?page=skins',usermanual:'guides.html',support:'support.html',overview:'manage.html',login:'account.html',register:'account.html',forgot_password:'account.html',reset_password:'account.html',profile:'account.html',wallet:'account.html',donations:'account.html',vip:'account.html',leaderboard:'account.html',banlist:'account.html',rules:'guides.html',privacy:'guides.html',about:'index.html'};
   // Short branded FRAG CITY transition (visual only).
   if (!document.getElementById('fc-boot')) {
     const boot = document.createElement('div');
@@ -30,10 +30,14 @@
       const page = (target.match(/[?&]page=([^&]+)/) || [,''])[1];
       const labels = {login:'ورود',register:'ثبت‌نام',forgot_password:'بازیابی رمز عبور',profile:'پروفایل',wallet:'کیف پول',donations:'پرداخت‌ها و حمایت مالی',vip:'عضویت VIP',leaderboard:'جدول رتبه‌بندی',banlist:'لیست بن‌ها',rules:'قوانین',privacy:'حریم خصوصی',about:'درباره ما',usermanual:'راهنمای کاربر',support:'پشتیبانی و تیکت‌ها',servers_vps:'سرورهای ثبت‌شده',skins:'مدیریت اسکین',overview:'پنل مدیریت سرور',buyserveropen:'خرید سرور'};
       const label = labels[decodeURIComponent(page)] || 'این قابلیت';
-      const base = backendBase();
+      // On the real PHP site, use the same site's root by default.
+      // Static previews (GitHub Pages/raw.githack) still require an explicitly
+      // configured FRAGCITY_BACKEND_URL and never attempt to open PHP source.
+      const configuredBase = backendBase();
+      const base = configuredBase || (!preview ? new URL('../', window.location.href).href : '');
 
       if (!base) {
-        toast('بک‌اند PHP برای این انتشار تنظیم نشده است؛ برای جلوگیری از نمایش کد خام، این لینک متوقف شد. پس از میزبانی PHP، FRAGCITY_BACKEND_URL را تنظیم کن.');
+        toast('برای انتخاب و ذخیره اسکین باید بک‌اند PHP فعال باشد. این پیش‌نمایش استاتیک است؛ آدرس سایت PHP را در FRAGCITY_BACKEND_URL تنظیم کن.');
         return;
       }
 
