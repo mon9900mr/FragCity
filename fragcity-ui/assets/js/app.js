@@ -144,7 +144,7 @@
       const order=sort?.value||'name';
       visible.sort((a,b)=>order==='weapon'?(a.weaponLabel||a.weapon).localeCompare(b.weaponLabel||b.weapon)||a.name.localeCompare(b.name):order==='paint'?Number(a.paint)-Number(b.paint):a.name.localeCompare(b.name));
       const pages=Math.max(1,Math.ceil(visible.length/pageSize));page=Math.min(page,pages-1);
-      skinGrid.innerHTML=visible.slice(page*pageSize,(page+1)*pageSize).map(s=>'<article class="skin-card" data-type="'+esc(s.category)+'" data-skin-name="'+esc(s.name)+'" data-weapon="'+esc(s.weapon)+'" data-paint="'+esc(s.paint)+'" data-image="'+esc(s.image)+'" data-image-path="'+esc(s.imagePath||'')+'"><div class="skin-image"><img src="'+esc(imageUrl(s))+'" alt="'+esc(s.name)+'" loading="lazy" decoding="async" onerror="this.onerror=null;this.style.display=\'none\';this.parentElement.classList.add(\'image-missing\')"></div><div class="skin-card-info"><small>'+esc(s.weaponLabel||s.categoryLabel||s.weapon)+'</small><h3>'+esc(s.name)+'</h3><p>Paint / item ID: '+esc(s.paint)+'</p><button class="button button-ghost select-skin" type="button">Select item</button></div></article>').join('');
+      skinGrid.innerHTML=visible.slice(page*pageSize,(page+1)*pageSize).map(s=>'<article class="skin-card" data-type="'+esc(s.category)+'" data-skin-name="'+esc(s.name)+'" data-weapon="'+esc(s.weapon)+'" data-paint="'+esc(s.paint)+'" data-image="'+esc(s.image)+'" data-image-path="'+esc(s.imagePath||'')+'" data-image-found="'+(s.imageFound===false?'false':'true')+'"><div class="skin-image"><img src="'+esc(imageUrl(s))+'" alt="'+esc(s.name)+'" loading="lazy" decoding="async" onerror="this.onerror=null;this.style.display=\'none\';this.parentElement.classList.add(\'image-missing\')"></div><div class="skin-card-info"><small>'+esc(s.weaponLabel||s.categoryLabel||s.weapon)+'</small><h3>'+esc(s.name)+'</h3><p>Paint / item ID: '+esc(s.paint)+'</p><button class="button button-ghost select-skin" type="button">Select item</button></div></article>').join('');
       const totalNode=$('#skin-total');if(totalNode)totalNode.textContent=catalog.length.toLocaleString();
       $('#skin-results-count').textContent=visible.length.toLocaleString()+' items';
       $('#skin-page-number').textContent='Page '+(page+1)+' / '+pages;
@@ -220,7 +220,7 @@
     skinGrid.addEventListener('click',e=>{
       const b=e.target.closest('.select-skin');if(!b)return;const card=b.closest('.skin-card');if(!card)return;
       $$('.skin-card').forEach(c=>c.classList.remove('skin-selected'));card.classList.add('skin-selected');
-      const item={name:card.dataset.skinName,weapon:card.dataset.weapon,paint:card.dataset.paint,image:card.dataset.image,imagePath:card.dataset.imagePath,type:card.dataset.type};
+      const item={name:card.dataset.skinName,weapon:card.dataset.weapon,paint:card.dataset.paint,image:card.dataset.image,imagePath:card.dataset.imagePath,imageFound:card.dataset.imageFound!=='false',type:card.dataset.type};
       if($('#selected-skin-id'))$('#selected-skin-id').value=item.paint;
       if($('#selected-weapon'))$('#selected-weapon').value=item.weapon;
       if(item.type==='stickers'||item.type==='charms'){
