@@ -78,19 +78,20 @@
       <button type="button" class="skin-tree-node" data-tree-root="charms" aria-expanded="false">Charms <span class="tree-chevron">⌄</span></button>
       <button type="button" class="skin-tree-node" data-tree-root="music" aria-expanded="false">Music kits <span class="tree-chevron">⌄</span></button>
       <button type="button" class="skin-tree-node" data-tree-root="collectibles" aria-expanded="false">Collectibles <span class="tree-chevron">⌄</span></button>
-      <div class="skin-tree-children" data-tree-children="rifles" hidden></div>
-      <div class="skin-tree-children" data-tree-children="pistols" hidden></div>
-      <div class="skin-tree-children" data-tree-children="snipers" hidden></div>
-      <div class="skin-tree-children" data-tree-children="smgs" hidden></div>
-      <div class="skin-tree-children" data-tree-children="shotguns" hidden></div>
-      <div class="skin-tree-children" data-tree-children="machineguns" hidden></div>
-      <div class="skin-tree-children" data-tree-children="utility" hidden></div>
-      <div class="skin-tree-children" data-tree-children="gloves" hidden></div>
-      <div class="skin-tree-children" data-tree-children="agents" hidden></div>
-      <div class="skin-tree-children" data-tree-children="stickers" hidden></div>
-      <div class="skin-tree-children" data-tree-children="charms" hidden></div>
-      <div class="skin-tree-children" data-tree-children="music" hidden></div>
-      <div class="skin-tree-children" data-tree-children="collectibles" hidden></div>
+    </div>
+    <div class="skin-tree-children" data-tree-children="rifles" hidden></div>
+    <div class="skin-tree-children" data-tree-children="pistols" hidden></div>
+    <div class="skin-tree-children" data-tree-children="snipers" hidden></div>
+    <div class="skin-tree-children" data-tree-children="smgs" hidden></div>
+    <div class="skin-tree-children" data-tree-children="shotguns" hidden></div>
+    <div class="skin-tree-children" data-tree-children="machineguns" hidden></div>
+    <div class="skin-tree-children" data-tree-children="utility" hidden></div>
+    <div class="skin-tree-children" data-tree-children="gloves" hidden></div>
+    <div class="skin-tree-children" data-tree-children="agents" hidden></div>
+    <div class="skin-tree-children" data-tree-children="stickers" hidden></div>
+    <div class="skin-tree-children" data-tree-children="charms" hidden></div>
+    <div class="skin-tree-children" data-tree-children="music" hidden></div>
+    <div class="skin-tree-children" data-tree-children="collectibles" hidden>
     </div>
   </div>
 
@@ -104,7 +105,7 @@
     <p id="customizer-weapon-meta" class="skin-note">Selected item details appear here.</p>
     <div class="customizer-layout">
       <div class="customizer-preview"><img id="customizer-weapon-image" alt="Selected skin preview"></div>
-      <div class="customizer-options">
+      <div class="customizer-options"><input id="selected-skin-id" type="hidden"><input id="selected-weapon" type="hidden">
         <label for="customizer-type">Item category</label>
         <select id="customizer-type"><option value="rifles">Rifles</option><option value="pistols">Pistols</option><option value="snipers">Snipers</option><option value="smgs">SMGs</option><option value="shotguns">Shotguns</option><option value="machineguns">Machine guns</option><option value="utility">Knives</option><option value="gloves">Gloves</option><option value="agents">Agents</option></select>
         <label for="server-id">Server ID or address</label><input id="server-id" type="text" placeholder="Enter your server ID or address">
