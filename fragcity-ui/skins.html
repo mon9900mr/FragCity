@@ -75,7 +75,7 @@
   function card(item){
     const selected=state.selected?.id===item.id;
     const kindLabel={weapons:'WEAPON SKIN',agents:'AGENT',gloves:'GLOVE'}[item.kind];
-    return '<article class="skin-card '+(selected?'selected':'')+'" data-id="'+safe(item.id)+'"><div class="skin-image"><img loading="lazy" decoding="async" src="'+safe(imagePath(item.image,item.kind))+'" alt="'+safe(item.name)+'" onerror="this.style.display=\'none\';this.closest(\'.skin-image\').classList.add(\'image-missing\')"></div><div class="skin-info"><div class="skin-name">'+safe(item.name)+'</div><div class="skin-sub">'+safe(kindLabel)+' · '+safe(item.weapon)+'</div><button type="button" data-select="'+safe(item.id)+'">'+(selected?'✓ SELECTED':'SELECT ITEM')+'</button></div></article>';
+    return '<article class="skin-card '+(selected?'selected':'')+'" data-id="'+safe(item.id)+'"><div class="skin-image"><img loading="lazy" decoding="async" src="'+safe(imagePath(item.image,item.kind))+'" alt="'+safe(item.name)+'" onerror="if(!this.dataset.fallback && '${kindLabel}'==='WEAPON SKIN'){this.dataset.fallback='1';this.src=this.src.replace('/img/skins/','/img/weapon/')}else{this.closest('.skin-card')?.remove()}"></div><div class="skin-info"><div class="skin-name">'+safe(item.name)+'</div><div class="skin-sub">'+safe(kindLabel)+' · '+safe(item.weapon)+'</div><button type="button" data-select="'+safe(item.id)+'">'+(selected?'✓ SELECTED':'SELECT ITEM')+'</button></div></article>';
   }
   function update(){
     state.filtered=currentItems(); state.shown=0; grid.innerHTML=''; renderMore();
