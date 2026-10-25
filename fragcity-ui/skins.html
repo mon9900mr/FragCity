@@ -127,7 +127,7 @@
         const raw = String(item.image || '');
         if (/^https?:\/\//i.test(raw)) return raw;
         const path = raw.startsWith('img/') ? raw : 'img/skins/' + raw.split('/').pop();
-        return new URL(path, document.baseURI).href;
+        return new URL('../' + path, document.baseURI).href;
       };
       const categoryMap = {rifles:'rifles',pistols:'pistols',snipers:'snipers',smgs:'smgs',shotguns:'shotguns',machineguns:'machineguns',utility:'knives',gloves:'gloves',agents:'agents',stickers:'stickers',charms:'charms',music:'music',collectibles:'collectibles'};
       function render() {
