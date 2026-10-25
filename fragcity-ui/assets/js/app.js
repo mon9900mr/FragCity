@@ -171,10 +171,11 @@
       if(!response.ok)throw new Error('Skin catalog HTTP '+response.status);
       const data=await response.json();
       if(!Array.isArray(data)||!data.length)throw new Error('Skin catalog is empty');
+      const fallbackCatalog=()=>data.filter(s=>s&&s.name&&s.image&&s.category).map(s=>({...s,imagePath:String(s.image).startsWith('img/')?s.image:'img/skins/'+String(s.image).split('/').pop()}));
       if(window.FragCitySkinBackend&&typeof window.FragCitySkinBackend.loadCatalog==='function'){
-        try{catalog=await window.FragCitySkinBackend.loadCatalog(catalogUrl,data);}catch(scanError){console.warn('Repository image scan unavailable; using catalog image paths:',scanError);catalog=data.filter(s=>s.name&&s.image&&s.category).map(s=>({...s,imagePath:String(s.image).startsWith('img/')?s.image:'img/skins/'+String(s.image).split('/').pop()}));}
-      }else{catalog=data.filter(s=>s.name&&s.image&&s.category).map(s=>({...s,imagePath:String(s.image).startsWith('img/')?s.image:'img/skins/'+String(s.image).split('/').pop()}));}
-      if(!catalog.length)throw new Error('No usable skin entries');
+        try{catalog=await window.FragCitySkinBackend.loadCatalog(catalogUrl,data);if(!Array.isArray(catalog)||!catalog.length){console.warn('Image scanner returned no items; falling back to catalog data.');catalog=fallbackCatalog();}}catch(scanError){console.warn('Repository image scan unavailable; using catalog image paths:',scanError);catalog=fallbackCatalog();}
+      }else{catalog=fallbackCatalog();}
+      if(!catalog.length)throw new Error('No usable skin entries in assets/data/all-skins.json');
       buildTree();render();
       try{
         const saved=JSON.parse(localStorage.getItem('fragcity-selected-skin')||'null');
