@@ -198,8 +198,9 @@
       if(cat==='all'){category='all';weaponChoice='all';$$('.skin-tree-node').forEach(x=>{x.classList.remove('active');if(x!==b)x.setAttribute('aria-expanded','false');});$$('.skin-tree-children').forEach(x=>x.hidden=true);b.classList.add('active');}
       else{
         const host=$(`[data-tree-children="${cat}"]`),expanded=b.getAttribute('aria-expanded')==='true';
+        $('.skin-tree-children').forEach(x=>{if(x!==host)x.hidden=true;});
+        $('.skin-tree-node').forEach(x=>{if(x!==b)x.setAttribute('aria-expanded','false');x.classList.toggle('active',x===b);});
         b.setAttribute('aria-expanded',String(!expanded));if(host)host.hidden=expanded;
-        $$('.skin-tree-node').forEach(x=>x.classList.toggle('active',x===b));
         category=cat;weaponChoice='all';
         if(host&&!expanded){host.querySelectorAll('.skin-tree-leaf').forEach(x=>x.classList.remove('active'));host.querySelector('[data-weapon-choice="all"]')?.classList.add('active');}
       }
