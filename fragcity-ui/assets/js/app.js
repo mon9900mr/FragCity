@@ -172,7 +172,7 @@
       const data=await response.json();
       if(!Array.isArray(data)||!data.length)throw new Error('Skin catalog is empty');
       if(window.FragCitySkinBackend&&typeof window.FragCitySkinBackend.loadCatalog==='function'){
-        try{catalog=await window.FragCitySkinBackend.loadCatalog(catalogUrl);}catch(scanError){console.warn('Repository image scan unavailable; using catalog image paths:',scanError);catalog=data.filter(s=>s.name&&s.image&&s.category).map(s=>({...s,imagePath:String(s.image).startsWith('img/')?s.image:'img/skins/'+String(s.image).split('/').pop()}));}
+        try{catalog=await window.FragCitySkinBackend.loadCatalog(catalogUrl,data);}catch(scanError){console.warn('Repository image scan unavailable; using catalog image paths:',scanError);catalog=data.filter(s=>s.name&&s.image&&s.category).map(s=>({...s,imagePath:String(s.image).startsWith('img/')?s.image:'img/skins/'+String(s.image).split('/').pop()}));}
       }else{catalog=data.filter(s=>s.name&&s.image&&s.category).map(s=>({...s,imagePath:String(s.image).startsWith('img/')?s.image:'img/skins/'+String(s.image).split('/').pop()}));}
       if(!catalog.length)throw new Error('No usable skin entries');
       buildTree();render();
@@ -226,7 +226,7 @@
         if($('#selected-skin-meta'))$('#selected-skin-meta').textContent=item.weapon+' · Paint ID '+item.paint;
         if($('#customizer-weapon-name'))$('#customizer-weapon-name').textContent=item.name;
         if($('#customizer-weapon-meta'))$('#customizer-weapon-meta').textContent=item.weapon+' · Paint ID '+item.paint;
-        if($('#customizer-weapon-image'))$('#customizer-weapon-image').src=imageUrl({image:item.image});
+        if($('#customizer-weapon-image'))$('#customizer-weapon-image').src=imageUrl(item);
         const panel=$('#loadout-customizer');if(panel)panel.hidden=false;
         if($('#customizer-type'))$('#customizer-type').value=item.type;
         try{localStorage.setItem('fragcity-selected-skin',JSON.stringify(item));}catch(e){}
@@ -240,15 +240,16 @@
     const id=$('#selected-skin-id')?.value||'';
     const weapon=$('#selected-weapon')?.value||'';
     const server=$('#server-id')?.value.trim()||'';
-    const card=$('.skin-selected');
-    if(!card||!id){toast(fa?'اول یک اسکین انتخاب کن.':'Choose a skin first.');return;}
+    let selectedItem=null;
+    try{selectedItem=JSON.parse(localStorage.getItem('fragcity-selected-skin')||'null');}catch(e){}
+    if(!selectedItem||!id){toast(fa?'اول یک اسکین انتخاب کن.':'Choose a skin first.');return;}
     if(!server){toast(fa?'شناسه یا آدرس سرور را وارد کن.':'Enter your server ID or address.');$('#server-id')?.focus();return;}
     const apiBase=($('#api-base-url')?.value||'').trim().replace(/\/$/,'');
     if(!apiBase){toast(fa?'انتخاب ثبت شد، اما API اعمال اسکین هنوز در بک‌اند تنظیم نشده؛ اسکین داخل بازی تغییر نکرد.':'Selection saved, but the backend apply-skin API is not configured. The in-game skin has NOT changed.');return;}
     applySkin.disabled=true;
     const old=applySkin.textContent;applySkin.textContent=fa?'در حال ارسال…':'Applying…';
     try{
-      const response=await fetch(apiBase+'/api/skins/apply',{method:'POST',credentials:'include',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({server_id:server,weapon,paint_id:id,skin_name:card.dataset.skinName})});
+      const response=await fetch(apiBase+'/api/skins/apply',{method:'POST',credentials:'include',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({server_id:server,weapon,paint_id:id,skin_name:selectedItem.name})});
       const data=await response.json().catch(()=>({}));
       if(!response.ok||data.success===false)throw new Error(data.message||data.error||('HTTP '+response.status));
       toast(fa?'درخواست اسکین به سرور ارسال شد.':'Skin request sent to the server.');
