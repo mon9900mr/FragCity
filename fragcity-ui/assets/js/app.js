@@ -15,21 +15,49 @@
     window.setTimeout(finish, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 80 : 430);
   }
 
+  // Never navigate to a PHP source file from a static frontend. The PHP backend
+  // must be deployed separately and configured through FRAGCITY_BACKEND_URL.
+  const backendBase = () => String(
+    window.FRAGCITY_BACKEND_URL ||
+    $('meta[name="fragcity-backend-url"]')?.content ||
+    ''
+  ).trim();
+
+  $$('[data-backend-href]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = a.getAttribute('data-backend-href') || '';
+      const page = (target.match(/[?&]page=([^&]+)/) || [,''])[1];
+      const labels = {login:'ورود',register:'ثبت‌نام',forgot_password:'بازیابی رمز عبور',profile:'پروفایل',wallet:'کیف پول',donations:'پرداخت‌ها و حمایت مالی',vip:'عضویت VIP',leaderboard:'جدول رتبه‌بندی',banlist:'لیست بن‌ها',rules:'قوانین',privacy:'حریم خصوصی',about:'درباره ما',usermanual:'راهنمای کاربر',support:'پشتیبانی و تیکت‌ها',servers_vps:'سرورهای ثبت‌شده',skins:'مدیریت اسکین',overview:'پنل مدیریت سرور',buyserveropen:'خرید سرور'};
+      const label = labels[decodeURIComponent(page)] || 'این قابلیت';
+      const base = backendBase();
+
+      if (!base) {
+        toast('بک‌اند PHP برای این انتشار تنظیم نشده است؛ برای جلوگیری از نمایش کد خام، این لینک متوقف شد. پس از میزبانی PHP، FRAGCITY_BACKEND_URL را تنظیم کن.');
+        return;
+      }
+
+      try {
+        const baseUrl = new URL(base, window.location.href);
+        if (!/^https?:$/.test(baseUrl.protocol)) throw new Error('Invalid backend protocol');
+        const cleanTarget = target.replace(/^(\.\.\/)+/, '').replace(/^\/+/, '');
+        const destination = new URL(cleanTarget, baseUrl.href.endsWith('/') ? baseUrl.href : baseUrl.href + '/');
+        if (destination.origin !== baseUrl.origin) throw new Error('Cross-origin backend route rejected');
+        window.location.assign(destination.href);
+      } catch (error) {
+        toast('آدرس بک‌اند معتبر نیست؛ تنظیم FRAGCITY_BACKEND_URL را بررسی کن.');
+      }
+    });
+  });
+
+  // Legacy PHP links that were not converted to data-backend-href are also
+  // blocked in static previews instead of being opened as source text.
   if (preview) {
-    $$('[data-backend-href]').forEach(a => {
+    $$('a[href*="index.php?page="]').forEach(a => {
       a.addEventListener('click', e => {
         e.preventDefault();
-        const target = a.getAttribute('data-backend-href') || '';
-        const page = (target.match(/[?&]page=([^&]+)/) || [,''])[1];
-        const labels = {login:'ورود',register:'ثبت‌نام',forgot_password:'بازیابی رمز عبور',profile:'پروفایل',wallet:'کیف پول',donations:'پرداخت‌ها و حمایت مالی',vip:'عضویت VIP',leaderboard:'جدول رتبه‌بندی',banlist:'لیست بن‌ها',rules:'قوانین',privacy:'حریم خصوصی',about:'درباره ما',usermanual:'راهنمای کاربر',support:'پشتیبانی و تیکت‌ها',servers_vps:'سرورهای ثبت‌شده',skins:'مدیریت اسکین',overview:'پنل مدیریت سرور'};
-        const label = labels[decodeURIComponent(page)] || 'این قابلیت';
-        toast('پیش‌نمایش استاتیک است؛ برای باز شدن «'+label+'» باید سایت PHP روی هاست اجرا شود. این دکمه در پیش‌نمایش به کد PHP هدایت نمی‌شود.');
+        toast('این لینک PHP باید از مسیر اتصال بک‌اند باز شود.');
       });
-    });
-    $$('a[href*="index.php?page="]').forEach(a => {
-      const m = a.href.match(/[?&]page=([^&]+)/);
-      if (m && routes[decodeURIComponent(m[1])]) a.href = routes[decodeURIComponent(m[1])];
-      else if (m) a.addEventListener('click', e => { e.preventDefault(); toast('این بخش فقط در نسخه اجراشده روی هاست PHP در دسترس است.'); });
     });
   }
 
