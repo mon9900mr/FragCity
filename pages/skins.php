@@ -1,6 +1,5 @@
 <?php
-// pages/skins.php
-
+// pages/skins.php — full FRAG CITY CS2 skins catalog
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
@@ -20,9 +19,10 @@ if (
 <div class="skins-page-shell">
     <iframe
         class="skins-iframe"
-        src="/pages/weaponpaints.php"
-        title="FragCity Weapon Customization"
+        src="/fragcity-ui/skins.html"
+        title="FragCity CS2 Skins Catalog"
         allow="clipboard-write"
         loading="eager"
+        style="display:block;width:100%;min-height:calc(100vh - 80px);border:0;background:#101012"
     ></iframe>
 </div>
