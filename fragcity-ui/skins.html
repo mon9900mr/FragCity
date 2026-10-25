@@ -39,7 +39,7 @@
   function render(reset=true){
     if(reset){state.filtered=filterItems();state.shown=0;grid.innerHTML='';}
     const rows=state.filtered.slice(state.shown,state.shown+state.pageSize);
-    grid.insertAdjacentHTML('beforeend',rows.map(x=>'<article class="skin-card"><div class="skin-image"><img loading="lazy" decoding="async" src="'+escapeHtml(x.url)+'" alt="'+escapeHtml(x.filename)+'" onerror="this.closest(\'.skin-card\').remove();document.querySelector(\'#status\').textContent=\'Some repository image URLs failed to load\';"></div><div class="skin-info"><div class="skin-name">'+escapeHtml(x.label)+'</div><div class="skin-sub">'+escapeHtml(x.path)+'</div></div></article>').join(''));
+    grid.insertAdjacentHTML('beforeend',rows.map(x=>'<article class="skin-card"><div class="skin-image"><img loading="lazy" decoding="async" src="'+escapeHtml(x.url)+'" alt="'+escapeHtml(x.filename)+'" onerror="this.style.opacity=0.25"></div><div class="skin-info"><div class="skin-name">'+escapeHtml(x.label)+'</div><div class="skin-sub">'+escapeHtml(x.path)+'</div></div></article>').join(''));
     state.shown+=rows.length;
     $('#count').textContent=state.filtered.length.toLocaleString();
     $('#status').textContent=state.filtered.length.toLocaleString()+' images · '+state.kind+' · showing '+state.shown.toLocaleString();
