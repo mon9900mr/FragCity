@@ -37,7 +37,23 @@
     return IMG + (kind === 'weapons' ? 'img/weapon/' : 'img/skins/') + encodeURIComponent(name);
   };
   const safe = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  async function loadJson(file){ let lastError; for(const base of [RAW,RAW_FALLBACK]){ try { const res=await fetch(base+file,{cache:'force-cache'}); if(!res.ok) throw new Error('HTTP '+res.status+' for '+file); return await res.json(); } catch(e){lastError=e;} } throw lastError||new Error('Could not load '+file); }
+  async function loadJson(file){
+    let lastError;
+    const sources=[new URL('../'+file,location.href).href, RAW+file, RAW_FALLBACK+file];
+    for(const url of sources){
+      const controller=new AbortController();
+      const timeout=setTimeout(()=>controller.abort(),10000);
+      try{
+        const res=await fetch(url,{cache:'force-cache',signal:controller.signal});
+        if(!res.ok) throw new Error('HTTP '+res.status+' for '+url);
+        const data=await res.json();
+        if(!Array.isArray(data)) throw new Error('Unexpected catalog format: '+url);
+        return data;
+      }catch(e){lastError=e;console.warn('Catalog source failed:',url,e);}
+      finally{clearTimeout(timeout);}
+    }
+    throw lastError||new Error('Could not load '+file);
+  }
   function addItems(rows,kind){
     return rows.map((x,i)=>({
       kind, name: kind==='agents' ? (x.agent_name||'Unknown agent') : (x.paint_name||'Unknown item'),
@@ -50,9 +66,17 @@
     $('#catalog-summary').textContent='Loading catalog data…';
     grid.innerHTML='<div class="skin-status" style="grid-column:1/-1">Fetching weapon skins, agents and gloves…</div>';
     try {
-      const [skins,agents,gloves]=await Promise.all([
+      const results=await Promise.allSettled([
         loadJson('data/skins_en.json'),loadJson('data/agents_en.json'),loadJson('data/gloves_en.json')
       ]);
+      const [skinsResult,agentsResult,glovesResult]=results;
+      const skins=skinsResult.status==='fulfilled'?skinsResult.value:[];
+      const agents=agentsResult.status==='fulfilled'?agentsResult.value:[];
+      const gloves=glovesResult.status==='fulfilled'?glovesResult.value:[];
+      if(results.every(r=>r.status==='rejected')) throw new Error('All catalog sources failed.');
+      if(skinsResult.status==='rejected') console.error('Weapon catalog unavailable',skinsResult.reason);
+      if(agentsResult.status==='rejected') console.error('Agent catalog unavailable',agentsResult.reason);
+      if(glovesResult.status==='rejected') console.error('Glove catalog unavailable',glovesResult.reason);
       state.all.weapons=addItems(skins,'weapons');
       state.all.agents=addItems(agents,'agents');
       state.all.gloves=addItems(gloves,'gloves');
@@ -60,8 +84,9 @@
       weaponFilter.innerHTML='<option value="">All weapons</option>'+weapons.map(w=>'<option value="'+safe(w)+'">'+safe(w)+'</option>').join('');
       update();
     } catch(err) {
-      $('#catalog-summary').textContent='Could not load catalog data.';
-      grid.innerHTML='<div class="skin-status" style="grid-column:1/-1">The catalog JSON could not be loaded from either public source. Reload once; if it persists, check the browser console/network for blocked raw-file requests.</div>';
+      $('#catalog-summary').textContent='Catalog failed to load';
+      grid.innerHTML='<div class="skin-status" style="grid-column:1/-1"><strong>Could not load the catalog.</strong><p>Open the site from its deployed preview URL, not a local file. If this persists, check Console for the failed data URL.</p><button type="button" id="retry-catalog" class="button button-ghost">RETRY</button></div>';
+      $('#retry-catalog')?.addEventListener('click',init);
       console.error(err);
     }
   }
