@@ -103,6 +103,68 @@
   });
   const pageNumber = document.getElementById('skin-page-number');
   if (pageNumber) pageObserver.observe(pageNumber, {childList:true,subtree:true,characterData:true});
+
+  // Recovery renderer: keep the catalog usable if the shared app script or repository image scan fails.
+  // It only runs when the main renderer has not populated the grid.
+  window.setTimeout(async () => {
+    const grid = document.getElementById('skin-grid');
+    const status = document.getElementById('skin-results-count');
+    if (!grid || grid.children.length || !status || !/loading catalog/i.test(status.textContent)) return;
+    try {
+      const response = await fetch(new URL('assets/data/all-skins.json', document.baseURI), {cache:'no-store'});
+      if (!response.ok) throw new Error('Catalog HTTP ' + response.status);
+      const data = await response.json();
+      const items = Array.isArray(data) ? data.filter(x => x && x.name && x.image && x.category) : [];
+      if (!items.length) throw new Error('Catalog has no usable entries');
+      const pageSize = 48;
+      let page = 0, query = '', category = 'all';
+      const search = document.getElementById('skin-search');
+      const sort = document.getElementById('skin-sort');
+      const prev = document.getElementById('skin-prev');
+      const next = document.getElementById('skin-next');
+      const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+      const image = item => {
+        const raw = String(item.image || '');
+        if (/^https?:\/\//i.test(raw)) return raw;
+        const path = raw.startsWith('img/') ? raw : 'img/skins/' + raw.split('/').pop();
+        return new URL(path, document.baseURI).href;
+      };
+      const categoryMap = {rifles:'rifles',pistols:'pistols',snipers:'snipers',smgs:'smgs',shotguns:'shotguns',machineguns:'machineguns',utility:'knives',gloves:'gloves',agents:'agents',stickers:'stickers',charms:'charms',music:'music',collectibles:'collectibles'};
+      function render() {
+        const needle = query.trim().toLowerCase();
+        let filtered = items.filter(item => {
+          const hay = [item.name,item.weapon,item.weaponLabel,item.paint,item.category].join(' ').toLowerCase();
+          const matchCategory = category === 'all' || item.category === category;
+          return matchCategory && hay.includes(needle);
+        });
+        const mode = sort?.value || 'name';
+        filtered.sort((a,b) => mode === 'paint' ? Number(a.paint||0)-Number(b.paint||0) : mode === 'weapon' ? String(a.weaponLabel||a.weapon||'').localeCompare(String(b.weaponLabel||b.weapon||'')) : String(a.name).localeCompare(String(b.name)));
+        const pages = Math.max(1, Math.ceil(filtered.length / pageSize));
+        page = Math.min(page, pages - 1);
+        const shown = filtered.slice(page * pageSize, (page + 1) * pageSize);
+        grid.innerHTML = shown.map(item => '<article class="skin-card"><div class="skin-image"><img src="'+esc(image(item))+'" alt="'+esc(item.name)+'" loading="lazy" onerror="this.style.display=\'none\';this.parentElement.classList.add(\'image-missing\')"></div><div class="skin-card-info"><small>'+esc(item.weaponLabel||item.weapon||item.category)+'</small><h3>'+esc(item.name)+'</h3><p>Paint ID: '+esc(item.paint)+'</p><button class="button apply-account-skin" type="button" disabled title="Open the PHP backend to save this selection">Set for account</button></div></article>').join('');
+        status.textContent = filtered.length + ' skins';
+        document.getElementById('skin-page-number').textContent = 'Page ' + (page + 1);
+        document.getElementById('skin-page-number-bottom').textContent = String(page + 1);
+        document.getElementById('skin-total').textContent = String(items.length);
+        prev.disabled = page === 0; next.disabled = (page + 1) * pageSize >= filtered.length;
+      }
+      search?.addEventListener('input', () => { query = search.value; page = 0; render(); });
+      sort?.addEventListener('change', () => { page = 0; render(); });
+      prev?.addEventListener('click', () => { if (page > 0) { page--; render(); } });
+      next?.addEventListener('click', () => { page++; render(); });
+      document.querySelectorAll('[data-tree-root]').forEach(button => button.addEventListener('click', () => {
+        const root = button.dataset.treeRoot;
+        category = root === 'all' ? 'all' : (categoryMap[root] || root);
+        document.querySelectorAll('[data-tree-root]').forEach(other => other.classList.toggle('active', other === button));
+        page = 0; render();
+      }));
+      render();
+    } catch (error) {
+      console.error('FragCity recovery catalog failed:', error);
+      status.textContent = 'Catalog failed to load. Check that assets/data/all-skins.json is available.';
+    }
+  }, 900);
 </script>
 </body>
 </html>
