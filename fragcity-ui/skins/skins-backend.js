@@ -21,10 +21,10 @@
   function cleanName(filename){return filename.replace(IMAGE_EXT,'').replace(/[_.-]+/g,' ').replace(/\s+/g,' ').trim();}
   function imageUrl(path){return RAW+path.split('/').map(encodeURIComponent).join('/');}
   function itemFromImage(file,index){
-    const filename=file.filename, lower=filename.toLowerCase(), isWeapon=file.path.startsWith('img/weapon/');
+    const filename=file.filename, lower=filename.toLowerCase(), isWeapon=file.path.startsWith('img/weapon/') || /^weapon_/i.test(filename);
     const isGlove=/glove|handwear|sport gloves|driver gloves|specialist gloves|moto gloves|wraps/i.test(lower);
     const kind=isWeapon?'weapons':(isGlove?'gloves':'agents'), name=cleanName(filename);
-    return {kind,name,weapon:isWeapon?name.split(' ').slice(0,2).join(' ').toUpperCase():(isGlove?'GLOVES':'AGENT / SKIN'),image:filename,imagePath:file.path,id:'file-'+index+'-'+filename,weapon_defindex:'',paint:'',model:'',team:''};
+    return {kind,name,weapon:isWeapon?name.split(' ').slice(0,2).join(' ').toUpperCase():(isGlove?'GLOVES':'AGENT / SKIN'),image:file.path,imagePath:file.path,id:'file-'+index+'-'+filename,weapon_defindex:'',paint:'',model:'',team:''};
   }
   function itemFilename(item){return String(item&&item.image||'').split('/').pop().toLowerCase();}
 
