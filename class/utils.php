@@ -1,6 +1,32 @@
 <?php
 class UtilsClass
 {
+    /** Resolve an item image only when the matching file exists in this repository. */
+    private static function catalogImageUrl(string $image, array $roots): string
+    {
+        $image = trim(str_replace('\\\\', '/', $image));
+        if ($image === '') return '';
+        // Datasets normally contain filenames, but safely accept relative paths too.
+        $image = basename($image);
+        foreach ($roots as $root) {
+            $root = trim(str_replace('\\\\', '/', $root), '/');
+            if ($root === '') continue;
+            if (is_file(__DIR__ . '/../' . $root . '/' . $image)) {
+                return $root . '/' . rawurlencode($image);
+            }
+        }
+
+        // Allow deployments that intentionally host catalog images on a remote CDN.
+        foreach (['IMAGE_BASE_SKINS', 'IMAGE_BASE_AGENTS', 'IMAGE_BASE_WEAPONS'] as $constant) {
+            if (!defined($constant)) continue;
+            $base = (string)constant($constant);
+            if (preg_match('#^(https?:)?//#i', $base)) return rtrim($base, '/') . '/' . rawurlencode($image);
+            $local = trim($base, '/') . '/' . $image;
+            if (is_file(__DIR__ . '/../' . $local)) return $local;
+        }
+
+        return '';
+    }
     // ======================== اسکین‌ها ========================
     public static function skinsFromJson(): array
     {
@@ -9,12 +35,15 @@ class UtilsClass
         $json = json_decode(file_get_contents($file), true);
         $skins = [];
         foreach ($json as $skin) {
-            $image = $skin['image'];
-            $base = IMAGE_BASE_SKINS;
+            $image = (string)($skin['image'] ?? '');
+            $imageUrl = self::catalogImageUrl($image, ['img/skins', 'img/weapon']);
+            // Do not put broken/missing thumbnails into the selectable catalog.
+            if ($imageUrl === '') continue;
+
             $skins[(int) $skin['weapon_defindex']][(int) $skin['paint']] = [
-                'weapon_name' => $skin['weapon_name'],
-                'paint_name'  => $skin['paint_name'],
-                'image_url'   => $base . $image,
+                'weapon_name' => $skin['weapon_name'] ?? 'Unknown weapon',
+                'paint_name'  => $skin['paint_name'] ?? 'Unknown skin',
+                'image_url'   => $imageUrl,
             ];
         }
         return $skins;
@@ -26,10 +55,14 @@ class UtilsClass
         $temp = self::skinsFromJson();
         foreach ($temp as $key => $value) {
             if (key_exists($key, $weapons)) continue;
+            // A weapon may no longer have paint ID 0 after filtering missing images.
+            $firstSkin = reset($value);
+            if (!is_array($firstSkin)) continue;
+
             $weapons[$key] = [
-                'weapon_name' => $value[0]['weapon_name'],
-                'paint_name'  => $value[0]['paint_name'],
-                'image_url'   => $value[0]['image_url'],
+                'weapon_name' => $firstSkin['weapon_name'],
+                'paint_name'  => $firstSkin['paint_name'],
+                'image_url'   => $firstSkin['image_url'],
             ];
         }
         return $weapons;
@@ -70,16 +103,15 @@ class UtilsClass
         foreach ($json as $item) {
             $defindex = $item['weapon_defindex'] ?? 0;
             $paint    = $item['paint'] ?? 0;
-            $image    = $item['image'] ?? '';
+            $image    = (string)($item['image'] ?? '');
+            $imageUrl = self::catalogImageUrl($image, ['img/skins', 'img/weapon']);
 
-            // تصویر پیش‌فرض برای دستکش شماره 0 (در صورت خالی بودن)
-            if ($defindex == 0 && empty($image)) {
-                $image = 'glove_default.png';   // فقط نام فایل
-            }
+            // Keep only glove paints with a real thumbnail; the empty default is not an image.
+            if ($imageUrl === '') continue;
 
             $gloves[$defindex][$paint] = [
                 'name'      => $item['paint_name'] ?? 'Unknown',
-                'image_url' => !empty($image) ? IMAGE_BASE_SKINS . $image : '',
+                'image_url' => $imageUrl,
             ];
         }
         return $gloves;
@@ -97,17 +129,21 @@ class UtilsClass
             $team  = (int)($item['team'] ?? 2);
             $model = $item['model'] ?? '';
             $name  = $item['agent_name'] ?? 'Unknown';
-            $image = $item['image'] ?? '';
+            $image = (string)($item['image'] ?? '');
+            $imageUrl = self::catalogImageUrl($image, ['img/skins', 'img']);
+
+            // The repo has some agent records without portraits; don't render broken cards.
+            if ($imageUrl === '') continue;
 
             if ($team === 3) {
                 $agents['ct'][$model] = [
                     'name'      => $name,
-                    'image_url' => IMAGE_BASE_AGENTS . $image,
+                    'image_url' => $imageUrl,
                 ];
             } else {
                 $agents['t'][$model] = [
                     'name'      => $name,
-                    'image_url' => IMAGE_BASE_AGENTS . $image,
+                    'image_url' => $imageUrl,
                 ];
             }
         }
