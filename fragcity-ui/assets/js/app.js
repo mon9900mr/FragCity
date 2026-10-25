@@ -106,7 +106,7 @@
   const header=$('.topbar');
   if(header&&!$('.language-toggle')){const b=document.createElement('button');b.type='button';b.className='language-toggle';b.innerHTML='<span>فا</span> فارسی';b.setAttribute('aria-label','Switch website language');b.addEventListener('click',()=>setLanguage(!fa));const c=$('.button-small',header);if(c)c.insertAdjacentElement('afterend',b);else header.appendChild(b);}
   function setLanguage(value){
-    fa=value;document.documentElement.lang=fa?'fa':'en';document.documentElement.dir=fa?'rtl':'ltr';document.dispatchEvent(new Event('fragcity-language-change'));
+    fa=value;document.documentElement.lang=fa?'fa':'en';document.documentElement.dir=fa?'rtl':'ltr';
     const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;
     while(n=walker.nextNode()){if(!originalNodes.has(n))originalNodes.set(n,n.nodeValue);const original=originalNodes.get(n);const key=original.replace(/\s+/g,' ').trim();if(fa&&dict[key]){const lead=original.match(/^\s*/)?.[0]||'',tail=original.match(/\s*$/)?.[0]||'';n.nodeValue=lead+dict[key]+tail;}else if(!fa)n.nodeValue=original;}
     $$('input,textarea').forEach(el=>{if(!originalPlaceholders.has(el))originalPlaceholders.set(el,el.getAttribute('placeholder'));const p=originalPlaceholders.get(el);if(fa&&p)el.setAttribute('placeholder',dict[p]||p);else if(!fa&&p!==null)el.setAttribute('placeholder',p);});
@@ -144,7 +144,7 @@
       const order=sort?.value||'name';
       visible.sort((a,b)=>order==='weapon'?(a.weaponLabel||a.weapon).localeCompare(b.weaponLabel||b.weapon)||a.name.localeCompare(b.name):order==='paint'?Number(a.paint)-Number(b.paint):a.name.localeCompare(b.name));
       const pages=Math.max(1,Math.ceil(visible.length/pageSize));page=Math.min(page,pages-1);
-      skinGrid.innerHTML=visible.slice(page*pageSize,(page+1)*pageSize).map(s=>'<article class="skin-card" data-type="'+esc(s.category)+'" data-skin-name="'+esc(s.name)+'" data-weapon="'+esc(s.weaponLabel||s.weapon||'')+'" data-paint="'+esc(s.paint)+'" data-defindex="'+esc(s.weapon_defindex??s.defindex??'')+'" data-image="'+esc(s.image)+'" data-image-path="'+esc(s.imagePath||'')+'" data-image-found="'+(s.imageFound===false?'false':'true')+'"><div class="skin-image"><img src="'+esc(imageUrl(s))+'" alt="'+esc(s.name)+'" loading="lazy" decoding="async" onerror="this.onerror=null;this.style.display=\'none\';this.parentElement.classList.add(\'image-missing\')"></div><div class="skin-card-info"><small>'+esc(s.weaponLabel||s.categoryLabel||s.weapon)+'</small><h3>'+esc(s.name)+'</h3><p>Paint ID: '+esc(s.paint)+'</p><button class="button apply-account-skin" type="button">'+(fa?'ست برای اکانت':'Set for account')+'</button></div></article>').join('');
+      skinGrid.innerHTML=visible.slice(page*pageSize,(page+1)*pageSize).map(s=>'<article class="skin-card" data-type="'+esc(s.category)+'" data-skin-name="'+esc(s.name)+'" data-weapon="'+esc(s.weapon)+'" data-paint="'+esc(s.paint)+'" data-image="'+esc(s.image)+'" data-image-path="'+esc(s.imagePath||'')+'" data-image-found="'+(s.imageFound===false?'false':'true')+'"><div class="skin-image"><img src="'+esc(imageUrl(s))+'" alt="'+esc(s.name)+'" loading="lazy" decoding="async" onerror="this.onerror=null;this.style.display=\'none\';this.parentElement.classList.add(\'image-missing\')"></div><div class="skin-card-info"><small>'+esc(s.weaponLabel||s.categoryLabel||s.weapon)+'</small><h3>'+esc(s.name)+'</h3><p>Paint / item ID: '+esc(s.paint)+'</p><button class="button button-ghost select-skin" type="button">Select item</button></div></article>').join('');
       const totalNode=$('#skin-total');if(totalNode)totalNode.textContent=catalog.length.toLocaleString();
       $('#skin-results-count').textContent=visible.length.toLocaleString()+' items';
       $('#skin-page-number').textContent='Page '+(page+1)+' / '+pages;
@@ -152,7 +152,6 @@
       const selected=localStorage.getItem('fragcity-selected-skin');
       if(selected){try{const s=JSON.parse(selected);const c=$$('.skin-card').find(x=>x.dataset.skinName===s.name);if(c)c.classList.add('skin-selected');}catch(e){}}
     }
-    document.addEventListener('fragcity-language-change',()=>{if(catalog.length)render();});
     function renderStickerSlots(){
       const host=$('#preview-stickers');if(!host)return;
       host.innerHTML=stickerSlots.map((s,i)=>'<button type="button" class="preview-sticker '+(i===stickerSlot?'active':'')+'" data-slot="'+i+'">'+(s?'<img src="'+esc(imageUrl(s))+'" alt="'+esc(s.name)+'">':('Sticker slot '+(i+1)))+'</button>').join('');
@@ -218,67 +217,58 @@
     search?.addEventListener('input',()=>{page=0;render();});sort?.addEventListener('change',()=>{page=0;render();});
     prev?.addEventListener('click',()=>{if(page>0){page--;render();skinGrid.scrollIntoView({behavior:'smooth',block:'start'});}});
     next?.addEventListener('click',()=>{if((page+1)*pageSize<visible.length){page++;render();skinGrid.scrollIntoView({behavior:'smooth',block:'start'});}});
-    const weaponDefindex = card => {
-      const direct = Number(card.dataset.defindex || 0);
-      if (direct > 0) return direct;
-      const raw = String(card.dataset.weapon || '').trim().toLowerCase().replace(/^weapon_/, '');
-      const aliases = {
-        'ak-47':7,'ak47':7,'aug':8,'awp':9,'famas':10,'g3sg1':11,'galil ar':13,
-        'm249':14,'m4a4':16,'mac-10':17,'p90':19,'mp5-sd':23,'ump-45':24,
-        'xm1014':25,'pp-bizon':26,'mag-7':27,'negev':28,'sawed-off':29,
-        'tec-9':30,'zeus x27':31,'p2000':32,'mp7':33,'mp9':34,'nova':35,
-        'p250':36,'scar-20':38,'sg 553':39,'ssg 08':40,'glock-18':4,'glock 18':4,
-        'usp-s':61,'m4a1-s':60,'five-seven':3,'cz75-auto':63,'cz75 auto':63,
-        'desert eagle':1,'dual berettas':2,'r8 revolver':64,'bayonet':500,'classic knife':503,'flip knife':505,'gut knife':506,'karambit':507,'m9 bayonet':508,'huntsman knife':509,'falchion knife':512,'bowie knife':514,'butterfly knife':515,'shadow daggers':516,'paracord knife':517,'survival knife':518,'ursus knife':519,'navaja knife':520,'nomad knife':521,'stiletto knife':522,'talon knife':523,'skeleton knife':525,'kukri knife':526,'knife':500
-      };
-      const match = Object.keys(aliases).find(name => raw === name || raw.startsWith(name + ' |') || raw.startsWith(name + ' '));
-      return match ? aliases[match] : 0;
-    };
-    skinGrid.addEventListener('click', e => {
-      const button = e.target.closest('.apply-account-skin');
-      if (!button) return;
-      const card = button.closest('.skin-card');
-      if (!card) return;
-      if (preview) {
-        toast(fa ? 'این پیش‌نمایش است؛ برای ثبت اسکین باید سایت PHP اصلی باز باشد.' : 'This is a static preview. Open the live PHP site to save a skin.');
-        return;
+    skinGrid.addEventListener('click',e=>{
+      const b=e.target.closest('.select-skin');if(!b)return;const card=b.closest('.skin-card');if(!card)return;
+      $$('.skin-card').forEach(c=>c.classList.remove('skin-selected'));card.classList.add('skin-selected');
+      const item={name:card.dataset.skinName,weapon:card.dataset.weapon,paint:card.dataset.paint,image:card.dataset.image,imagePath:card.dataset.imagePath,imageFound:card.dataset.imageFound!=='false',type:card.dataset.type};
+      if($('#selected-skin-id'))$('#selected-skin-id').value=item.paint;
+      if($('#selected-weapon'))$('#selected-weapon').value=item.weapon;
+      if(item.type==='stickers'||item.type==='charms'){
+        if(item.type==='charms'){
+          try{localStorage.setItem('fragcity-selected-charm',JSON.stringify(item));}catch(e){}
+          if($('#selected-charm-name'))$('#selected-charm-name').textContent=item.name;
+          toast(fa?'چارم انتخاب شد.':'Charm selected.');
+        }else{
+          stickerSlots[stickerSlot]=item;
+          try{localStorage.setItem('fragcity-sticker-slots',JSON.stringify(stickerSlots));}catch(e){}
+          renderStickerSlots();
+          toast(fa?'استیکر به اسلات انتخابی اضافه شد.':'Sticker assigned to selected slot.');
+        }
+      }else{
+        if($('#selected-skin-name'))$('#selected-skin-name').textContent=item.name;
+        if($('#selected-skin-meta'))$('#selected-skin-meta').textContent=item.weapon+' · Paint ID '+item.paint;
+        if($('#customizer-weapon-name'))$('#customizer-weapon-name').textContent=item.name;
+        if($('#customizer-weapon-meta'))$('#customizer-weapon-meta').textContent=item.weapon+' · Paint ID '+item.paint;
+        if($('#customizer-weapon-image'))$('#customizer-weapon-image').src=imageUrl(item);
+        const panel=$('#loadout-customizer');if(panel)panel.hidden=false;
+        if($('#customizer-type'))$('#customizer-type').value=item.type;
+        try{localStorage.setItem('fragcity-selected-skin',JSON.stringify(item));}catch(e){}
+        toast(fa?'انتخاب برای شخصی‌سازی ذخیره شد.':'Selected item added to the visual customizer.');
       }
-      const paint = Number(card.dataset.paint || 0);
-      const defindex = weaponDefindex(card);
-      if (!paint || !defindex) {
-        toast(fa ? 'شناسه این سلاح در کاتالوگ مشخص نیست؛ چیزی ذخیره نشد.' : 'This catalog entry has no supported weapon ID; nothing was saved.');
-        return;
-      }
-      const configured = backendBase();
-      if (!configured && preview) {
-        toast(fa ? 'برای ثبت اسکین باید آدرس بک‌اند Node.js تنظیم شود.' : 'Configure the Node.js backend URL to save a skin.');
-        return;
-      }
-      const apiRoot = configured || window.location.origin;
-      button.disabled = true;
-      const originalLabel = button.textContent;
-      button.textContent = fa ? 'در حال ثبت…' : 'Saving…';
-      fetch(new URL('/api/skins/apply', apiRoot).href, {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({ weaponDefindex: defindex, paintKit: paint, wear: 0.001, seed: 0 })
-      }).then(async response => {
-        const result = await response.json().catch(() => ({}));
-        if (response.status === 401) throw new Error('LOGIN_REQUIRED');
-        if (!response.ok || !result.ok) throw new Error(result.error || 'SAVE_FAILED');
-        toast(fa ? 'انتخاب اسکین برای اکانت ذخیره شد؛ اعمال داخل بازی به پلاگین سرور وابسته است.' : 'Skin selection saved for your account. In-game application requires the server plugin.');
-      }).catch(error => {
-        const message = error.message === 'LOGIN_REQUIRED'
-          ? (fa ? 'ابتدا وارد حساب کاربری شو.' : 'Please sign in first.')
-          : (fa ? 'ذخیره انجام نشد؛ اتصال بک‌اند و دیتابیس را بررسی کن.' : 'Could not save. Check the backend and database connection.');
-        toast(message);
-      }).finally(() => {
-        button.disabled = false;
-        button.textContent = originalLabel;
-      });
     });
   }
+  const apiInput=$('#api-base-url');if(apiInput){try{apiInput.value=localStorage.getItem('fragcity-api-base')||'';}catch(e){}apiInput.addEventListener('change',()=>{try{localStorage.setItem('fragcity-api-base',apiInput.value.trim());}catch(e){}});}
+  const applySkin=$('#apply-skin');
+  if(applySkin)applySkin.addEventListener('click',async()=>{
+    const id=$('#selected-skin-id')?.value||'';
+    const weapon=$('#selected-weapon')?.value||'';
+    const server=$('#server-id')?.value.trim()||'';
+    let selectedItem=null;
+    try{selectedItem=JSON.parse(localStorage.getItem('fragcity-selected-skin')||'null');}catch(e){}
+    if(!selectedItem||!id){toast(fa?'اول یک اسکین انتخاب کن.':'Choose a skin first.');return;}
+    if(!server){toast(fa?'شناسه یا آدرس سرور را وارد کن.':'Enter your server ID or address.');$('#server-id')?.focus();return;}
+    const apiBase=($('#api-base-url')?.value||'').trim().replace(/\/$/,'');
+    if(!apiBase){toast(fa?'انتخاب ثبت شد، اما API اعمال اسکین هنوز در بک‌اند تنظیم نشده؛ اسکین داخل بازی تغییر نکرد.':'Selection saved, but the backend apply-skin API is not configured. The in-game skin has NOT changed.');return;}
+    applySkin.disabled=true;
+    const old=applySkin.textContent;applySkin.textContent=fa?'در حال ارسال…':'Applying…';
+    try{
+      const response=await fetch(apiBase+'/api/skins/apply',{method:'POST',credentials:'include',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({server_id:server,weapon,paint_id:id,skin_name:selectedItem.name})});
+      const data=await response.json().catch(()=>({}));
+      if(!response.ok||data.success===false)throw new Error(data.message||data.error||('HTTP '+response.status));
+      toast(fa?'درخواست اسکین به سرور ارسال شد.':'Skin request sent to the server.');
+    }catch(err){toast((fa?'اعمال اسکین ناموفق بود: ':'Could not apply skin: ')+(err.message||'API error'));}
+    finally{applySkin.disabled=false;applySkin.textContent=old;}
+  });
   const form=$('#support-form');if(form)form.addEventListener('submit',e=>{e.preventDefault();toast(fa?'این فرم نمایشی است؛ برای ثبت واقعی تیکت، صفحه پشتیبانی اصلی را باز کن.':'This is a preview form. Open the live support page to submit a real ticket.');});
   try{setLanguage(localStorage.getItem('fragcity-language')==='fa')}catch(e){setLanguage(false)}
 })();
