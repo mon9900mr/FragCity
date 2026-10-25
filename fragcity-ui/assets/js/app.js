@@ -2,7 +2,7 @@
   const $ = (s, r=document) => r.querySelector(s);
   const $$ = (s, r=document) => [...r.querySelectorAll(s)];
   const preview = /raw\.githack\.com|github\.io|github\.com$/.test(location.hostname);
-  const routes = {buyserveropen:'servers.html',buyserver:'servers.html',servers:'servers.html',servers_vps:'manage.html',skins:'../index.php?page=skins',weaponpaints:'../index.php?page=skins',usermanual:'guides.html',support:'support.html',overview:'manage.html',login:'account.html',register:'account.html',forgot_password:'account.html',reset_password:'account.html',profile:'account.html',wallet:'account.html',donations:'account.html',vip:'account.html',leaderboard:'account.html',banlist:'account.html',rules:'guides.html',privacy:'guides.html',about:'index.html'};
+  const routes = {buyserveropen:'servers.html',buyserver:'servers.html',servers:'servers.html',servers_vps:'manage.html',skins:'skins.html',weaponpaints:'skins.html',usermanual:'guides.html',support:'support.html',overview:'manage.html',login:'account.html',register:'account.html',forgot_password:'account.html',reset_password:'account.html',profile:'account.html',wallet:'account.html',donations:'account.html',vip:'account.html',leaderboard:'account.html',banlist:'account.html',rules:'guides.html',privacy:'guides.html',about:'index.html'};
   // Short branded FRAG CITY transition (visual only).
   if (!document.getElementById('fc-boot')) {
     const boot = document.createElement('div');
