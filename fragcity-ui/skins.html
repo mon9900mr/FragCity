@@ -19,17 +19,17 @@
 <div id="skin-grid" class="skin-grid" aria-live="polite"></div><div id="skin-empty" class="skin-empty" hidden>No matching items found. Try another search.</div>
 <div class="skin-load"><button id="load-more" class="button button-ghost" hidden>LOAD MORE ↓</button></div>
 <div id="selected-bar" class="skin-selected"><div><strong id="selected-name">No item selected</strong><small id="selected-description">Choose a skin, glove or agent above.</small></div><button id="apply-selected" class="button">CONTINUE TO SERVER ↗</button></div>
-<p class="skin-footnote">Catalog images and names are loaded from the FragCity repository data. Selecting an item here previews your choice; applying it to a live game server requires the PHP backend, database and compatible server-side skin plugin. A static GitHub Pages preview cannot save changes by itself.</p>
+<p class="skin-footnote">Choose any item to preview your loadout. Server saving will be connected in the next backend phase.</p>
 </main>
 <footer><a class="brand" href="index.html"><span class="brand-mark">F</span><span>FRAG<span class="red">CITY</span><small>OWN THE ARENA</small></span></a><span>Community first. Built for Counter-Strike.</span><div><a href="guides.html">Guides</a><a href="support.html">Support</a></div></footer>
 <script src="assets/js/app.js"></script>
 <script>
 (() => {
   const $ = s => document.querySelector(s);
-  const RAW = 'https://raw.githack.com/mon9900mr/FragCity/fragcity-redesign/';
-  const RAW_FALLBACK = 'https://raw.githubusercontent.com/mon9900mr/FragCity/fragcity-redesign/';
-  const IMG = 'https://raw.githack.com/mon9900mr/FragCity/fragcity-redesign/';
-  const state = {kind:'weapons', all:{weapons:[],agents:[],gloves:[]}, filtered:[], shown:0, pageSize:48, selected:null};
+  const RAW = 'https://raw.githubusercontent.com/mon9900mr/FragCity/fragcity-redesign/';
+  const RAW_FALLBACK = 'https://raw.githack.com/mon9900mr/FragCity/fragcity-redesign/';
+  const IMG = 'https://raw.githubusercontent.com/mon9900mr/FragCity/fragcity-redesign/';
+  const state = {kind:'weapons', all:{weapons:[],agents:[],gloves:[]}, filtered:[], shown:0, pageSize:72, selected:null};
   const grid = $('#skin-grid'), search = $('#skin-search'), weaponFilter = $('#weapon-filter'), sortFilter = $('#sort-filter'), teamFilter = $('#team-filter');
   const imagePath = (file, kind) => {
     if (!file) return '';
@@ -47,7 +47,8 @@
     })).filter(x=>x.image);
   }
   async function init(){
-    $('#catalog-summary').textContent='Loading every catalog entry…';
+    $('#catalog-summary').textContent='Loading catalog data…';
+    grid.innerHTML='<div class="skin-status" style="grid-column:1/-1">Fetching the catalog index…</div>';
     try {
       const [skins,agents,gloves]=await Promise.all([
         loadJson('data/skins_en.json'),loadJson('data/agents_en.json'),loadJson('data/gloves_en.json')
