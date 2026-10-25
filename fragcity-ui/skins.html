@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101012"><meta name="description" content="FRAG CITY Counter-Strike weapon skins, gloves and agents catalog.">
+<title>Skins & Agents — FRAG CITY</title>
+<link rel="stylesheet" href="assets/css/style.css">
+<style>
+.skin-page{max-width:1440px;margin:auto;padding:46px max(4vw,20px) 80px}.skin-hero{position:relative;overflow:hidden;padding:38px clamp(20px,4vw,56px);background:linear-gradient(115deg,#201719,#141418 65%);border:1px solid #ffffff12;margin-bottom:26px}.skin-hero:after{content:"FC";position:absolute;right:5%;top:-75px;font:900 clamp(150px,25vw,320px)/1 'Barlow Condensed',sans-serif;color:#ffffff06;pointer-events:none}.skin-hero h1{font:900 clamp(42px,7vw,78px)/.95 'Barlow Condensed',sans-serif;letter-spacing:1px;margin:12px 0}.skin-hero p{max-width:620px;color:#b6b4bc}.skin-hero .eyebrow{color:#f0444b;font-weight:800;letter-spacing:2px;font-size:11px}.skin-toolbar{display:grid;grid-template-columns:minmax(180px,1fr) minmax(150px,240px) auto;gap:12px;margin:22px 0}.skin-toolbar input,.skin-toolbar select{min-width:0;background:#19191e;color:#f4f3f1;border:1px solid #36363e;padding:13px 14px;border-radius:2px;outline:none}.skin-toolbar input:focus,.skin-toolbar select:focus{border-color:#f0444b}.skin-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}.skin-tab{background:#1a1a1f;color:#b7b6bd;border:1px solid #33333a;padding:10px 16px;cursor:pointer;font-size:11px;font-weight:800;letter-spacing:.5px}.skin-tab.active,.skin-tab:hover{background:#f0444b;border-color:#f0444b;color:#fff}.skin-meta{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:18px 0;color:#a3a2aa;font-size:12px}.skin-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.skin-card{min-width:0;background:#17171b;border:1px solid #ffffff12;transition:transform .18s,border-color .18s;position:relative;overflow:hidden}.skin-card:hover{transform:translateY(-3px);border-color:#f0444b80}.skin-card.selected{border-color:#f0444b;box-shadow:inset 0 0 0 1px #f0444b}.skin-image{height:155px;display:grid;place-items:center;padding:12px;background:radial-gradient(ellipse at center,#303038 0,#1b1b20 65%,#17171b 100%)}.skin-image img{max-width:100%;max-height:132px;object-fit:contain;filter:drop-shadow(0 8px 12px #0008)}.skin-info{padding:13px}.skin-name{font-size:12px;font-weight:800;line-height:1.4;min-height:34px;overflow-wrap:anywhere}.skin-sub{font-size:10px;color:#9998a1;margin-top:5px}.skin-card button{width:100%;margin-top:12px;background:#24242b;border:1px solid #393941;color:#fff;padding:10px;cursor:pointer;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px}.skin-card button:hover,.skin-card.selected button{background:#f0444b;border-color:#f0444b}.skin-card .broken{display:none}.skin-empty,.skin-status{padding:24px;background:#19191e;border:1px solid #ffffff12;color:#b7b6bd;text-align:center}.skin-load{display:flex;justify-content:center;margin:26px 0}.skin-load button{padding:13px 25px}.skin-footnote{color:#92919a;font-size:11px;margin-top:18px;line-height:1.8}.skin-selected{display:none;position:sticky;bottom:14px;z-index:8;margin-top:22px;padding:13px 16px;background:#232329;border:1px solid #f0444b80;box-shadow:0 10px 30px #0008;align-items:center;justify-content:space-between;gap:12px}.skin-selected.visible{display:flex}.skin-selected strong{display:block;font-size:12px}.skin-selected small{color:#a3a2aa}.skin-selected .button{white-space:nowrap}.skin-count{color:#f0444b;font-weight:800}@media(max-width:1000px){.skin-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:680px){.skin-page{padding-top:24px}.skin-toolbar{grid-template-columns:1fr}.skin-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.skin-image{height:125px}.skin-image img{max-height:105px}.skin-info{padding:10px}.skin-selected{align-items:flex-start;flex-direction:column}.skin-selected .button{width:100%}}@media(max-width:390px){.skin-grid{grid-template-columns:1fr 1fr}.skin-image{height:108px}}
+</style>
+</head>
+<body>
+<header class="topbar"><a class="brand" href="index.html"><span class="brand-mark">F</span><span>FRAG<span class="red">CITY</span><small>COUNTER-STRIKE HOSTING</small></span></a><button class="menu-toggle" aria-label="Toggle menu">☰</button><nav><a href="index.html">Home</a><a href="servers.html">Servers</a><a class="active" href="skins.html">Skins</a><a href="guides.html">Guides</a><a href="support.html">Support</a><a href="account.html">Account</a></nav><a class="button button-small" href="manage.html">Control panel ↗</a></header>
+<main class="skin-page">
+<section class="skin-hero"><div class="eyebrow">FRAG CITY / LOADOUT LAB</div><h1>BUILD YOUR <span class="red">LOADOUT.</span></h1><p>Browse the repository's weapon finishes, gloves and agents. Search by item name, filter the catalog, and send your choice to the live customization panel when the PHP backend is configured.</p></section>
+<div class="skin-toolbar"><input id="skin-search" type="search" placeholder="Search skins, weapons, agents..." aria-label="Search catalog"><select id="weapon-filter" aria-label="Filter by weapon"><option value="">All weapons</option></select><select id="sort-filter" aria-label="Sort catalog"><option value="source">Default order</option><option value="az">Name A–Z</option><option value="za">Name Z–A</option></select></div>
+<div class="skin-tabs" role="tablist" aria-label="Catalog type"><button class="skin-tab active" data-kind="weapons">WEAPON SKINS</button><button class="skin-tab" data-kind="agents">AGENTS</button><button class="skin-tab" data-kind="gloves">GLOVES</button><button class="skin-tab" data-kind="all">ALL ITEMS</button></div>
+<div class="skin-meta"><span id="catalog-summary">Loading catalog…</span><span>SELECTED: <b class="skin-count" id="selected-count">0</b></span></div>
+<div id="skin-grid" class="skin-grid" aria-live="polite"></div><div id="skin-empty" class="skin-empty" hidden>No matching items found. Try another search.</div>
+<div class="skin-load"><button id="load-more" class="button button-ghost" hidden>LOAD MORE ↓</button></div>
+<div id="selected-bar" class="skin-selected"><div><strong id="selected-name">No item selected</strong><small id="selected-description">Choose a skin, glove or agent above.</small></div><button id="apply-selected" class="button">CONTINUE TO SERVER ↗</button></div>
+<p class="skin-footnote">Catalog images and names are loaded from the FragCity repository data. Selecting an item here previews your choice; applying it to a live game server requires the PHP backend, database and compatible server-side skin plugin. A static GitHub Pages preview cannot save changes by itself.</p>
+</main>
+<footer><a class="brand" href="index.html"><span class="brand-mark">F</span><span>FRAG<span class="red">CITY</span><small>OWN THE ARENA</small></span></a><span>Community first. Built for Counter-Strike.</span><div><a href="guides.html">Guides</a><a href="support.html">Support</a></div></footer>
+<script src="assets/js/app.js"></script>
+<script>
+(() => {
+  const $ = s => document.querySelector(s);
+  const RAW = 'https://raw.githubusercontent.com/mon9900mr/FragCity/fragcity-redesign/';
+  const IMG = 'https://raw.githack.com/mon9900mr/FragCity/fragcity-redesign/';
+  const state = {kind:'weapons', all:{weapons:[],agents:[],gloves:[]}, filtered:[], shown:0, pageSize:48, selected:null};
+  const grid = $('#skin-grid'), search = $('#skin-search'), weaponFilter = $('#weapon-filter'), sortFilter = $('#sort-filter');
+  const imagePath = (file, kind) => {
+    if (!file) return '';
+    const name = String(file).split('/').pop();
+    return IMG + (kind === 'agents' ? 'img/skins/' : 'img/skins/') + encodeURIComponent(name);
+  };
+  const safe = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  async function loadJson(file){ const res=await fetch(RAW+file,{cache:'force-cache'}); if(!res.ok) throw new Error('Could not load '+file); return res.json(); }
+  function addItems(rows,kind){
+    return rows.map((x,i)=>({
+      kind, name: kind==='agents' ? (x.agent_name||'Unknown agent') : (x.paint_name||'Unknown item'),
+      weapon: kind==='weapons' ? String(x.weapon_name||'').replace(/^weapon_/,'').replace(/_/g,' ').toUpperCase() : kind==='gloves' ? 'GLOVES' : ((Number(x.team)===2)?'TERRORIST':'COUNTER-TERRORIST'),
+      image:x.image||'', id:kind+'-'+(x.weapon_defindex??x.team??'')+'-'+(x.paint??i)+'-'+i,
+      defindex:x.weapon_defindex??'', paint:x.paint??'', model:x.model??'', team:x.team??''
+    })).filter(x=>x.image);
+  }
+  async function init(){
+    $('#catalog-summary').textContent='Loading every catalog entry…';
+    try {
+      const [skins,agents,gloves]=await Promise.all([
+        loadJson('data/skins_en.json'),loadJson('data/agents_en.json'),loadJson('data/gloves_en.json')
+      ]);
+      state.all.weapons=addItems(skins,'weapons');
+      state.all.agents=addItems(agents,'agents');
+      state.all.gloves=addItems(gloves,'gloves');
+      const weapons=[...new Set(state.all.weapons.map(x=>x.weapon))].filter(Boolean).sort();
+      weaponFilter.innerHTML='<option value="">All weapons</option>'+weapons.map(w=>'<option value="'+safe(w)+'">'+safe(w)+'</option>').join('');
+      update();
+    } catch(err) {
+      $('#catalog-summary').textContent='Catalog could not be loaded.';
+      grid.innerHTML='<div class="skin-status" style="grid-column:1/-1">The catalog data could not be reached. Check that the repository branch and raw file URLs are public and available.</div>';
+      console.error(err);
+    }
+  }
+  function currentItems(){
+    let items=state.kind==='all' ? [...state.all.weapons,...state.all.agents,...state.all.gloves] : [...state.all[state.kind]];
+    const q=search.value.trim().toLowerCase(), w=weaponFilter.value, sort=sortFilter.value;
+    if(q) items=items.filter(x=>(x.name+' '+x.weapon+' '+x.kind).toLowerCase().includes(q));
+    if(w && state.kind!=='agents' && state.kind!=='gloves') items=items.filter(x=>x.weapon===w);
+    if(sort==='az') items.sort((a,b)=>a.name.localeCompare(b.name));
+    if(sort==='za') items.sort((a,b)=>b.name.localeCompare(a.name));
+    return items;
+  }
+  function card(item){
+    const selected=state.selected?.id===item.id;
+    const kindLabel={weapons:'WEAPON SKIN',agents:'AGENT',gloves:'GLOVE'}[item.kind];
+    return '<article class="skin-card '+(selected?'selected':'')+'" data-id="'+safe(item.id)+'"><div class="skin-image"><img loading="lazy" decoding="async" src="'+safe(imagePath(item.image,item.kind))+'" alt="'+safe(item.name)+'" onerror="this.style.display=\'none\';this.closest(\'.skin-image\').classList.add(\'image-missing\')"></div><div class="skin-info"><div class="skin-name">'+safe(item.name)+'</div><div class="skin-sub">'+safe(kindLabel)+' · '+safe(item.weapon)+'</div><button type="button" data-select="'+safe(item.id)+'">'+(selected?'✓ SELECTED':'SELECT ITEM')+'</button></div></article>';
+  }
+  function update(){
+    state.filtered=currentItems(); state.shown=0; grid.innerHTML=''; renderMore();
+    $('#skin-empty').hidden=state.filtered.length!==0;
+    $('#catalog-summary').textContent=state.filtered.length.toLocaleString()+' matching items · '+(state.kind==='all'?'all categories':state.kind);
+    weaponFilter.disabled=state.kind==='agents'||state.kind==='gloves';
+  }
+  function renderMore(){
+    const chunk=state.filtered.slice(state.shown,state.shown+state.pageSize);
+    grid.insertAdjacentHTML('beforeend',chunk.map(card).join(''));
+    state.shown+=chunk.length;
+    $('#load-more').hidden=state.shown>=state.filtered.length;
+  }
+  function choose(id){
+    const item=state.filtered.find(x=>x.id===id)||Object.values(state.all).flat().find(x=>x.id===id);
+    if(!item)return;
+    state.selected=item;
+    $('#selected-count').textContent='1';
+    $('#selected-name').textContent=item.name;
+    $('#selected-description').textContent=item.kind.toUpperCase()+' · '+item.weapon+(item.paint!==''?' · Paint ID '+item.paint:'');
+    $('#selected-bar').classList.add('visible');
+    grid.querySelectorAll('.skin-card').forEach(el=>{
+      const yes=el.dataset.id===id; el.classList.toggle('selected',yes);
+      const btn=el.querySelector('button[data-select]'); if(btn)btn.textContent=yes?'✓ SELECTED':'SELECT ITEM';
+    });
+  }
+  document.querySelectorAll('.skin-tab').forEach(btn=>btn.addEventListener('click',()=>{
+    document.querySelectorAll('.skin-tab').forEach(x=>x.classList.toggle('active',x===btn));
+    state.kind=btn.dataset.kind; weaponFilter.value=''; update();
+  }));
+  search.addEventListener('input',update); weaponFilter.addEventListener('change',update); sortFilter.addEventListener('change',update);
+  $('#load-more').addEventListener('click',renderMore);
+  grid.addEventListener('click',e=>{const btn=e.target.closest('[data-select]');if(btn)choose(btn.dataset.select);});
+  $('#apply-selected').addEventListener('click',()=>{
+    const item=state.selected;
+    if(!item){alert('Select a catalog item first.');return;}
+    const configured=String(window.FRAGCITY_BACKEND_URL||document.querySelector('meta[name="fragcity-backend-url"]')?.content||'').trim();
+    if(!configured){
+      alert('Your choice is selected. To save it to the live server, configure FRAGCITY_BACKEND_URL with the deployed PHP backend URL. This static preview cannot save server changes.');
+      return;
+    }
+    try {
+      const base=new URL(configured,location.href);
+      if(!/^https?:$/.test(base.protocol))throw new Error('Invalid backend URL');
+      const tab=item.kind==='agents'?'tab-agents':item.kind==='gloves'?'tab-gloves':'tab-skins';
+      const url=new URL('index.php',base.href.endsWith('/')?base.href:base.href+'/');
+      url.searchParams.set('page','skins');url.searchParams.set('tab',tab);
+      url.searchParams.set('catalog_kind',item.kind);url.searchParams.set('weapon_defindex',item.defindex);
+      url.searchParams.set('paint',item.paint);url.searchParams.set('team',item.team);
+      location.href=url.href;
+    } catch(e){alert('Backend URL is invalid. Check FRAGCITY_BACKEND_URL.');}
+  });
+  init();
+})();
+</script>
+</body></html>
