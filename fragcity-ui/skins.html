@@ -34,7 +34,11 @@
   const grid = $('#skin-grid'), search = $('#skin-search'), weaponFilter = $('#weapon-filter'), sortFilter = $('#sort-filter'), teamFilter = $('#team-filter');
   const imagePath = (file, kind) => {
     if (!file) return '';
-    const name = String(file).split('/').pop();
+    const value = String(file).replace(/^\\/+/, '');
+    if (value.startsWith('img/weapon/') || value.startsWith('img/skins/')) {
+      return RAW + value.split('/').map(encodeURIComponent).join('/');
+    }
+    const name = value.split('/').pop();
     return IMG + (kind === 'weapons' ? 'img/weapon/' : 'img/skins/') + encodeURIComponent(name);
   };
   const safe = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
