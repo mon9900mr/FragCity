@@ -13,7 +13,7 @@
 <header class="topbar"><a class="brand" href="index.html"><span class="brand-mark">F</span><span>FRAG<span class="red">CITY</span><small>COUNTER-STRIKE HOSTING</small></span></a><button class="menu-toggle" aria-label="Toggle menu">☰</button><nav><a href="index.html">Home</a><a href="servers.html">Servers</a><a class="active" href="skins.html">Skins</a><a href="guides.html">Guides</a><a href="support.html">Support</a><a href="account.html">Account</a></nav><a class="button button-small" href="manage.html">Control panel ↗</a></header>
 <main class="skin-page">
 <section class="skin-hero"><div class="eyebrow">FRAG CITY / LOADOUT LAB</div><h1>BUILD YOUR <span class="red">LOADOUT.</span></h1><p>Browse the repository's weapon finishes, gloves and agents. Search by item name, filter the catalog, and send your choice to the live customization panel when the PHP backend is configured.</p></section>
-<div class="skin-toolbar"><input id="skin-search" type="search" placeholder="Search skins, weapons, agents..." aria-label="Search catalog"><select id="weapon-filter" aria-label="Filter by weapon"><option value="">All weapons</option></select><select id="sort-filter" aria-label="Sort catalog"><option value="source">Default order</option><option value="az">Name A–Z</option><option value="za">Name Z–A</option></select></div>
+<div class="skin-toolbar"><input id="skin-search" type="search" placeholder="Search skins, weapons, agents..." aria-label="Search catalog"><select id="weapon-filter" aria-label="Filter by weapon"><option value="">All weapons</option></select><select id="sort-filter" aria-label="Sort catalog"><option value="source">Default order</option><option value="az">Name A–Z</option><option value="za">Name Z–A</option></select><select id="team-filter" aria-label="Apply to team"><option value="both">Both teams</option><option value="2">Terrorist (T)</option><option value="3">Counter-Terrorist (CT)</option></select></div>
 <div class="skin-tabs" role="tablist" aria-label="Catalog type"><button class="skin-tab active" data-kind="weapons">WEAPON SKINS</button><button class="skin-tab" data-kind="agents">AGENTS</button><button class="skin-tab" data-kind="gloves">GLOVES</button><button class="skin-tab" data-kind="all">ALL ITEMS</button></div>
 <div class="skin-meta"><span id="catalog-summary">Loading catalog…</span><span>SELECTED: <b class="skin-count" id="selected-count">0</b></span></div>
 <div id="skin-grid" class="skin-grid" aria-live="polite"></div><div id="skin-empty" class="skin-empty" hidden>No matching items found. Try another search.</div>
@@ -29,7 +29,7 @@
   const RAW = 'https://raw.githubusercontent.com/mon9900mr/FragCity/fragcity-redesign/';
   const IMG = 'https://raw.githack.com/mon9900mr/FragCity/fragcity-redesign/';
   const state = {kind:'weapons', all:{weapons:[],agents:[],gloves:[]}, filtered:[], shown:0, pageSize:48, selected:null};
-  const grid = $('#skin-grid'), search = $('#skin-search'), weaponFilter = $('#weapon-filter'), sortFilter = $('#sort-filter');
+  const grid = $('#skin-grid'), search = $('#skin-search'), weaponFilter = $('#weapon-filter'), sortFilter = $('#sort-filter'), teamFilter = $('#team-filter');
   const imagePath = (file, kind) => {
     if (!file) return '';
     const name = String(file).split('/').pop();
@@ -113,20 +113,31 @@
     const item=state.selected;
     if(!item){alert('Select a catalog item first.');return;}
     const configured=String(window.FRAGCITY_BACKEND_URL||document.querySelector('meta[name="fragcity-backend-url"]')?.content||'').trim();
-    if(!configured){
-      alert('Your choice is selected. To save it to the live server, configure FRAGCITY_BACKEND_URL with the deployed PHP backend URL. This static preview cannot save server changes.');
+    const isStaticPreview=/raw\.githack\.com$|(^|\.)github\.io$|(^|\.)github\.com$/.test(location.hostname);
+    if(!configured && isStaticPreview){
+      alert('Item selected, but saving requires the live PHP backend URL. Set FRAGCITY_BACKEND_URL to your deployed backend base URL first.');
       return;
     }
     try {
-      const base=new URL(configured,location.href);
+      const base=new URL(configured || '../',location.href);
       if(!/^https?:$/.test(base.protocol))throw new Error('Invalid backend URL');
-      const tab=item.kind==='agents'?'tab-agents':item.kind==='gloves'?'tab-gloves':'tab-skins';
-      const url=new URL('index.php',base.href.endsWith('/')?base.href:base.href+'/');
-      url.searchParams.set('page','skins');url.searchParams.set('tab',tab);
-      url.searchParams.set('catalog_kind',item.kind);url.searchParams.set('weapon_defindex',item.defindex);
-      url.searchParams.set('paint',item.paint);url.searchParams.set('team',item.team);
-      location.href=url.href;
-    } catch(e){alert('Backend URL is invalid. Check FRAGCITY_BACKEND_URL.');}
+      const action=new URL('index.php?page=skins',base.href.endsWith('/')?base.href:base.href+'/');
+      const form=document.createElement('form');
+      form.method='POST';form.action=action.href;form.style.display='none';
+      const add=(name,value)=>{const input=document.createElement('input');input.type='hidden';input.name=name;input.value=String(value??'');form.appendChild(input);};
+      const team=teamFilter.value;
+      add('team',team);add('active_tab',item.kind==='agents'?'tab-agents':item.kind==='gloves'?'tab-gloves':'tab-skins');
+      if(item.kind==='agents'){
+        if(!item.model || item.model==='null')throw new Error('This agent does not have a valid model ID.');
+        add('agent_id',item.model);
+      } else if(item.kind==='gloves'){
+        add('glove_defindex',item.defindex);add('glove_paint',item.paint);
+      } else {
+        if(item.defindex==='' || item.paint==='')throw new Error('This skin does not have valid weapon/paint IDs.');
+        add('forma',item.defindex+'-'+item.paint);add('wear','0.001');add('seed','0');add('nametag','');
+      }
+      document.body.appendChild(form);form.submit();
+    } catch(e){alert('Could not send the selection to the backend: '+e.message);}
   });
   init();
 })();
