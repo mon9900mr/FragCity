@@ -11,7 +11,7 @@
 (()=>{
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const assetUrl=s=>{const raw=String(s?.image||'');if(/^https?:\/\//i.test(raw))return raw;const paint=String(s?.paint??'0');const weapon=String(s?.weapon||'');return new URL(paint!=='0'&&weapon?'../img/skins/'+weapon+'-'+paint+'.png':'../img/weapon/'+weapon+'.png',document.baseURI).href};
+const assetUrl=s=>{const raw=String(s?.image||'');if(/^https?:\/\//i.test(raw))return raw;const paint=String(s?.paint??'0');const weapon=String(s?.weapon||'');const file=paint!=='0'&&weapon?'skins/'+weapon+'-'+paint+'.png':'weapon/'+weapon+'.png';return 'https://raw.githack.com/mon9900mr/FragCity/fragcity-redesign/img/'+file};
 let catalog=[];
 let active={};
 function readUrl(){const p=new URLSearchParams(location.search);return {view:p.get('view')||'skin',name:p.get('name')||'',weapon:p.get('weapon')||'',paint:p.get('paint')||'0',image:p.get('image')||'',category:p.get('category')||'',weaponLabel:p.get('weaponLabel')||p.get('name')?.split('|')[0].trim()||''};}
