@@ -26,7 +26,8 @@
 <script>
 (() => {
   const $ = s => document.querySelector(s);
-  const RAW = 'https://raw.githubusercontent.com/mon9900mr/FragCity/fragcity-redesign/';
+  const RAW = 'https://raw.githack.com/mon9900mr/FragCity/fragcity-redesign/';
+  const RAW_FALLBACK = 'https://raw.githubusercontent.com/mon9900mr/FragCity/fragcity-redesign/';
   const IMG = 'https://raw.githack.com/mon9900mr/FragCity/fragcity-redesign/';
   const state = {kind:'weapons', all:{weapons:[],agents:[],gloves:[]}, filtered:[], shown:0, pageSize:48, selected:null};
   const grid = $('#skin-grid'), search = $('#skin-search'), weaponFilter = $('#weapon-filter'), sortFilter = $('#sort-filter'), teamFilter = $('#team-filter');
@@ -36,7 +37,7 @@
     return IMG + (kind === 'agents' ? 'img/skins/' : 'img/skins/') + encodeURIComponent(name);
   };
   const safe = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  async function loadJson(file){ const res=await fetch(RAW+file,{cache:'force-cache'}); if(!res.ok) throw new Error('Could not load '+file); return res.json(); }
+  async function loadJson(file){ let lastError; for(const base of [RAW,RAW_FALLBACK]){ try { const res=await fetch(base+file,{cache:'force-cache'}); if(!res.ok) throw new Error('HTTP '+res.status+' for '+file); return await res.json(); } catch(e){lastError=e;} } throw lastError||new Error('Could not load '+file); }
   function addItems(rows,kind){
     return rows.map((x,i)=>({
       kind, name: kind==='agents' ? (x.agent_name||'Unknown agent') : (x.paint_name||'Unknown item'),
@@ -58,8 +59,8 @@
       weaponFilter.innerHTML='<option value="">All weapons</option>'+weapons.map(w=>'<option value="'+safe(w)+'">'+safe(w)+'</option>').join('');
       update();
     } catch(err) {
-      $('#catalog-summary').textContent='Catalog could not be loaded.';
-      grid.innerHTML='<div class="skin-status" style="grid-column:1/-1">The catalog data could not be reached. Check that the repository branch and raw file URLs are public and available.</div>';
+      $('#catalog-summary').textContent='Could not load catalog data.';
+      grid.innerHTML='<div class="skin-status" style="grid-column:1/-1">The catalog JSON could not be loaded from either public source. Reload once; if it persists, check the browser console/network for blocked raw-file requests.</div>';
       console.error(err);
     }
   }
@@ -80,7 +81,7 @@
   function update(){
     state.filtered=currentItems(); state.shown=0; grid.innerHTML=''; renderMore();
     $('#skin-empty').hidden=state.filtered.length!==0;
-    $('#catalog-summary').textContent=state.filtered.length.toLocaleString()+' matching items · '+(state.kind==='all'?'all categories':state.kind);
+    $('#catalog-summary').textContent=state.filtered.length.toLocaleString()+' matching items · '+(state.kind==='all'?'all categories':state.kind)+' · loaded '+(state.all.weapons.length+state.all.agents.length+state.all.gloves.length).toLocaleString()+' image-backed entries';
     weaponFilter.disabled=state.kind==='agents'||state.kind==='gloves';
   }
   function renderMore(){
