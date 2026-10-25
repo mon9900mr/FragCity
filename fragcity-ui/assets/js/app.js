@@ -127,7 +127,7 @@
     const pageSize=48;let catalog=[],page=0,category='all',weaponChoice='all',visible=[];
     const treeLabels={rifles:'Rifles',pistols:'Pistols',snipers:'Snipers',smgs:'SMGs',shotguns:'Shotguns',machineguns:'Machine guns',utility:'Knives',gloves:'Gloves',agents:'Agents',stickers:'Stickers',charms:'Charms',music:'Music Kits',collectibles:'Collectibles'};
     const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-    const imageUrl=s=>{const raw=String(s?.imagePath||s?.image||'');if(!raw)return '';if(/^https?:\/\//i.test(raw)||raw.startsWith('data:'))return raw;const path=raw.startsWith('img/')?raw:('img/skins/'+raw.split('/').pop());return new URL('../'+path,document.baseURI).href};
+    const imageUrl=s=>{if(s?.imageFound===false&&s?.weaponLabel&&s?.name){const finish=String(s.name).split('|').pop().trim();return 'https://specs.gg/assets/img/cs2_skins/'+encodeURIComponent(String(s.weaponLabel).trim())+'/'+encodeURIComponent(finish)+'.png';}const raw=String(s?.imagePath||s?.image||'');if(!raw)return '';if(/^https?:\/\//i.test(raw)||raw.startsWith('data:'))return raw;const path=raw.startsWith('img/')?raw:('img/skins/'+raw.split('/').pop());return new URL('../'+path,document.baseURI).href};
     const getWeaponChoices=cat=>[...new Set(catalog.filter(s=>s.category===cat).map(s=>s.weaponLabel||s.weapon||'Other'))].sort((a,b)=>a.localeCompare(b));
     const mainCategory=s=>s.category;
     function buildTree(){
