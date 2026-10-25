@@ -157,8 +157,8 @@
       host.innerHTML=stickerSlots.map((s,i)=>'<button type="button" class="preview-sticker '+(i===stickerSlot?'active':'')+'" data-slot="'+i+'">'+(s?'<img src="'+esc(imageUrl(s))+'" alt="'+esc(s.name)+'">':('Sticker slot '+(i+1)))+'</button>').join('');
     }
     try{stickerSlots=JSON.parse(localStorage.getItem('fragcity-sticker-slots')||'[null,null,null,null]');}catch(e){}
-    $('.sticker-slot').forEach(b=>b.addEventListener('click',()=>{stickerSlot=Number(b.dataset.slot);$('.sticker-slot').forEach(x=>x.classList.toggle('active',x===b));renderStickerSlots();}));
-    $('#preview-stickers')?.addEventListener('click',e=>{const b=e.target.closest('[data-slot]');if(!b)return;stickerSlot=Number(b.dataset.slot);$('.sticker-slot').forEach(x=>x.classList.toggle('active',Number(x.dataset.slot)===stickerSlot));renderStickerSlots();});
+    $$('.sticker-slot').forEach(b=>b.addEventListener('click',()=>{stickerSlot=Number(b.dataset.slot);$$('.sticker-slot').forEach(x=>x.classList.toggle('active',x===b));renderStickerSlots();}));
+    $('#preview-stickers')?.addEventListener('click',e=>{const b=e.target.closest('[data-slot]');if(!b)return;stickerSlot=Number(b.dataset.slot);$$('.sticker-slot').forEach(x=>x.classList.toggle('active',Number(x.dataset.slot)===stickerSlot));renderStickerSlots();});
     $('#clear-sticker-slot')?.addEventListener('click',()=>{stickerSlots[stickerSlot]=null;try{localStorage.setItem('fragcity-sticker-slots',JSON.stringify(stickerSlots));}catch(e){}renderStickerSlots();});
     $('#clear-charm')?.addEventListener('click',()=>{try{localStorage.removeItem('fragcity-selected-charm');}catch(e){}if($('#selected-charm-name'))$('#selected-charm-name').textContent='No charm selected';});
     $('#close-customizer')?.addEventListener('click',()=>{const panel=$('#loadout-customizer');if(panel)panel.hidden=true;});
@@ -193,13 +193,13 @@
       $('#skin-results-count').textContent='Catalog could not load. Check your connection and refresh.';
       console.error('FragCity skin catalog failed:',err);
     });
-    $$('.skin-tree-node').forEach(b=>b.addEventListener('click',()=>{
+    $$$('.skin-tree-node').forEach(b=>b.addEventListener('click',()=>{
       const cat=b.dataset.treeRoot;
-      if(cat==='all'){category='all';weaponChoice='all';$$('.skin-tree-node').forEach(x=>{x.classList.remove('active');if(x!==b)x.setAttribute('aria-expanded','false');});$$('.skin-tree-children').forEach(x=>x.hidden=true);b.classList.add('active');}
+      if(cat==='all'){category='all';weaponChoice='all';$$$('.skin-tree-node').forEach(x=>{x.classList.remove('active');if(x!==b)x.setAttribute('aria-expanded','false');});$$$('.skin-tree-children').forEach(x=>x.hidden=true);b.classList.add('active');}
       else{
         const host=$(`[data-tree-children="${cat}"]`),expanded=b.getAttribute('aria-expanded')==='true';
-        $('.skin-tree-children').forEach(x=>{if(x!==host)x.hidden=true;});
-        $('.skin-tree-node').forEach(x=>{if(x!==b)x.setAttribute('aria-expanded','false');x.classList.toggle('active',x===b);});
+        $$('.skin-tree-children').forEach(x=>{if(x!==host)x.hidden=true;});
+        $$('.skin-tree-node').forEach(x=>{if(x!==b)x.setAttribute('aria-expanded','false');x.classList.toggle('active',x===b);});
         b.setAttribute('aria-expanded',String(!expanded));if(host)host.hidden=expanded;
         category=cat;weaponChoice='all';
         if(host&&!expanded){host.querySelectorAll('.skin-tree-leaf').forEach(x=>x.classList.remove('active'));host.querySelector('[data-weapon-choice="all"]')?.classList.add('active');}
@@ -210,8 +210,8 @@
       const leaf=e.target.closest('[data-tree-select]');if(!leaf)return;
       category=leaf.dataset.treeSelect;weaponChoice=leaf.dataset.weaponChoice||'all';page=0;
       const parent=leaf.closest('.skin-tree-children');
-      if(parent){parent.querySelectorAll('.skin-tree-leaf').forEach(x=>x.classList.toggle('active',x===leaf));const cat=parent.dataset.treeChildren;$$('.skin-tree-node').forEach(x=>x.classList.toggle('active',x.dataset.treeRoot===cat));}
-      else{$$('.skin-tree-node').forEach(x=>x.classList.toggle('active',x.dataset.treeRoot==='all'));}
+      if(parent){parent.querySelectorAll('.skin-tree-leaf').forEach(x=>x.classList.toggle('active',x===leaf));const cat=parent.dataset.treeChildren;$$$('.skin-tree-node').forEach(x=>x.classList.toggle('active',x.dataset.treeRoot===cat));}
+      else{$$$('.skin-tree-node').forEach(x=>x.classList.toggle('active',x.dataset.treeRoot==='all'));}
       render();
     });
     search?.addEventListener('input',()=>{page=0;render();});sort?.addEventListener('change',()=>{page=0;render();});
