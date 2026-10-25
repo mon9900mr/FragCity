@@ -4,12 +4,12 @@ class UtilsClass
     /** Resolve an item image only when the matching file exists in this repository. */
     private static function catalogImageUrl(string $image, array $roots): string
     {
-        $image = trim(str_replace('\\\\', '/', $image));
+        $image = trim(str_replace(chr(92), '/', $image));
         if ($image === '') return '';
         // Datasets normally contain filenames, but safely accept relative paths too.
         $image = basename($image);
         foreach ($roots as $root) {
-            $root = trim(str_replace('\\\\', '/', $root), '/');
+            $root = trim(str_replace(chr(92), '/', $root), '/');
             if ($root === '') continue;
             if (is_file(__DIR__ . '/../' . $root . '/' . $image)) {
                 return $root . '/' . rawurlencode($image);
