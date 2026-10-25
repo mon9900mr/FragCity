@@ -6,7 +6,7 @@
   'use strict';
   const OWNER = 'mon9900mr';
   const REPO = 'FragCity';
-  const BRANCH = 'test';
+  const BRANCH = 'fragcity-skins-fix';
   const API = 'https://api.github.com/repos/' + OWNER + '/' + REPO + '/git/trees/' + BRANCH + '?recursive=1';
   const IMAGE_EXT = /\.(png|jpe?g|webp|gif|avif)$/i;
   const ROOTS = ['img/skins/', 'img/weapon/'];
