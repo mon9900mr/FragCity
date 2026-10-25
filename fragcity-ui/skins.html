@@ -10,7 +10,7 @@
 <script src="assets/js/app.js"></script><script>
 (()=>{const $=id=>document.getElementById(id);const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));let defaults=[];
 const categoryNames={rifles:'Rifles',pistols:'Pistols',snipers:'Snipers',smgs:'SMGs',shotguns:'Shotguns',machineguns:'Machine guns',knives:'Knives & Zeus',utility:'Utility',gloves:'Gloves',agents:'Agents'};
-const imageUrl=item=>{const raw=String(item.image||'');if(/^https?:\/\//i.test(raw))return raw;const paint=String(item.paint??'0');const weapon=String(item.weapon||'');return new URL(paint!=='0'&&weapon?'../img/skins/'+weapon+'-'+paint+'.png':'../img/weapon/'+weapon+'.png',document.baseURI).href};
+const imageUrl=item=>{const raw=String(item.image||'');if(/^https?:\/\//i.test(raw))return raw;const paint=String(item.paint??'0');const weapon=String(item.weapon||'');const file=paint!=='0'&&weapon?'skins/'+weapon+'-'+paint+'.png':'weapon/'+weapon+'.png';return 'https://raw.githack.com/mon9900mr/FragCity/fragcity-redesign/img/'+file};
 const label=item=>String(item.weaponLabel||item.name.split('|')[0]).trim();
 function render(){const q=$('weapon-search').value.trim().toLowerCase(),cat=$('category-filter').value;const groups=new Map();for(const item of defaults){const key=item.weapon||item.weapon_defindex||item.name;if(!groups.has(key))groups.set(key,{key,label:label(item),category:item.category||'collectibles',item,count:0});groups.get(key).count++}
 const list=[...groups.values()].filter(g=>(cat==='all'||g.category===cat)&&(!q||g.label.toLowerCase().includes(q)||g.item.name.toLowerCase().includes(q))).sort((a,b)=>a.label.localeCompare(b.label));
