@@ -124,7 +124,8 @@
     const catalogUrl=new URL('assets/data/all-skins.json',document.baseURI).href;
     const search=$('#skin-search'),sort=$('#skin-sort'),prev=$('#skin-prev'),next=$('#skin-next');
     let stickerSlot=0,stickerSlots=[null,null,null,null];
-    const pageSize=48;let catalog=[],page=0,category='all',weaponChoice='all',visible=[];
+    const specialPage=document.querySelector('[data-special-page]')?.dataset.specialPage||'';
+    const pageSize=48;let catalog=[],page=0,category=specialPage||'all',weaponChoice='all',visible=[];
     const treeLabels={rifles:'Rifles',pistols:'Pistols',snipers:'Snipers',smgs:'SMGs',shotguns:'Shotguns',machineguns:'Machine guns',utility:'Knives',gloves:'Gloves',agents:'Agents',stickers:'Stickers',charms:'Charms',music:'Music Kits',collectibles:'Collectibles'};
     const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     const localImageUrl=s=>{const values=[s?.imagePath,s?.image].map(v=>String(v??'').trim()).filter(Boolean);const data=values.find(v=>v.startsWith('data:image/'));for(const raw of values){if(/^https?:\\/\\//i.test(raw))continue;const clean=raw.replaceAll('\\\\','/').split(/[?#]/)[0];const filename=clean.split('/').pop();const paths=[];if(clean.startsWith('img/'))paths.push(clean);if(clean.startsWith('../img/'))paths.push(clean.slice(3));if(filename&&filename!=='')paths.push('img/skins/'+filename);for(const path of [...new Set(paths)]){try{return new URL('../'+path.replace(/^\\.\\//,''),document.baseURI).href}catch(_){}}}return ''};
