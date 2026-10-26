@@ -169,6 +169,19 @@
     try{const charm=JSON.parse(localStorage.getItem('fragcity-selected-charm')||'null');if(charm&&$('#selected-charm-name'))$('#selected-charm-name').textContent=charm.name;}catch(e){}
     $('#customizer-type')?.addEventListener('change',e=>{category=e.target.value;weaponChoice='all';page=0;const root=$(`[data-tree-root="${category}"]`);root?.click();render();});
     $('#save-loadout')?.addEventListener('click',()=>{try{localStorage.setItem('fragcity-visual-loadout',JSON.stringify({selected:JSON.parse(localStorage.getItem('fragcity-selected-skin')||'null'),stickers:stickerSlots}));toast(fa?'لوداوت ظاهری در مرورگر ذخیره شد.':'Visual loadout saved in this browser.');}catch(e){toast('Could not save loadout.');}});
+    function refreshSpecialLoadout(){
+      for(const [kind,key,labelId] of [['gloves','fragcity-selected-gloves','equipped-gloves-label'],['agents','fragcity-selected-agent','equipped-agent-label']]){
+        const node=$('#'+labelId);if(!node)continue;
+        try{const item=JSON.parse(localStorage.getItem(key)||'null');node.textContent=item?.name|| (fa?'انتخاب نشده':'Not selected');}catch(e){node.textContent=fa?'انتخاب نشده':'Not selected';}
+      }
+    }
+    $('[data-special-category]').forEach(button=>button.addEventListener('click',()=>{
+      const cat=button.dataset.specialCategory;
+      const root=$('[data-tree-root="'+cat+'"]');
+      if(root){root.click();$('#skin-grid')?.scrollIntoView({behavior:'smooth',block:'start'});}
+      else toast(fa?'این دسته در کاتالوگ فعلی آیتمی ندارد.':'No items from this category are present in the current catalog.');
+    }));
+    refreshSpecialLoadout();
     renderStickerSlots();
     async function loadCatalog(){
       const response=await fetch(catalogUrl,{cache:'no-store'});
@@ -248,6 +261,17 @@
       }
       const paint = Number(card.dataset.paint || 0);
       const defindex = weaponDefindex(card);
+      const itemCategory=String(card.dataset.type||'').toLowerCase();
+      if(itemCategory==='gloves'||itemCategory==='agents'){
+        const key=itemCategory==='gloves'?'fragcity-selected-gloves':'fragcity-selected-agent';
+        const item={name:card.dataset.skinName,category:itemCategory,image:card.dataset.image,imagePath:card.dataset.imagePath,paint:card.dataset.paint,weapon:card.dataset.weapon,selectedAt:new Date().toISOString()};
+        try{
+          localStorage.setItem(key,JSON.stringify(item));
+          refreshSpecialLoadout();
+          toast(itemCategory==='gloves'?(fa?'گلاوز برای لوداوت ظاهری ذخیره شد.':'Gloves saved to your visual loadout.'):(fa?'ایجنت برای لوداوت ظاهری ذخیره شد.':'Agent saved to your visual loadout.'));
+          return;
+        }catch(error){toast(fa?'ذخیره در مرورگر ممکن نشد.':'Could not save in this browser.');return;}
+      }
       if (!paint || !defindex) {
         toast(fa ? 'شناسه این سلاح در کاتالوگ مشخص نیست؛ چیزی ذخیره نشد.' : 'This catalog entry has no supported weapon ID; nothing was saved.');
         return;
