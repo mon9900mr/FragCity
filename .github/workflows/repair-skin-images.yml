@@ -1,0 +1,35 @@
+name: Repair missing skin images
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/repair-skin-images.yml'
+      - '.github/scripts/repair-skin-images.mjs'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: repair-skin-images
+  cancel-in-progress: false
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Find and download missing catalog images
+        run: node .github/scripts/repair-skin-images.mjs
+      - name: Commit downloaded images and corrected paths
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add fragcity-ui/assets/data/all-skins.json fragcity-ui/assets/data/skin-image-audit.json img/skins
+          if git diff --cached --quiet; then
+            echo "No file changes were required."
+          else
+            git commit -m "Repair missing skin images and normalize local paths"
+            git push
+          fi
