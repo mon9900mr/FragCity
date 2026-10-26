@@ -256,10 +256,6 @@
       if (!button) return;
       const card = button.closest('.skin-card');
       if (!card) return;
-      if (preview) {
-        toast(fa ? 'این پیش‌نمایش است؛ برای ثبت اسکین باید سایت PHP اصلی باز باشد.' : 'This is a static preview. Open the live PHP site to save a skin.');
-        return;
-      }
       const paint = Number(card.dataset.paint || 0);
       const defindex = weaponDefindex(card);
       const itemCategory=String(card.dataset.type||'').toLowerCase();
@@ -272,6 +268,10 @@
           toast(itemCategory==='gloves'?(fa?'گلاوز برای لوداوت ظاهری ذخیره شد.':'Gloves saved to your visual loadout.'):(fa?'ایجنت برای لوداوت ظاهری ذخیره شد.':'Agent saved to your visual loadout.'));
           return;
         }catch(error){toast(fa?'ذخیره در مرورگر ممکن نشد.':'Could not save in this browser.');return;}
+      }
+      if (preview) {
+        toast(fa ? 'این پیش‌نمایش است؛ برای ثبت اسکین باید سایت PHP اصلی باز باشد.' : 'This is a static preview. Open the live PHP site to save a skin.');
+        return;
       }
       if (!paint || !defindex) {
         toast(fa ? 'شناسه این سلاح در کاتالوگ مشخص نیست؛ چیزی ذخیره نشد.' : 'This catalog entry has no supported weapon ID; nothing was saved.');
