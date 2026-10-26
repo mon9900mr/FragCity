@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-10-26T13:47:36.645Z",
+  "generatedAt": "2026-10-26T14:05:22.226Z",
   "catalogItems": 2033,
   "sourceItems": 23671,
-  "existingAndValidatedLocalImages": 2033,
+  "existingAndValidatedLocalImages": 421,
   "pathsCorrected": 0,
-  "imagesDownloaded": 0,
+  "imagesDownloaded": 1612,
   "unmatchedItems": 0,
   "downloadFailures": 0,
   "invalidFiles": 0,
