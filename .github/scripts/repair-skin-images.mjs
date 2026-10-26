@@ -100,9 +100,14 @@ for (const item of catalog) {
     const normalized = p.split(/[?#]/)[0].split(String.fromCharCode(92)).join('/');
     const base = path.basename(normalized);
     if (!base) continue;
-    if (fileSet.has(base) && await isReadableImage(base)) { localFile = base; break; }
-    const matched = fileMap.get(norm(path.parse(base).name));
-    if (matched && await isReadableImage(matched)) { localFile = matched; break; }
+    const expectedName = norm(item.name);
+    const candidateName = norm(path.parse(base).name);
+    const isDefault = /\\| default$/.test(expectedName);
+    const isExactName = candidateName === expectedName ||
+      (isDefault && candidateName === norm(String(item.weaponLabel || item.weapon || '').replace(/^weapon_/, '')));
+    if (isExactName && fileSet.has(base) && await isReadableImage(base)) { localFile = base; break; }
+    const matched = fileMap.get(candidateName);
+    if (isExactName && matched && await isReadableImage(matched)) { localFile = matched; break; }
   }
   if (localFile) {
     const correct = '../img/skins/' + localFile;
