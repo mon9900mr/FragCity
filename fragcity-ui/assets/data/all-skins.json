@@ -1818,11 +1818,12 @@
     "name": "★ Bayonet | Gamma Doppler",
     "weapon": "weapon_bayonet",
     "paint": "570",
-    "image": "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20640%20420%22%3E%3Ctitle%3E%E2%98%85%20Bayonet%20%7C%20Gamma%20Doppler%3C%2Ftitle%3E%3Cdesc%3EGenerated%20FragCity%20illustrative%20placeholder%2C%20not%20an%20official%20CS2%20render.%3C%2Fdesc%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22b%22%3E%3Cstop%20stop-color%3D%22%23101827%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23080b13%22%2F%3E%3C%2FlinearGradient%3E%3ClinearGradient%20id%3D%22s%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20stop-color%3D%22%23ff365d%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23ff9f43%22%2F%3E%3C%2FlinearGradient%3E%3Cpattern%20id%3D%22p%22%20width%3D%2228%22%20height%3D%2228%22%20patternUnits%3D%22userSpaceOnUse%22%3E%3Cpath%20d%3D%22M28%200H0V28%22%20fill%3D%22none%22%20stroke%3D%22%239fb5d0%22%20stroke-opacity%3D%22.1%22%2F%3E%3C%2Fpattern%3E%3C%2Fdefs%3E%3Crect%20width%3D%22640%22%20height%3D%22420%22%20rx%3D%2224%22%20fill%3D%22url(%23b)%22%2F%3E%3Crect%20width%3D%22640%22%20height%3D%22420%22%20rx%3D%2224%22%20fill%3D%22url(%23p)%22%2F%3E%3Ccircle%20cx%3D%22320%22%20cy%3D%22190%22%20r%3D%22125%22%20fill%3D%22%23ff365d%22%20opacity%3D%22.13%22%2F%3E%3Cg%20transform%3D%22translate(78%2095)%20rotate(-7%20240%2090)%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M58%20120L100%2095L285%2091L319%2072L415%2077L445%2091L480%2092L494%20104L480%20114L420%20115L396%20132L312%20130L278%20144L180%20142L155%20176L112%20174L126%20139L80%20138Z%22%20fill%3D%22%2305080f%22%20stroke%3D%22%23dce8f7%22%20stroke-opacity%3D%22.65%22%20stroke-width%3D%223%22%2F%3E%3Cpath%20d%3D%22M76%20118L115%20105L279%20103L309%2086L406%2089L434%2098L472%20100L416%20106L388%20121L308%20119L270%20132L180%20130L151%20161L127%20160L138%20130L88%20129Z%22%20fill%3D%22url(%23s)%22%2F%3E%3Cpath%20d%3D%22M185%20121L226%20121L215%20163L183%20163Z%22%20fill%3D%22%230b1220%22%20stroke%3D%22%23f4f4f5%22%20stroke-width%3D%223%22%2F%3E%3Cpath%20d%3D%22M236%20108L252%20108L253%20121L235%20121Z%22%20fill%3D%22%23f4f4f5%22%2F%3E%3Cpath%20d%3D%22M318%2086L318%2069L344%2070L348%2086Z%22%20fill%3D%22%23202b3c%22%20stroke%3D%22%23dce8f7%22%20stroke-opacity%3D%22.5%22%2F%3E%3Cpath%20d%3D%22M432%2099L475%20101%22%20stroke%3D%22%23f4f4f5%22%20stroke-width%3D%224%22%2F%3E%3C%2Fg%3E%3Ctext%20x%3D%2234%22%20y%3D%2235%22%20fill%3D%22%23f8fafc%22%20font-family%3D%22Arial%22%20font-size%3D%2214%22%20font-weight%3D%22700%22%20letter-spacing%3D%223%22%3EFRAGCITY%20%2F%20GENERATED%20ART%3C%2Ftext%3E%3Ctext%20x%3D%2234%22%20y%3D%22370%22%20fill%3D%22%23f8fafc%22%20font-family%3D%22Arial%22%20font-size%3D%2221%22%20font-weight%3D%22700%22%3E%E2%98%85%20Bayonet%20%7C%20Gamma%20Doppler%3C%2Ftext%3E%3Ctext%20x%3D%2236%22%20y%3D%22394%22%20fill%3D%22%23f4f4f5%22%20font-family%3D%22Arial%22%20font-size%3D%2212%22%20font-weight%3D%22700%22%20letter-spacing%3D%222%22%3EBAYONET%20%E2%80%A2%20PLACEHOLDER%3C%2Ftext%3E%3C%2Fsvg%3E",
+    "image": "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpotLu8JAllx8zJfAJH4dmklYyPqPr1Ibndk2JL7cFOhuDG_Zi73VG2qUQ_am36LNKWcwM2Ml3X_FS8wL3vhMC0vJXOn3ZkuSAl7HiOmwv3308XDHXucw",
     "weapon_defindex": 500,
     "legacy_model": false,
     "category": "utility",
-    "weaponLabel": "BAYONET"
+    "weaponLabel": "BAYONET",
+    "imagePath": "../img/skins/★ Bayonet _ Gamma Doppler.png"
   },
   {
     "name": "★ Bayonet | Gamma Doppler",
@@ -1839,11 +1840,12 @@
     "name": "★ Bayonet | Gamma Doppler",
     "weapon": "weapon_bayonet",
     "paint": "572",
-    "image": "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20640%20420%22%3E%3Ctitle%3E%E2%98%85%20Bayonet%20%7C%20Gamma%20Doppler%3C%2Ftitle%3E%3Cdesc%3EGenerated%20FragCity%20illustrative%20placeholder%2C%20not%20an%20official%20CS2%20render.%3C%2Fdesc%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22b%22%3E%3Cstop%20stop-color%3D%22%23101827%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23080b13%22%2F%3E%3C%2FlinearGradient%3E%3ClinearGradient%20id%3D%22s%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20stop-color%3D%22%23ff365d%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23ff9f43%22%2F%3E%3C%2FlinearGradient%3E%3Cpattern%20id%3D%22p%22%20width%3D%2228%22%20height%3D%2228%22%20patternUnits%3D%22userSpaceOnUse%22%3E%3Cpath%20d%3D%22M28%200H0V28%22%20fill%3D%22none%22%20stroke%3D%22%239fb5d0%22%20stroke-opacity%3D%22.1%22%2F%3E%3C%2Fpattern%3E%3C%2Fdefs%3E%3Crect%20width%3D%22640%22%20height%3D%22420%22%20rx%3D%2224%22%20fill%3D%22url(%23b)%22%2F%3E%3Crect%20width%3D%22640%22%20height%3D%22420%22%20rx%3D%2224%22%20fill%3D%22url(%23p)%22%2F%3E%3Ccircle%20cx%3D%22320%22%20cy%3D%22190%22%20r%3D%22125%22%20fill%3D%22%23ff365d%22%20opacity%3D%22.13%22%2F%3E%3Cg%20transform%3D%22translate(78%2095)%20rotate(-7%20240%2090)%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M58%20120L100%2095L285%2091L319%2072L415%2077L445%2091L480%2092L494%20104L480%20114L420%20115L396%20132L312%20130L278%20144L180%20142L155%20176L112%20174L126%20139L80%20138Z%22%20fill%3D%22%2305080f%22%20stroke%3D%22%23dce8f7%22%20stroke-opacity%3D%22.65%22%20stroke-width%3D%223%22%2F%3E%3Cpath%20d%3D%22M76%20118L115%20105L279%20103L309%2086L406%2089L434%2098L472%20100L416%20106L388%20121L308%20119L270%20132L180%20130L151%20161L127%20160L138%20130L88%20129Z%22%20fill%3D%22url(%23s)%22%2F%3E%3Cpath%20d%3D%22M185%20121L226%20121L215%20163L183%20163Z%22%20fill%3D%22%230b1220%22%20stroke%3D%22%23f4f4f5%22%20stroke-width%3D%223%22%2F%3E%3Cpath%20d%3D%22M236%20108L252%20108L253%20121L235%20121Z%22%20fill%3D%22%23f4f4f5%22%2F%3E%3Cpath%20d%3D%22M318%2086L318%2069L344%2070L348%2086Z%22%20fill%3D%22%23202b3c%22%20stroke%3D%22%23dce8f7%22%20stroke-opacity%3D%22.5%22%2F%3E%3Cpath%20d%3D%22M432%2099L475%20101%22%20stroke%3D%22%23f4f4f5%22%20stroke-width%3D%224%22%2F%3E%3C%2Fg%3E%3Ctext%20x%3D%2234%22%20y%3D%2235%22%20fill%3D%22%23f8fafc%22%20font-family%3D%22Arial%22%20font-size%3D%2214%22%20font-weight%3D%22700%22%20letter-spacing%3D%223%22%3EFRAGCITY%20%2F%20GENERATED%20ART%3C%2Ftext%3E%3Ctext%20x%3D%2234%22%20y%3D%22370%22%20fill%3D%22%23f8fafc%22%20font-family%3D%22Arial%22%20font-size%3D%2221%22%20font-weight%3D%22700%22%3E%E2%98%85%20Bayonet%20%7C%20Gamma%20Doppler%3C%2Ftext%3E%3Ctext%20x%3D%2236%22%20y%3D%22394%22%20fill%3D%22%23f4f4f5%22%20font-family%3D%22Arial%22%20font-size%3D%2212%22%20font-weight%3D%22700%22%20letter-spacing%3D%222%22%3EBAYONET%20%E2%80%A2%20PLACEHOLDER%3C%2Ftext%3E%3C%2Fsvg%3E",
+    "image": "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpotLu8JAllx8zJfAJH4dmklYyPqPr1Ibndk2JL7cFOhuDG_Zi73VG2qUQ_am36LNKWcwM2Ml3X_FS8wL3vhMC0vJXOn3ZkuSAl7HiOmwv3308XDHXucw",
     "weapon_defindex": 500,
     "legacy_model": false,
     "category": "utility",
-    "weaponLabel": "BAYONET"
+    "weaponLabel": "BAYONET",
+    "imagePath": "../img/skins/★ Bayonet _ Gamma Doppler (2).png"
   },
   {
     "name": "★ Bayonet | Marble Fade",
@@ -2938,11 +2940,12 @@
     "name": "Desert Eagle  | Default",
     "weapon": "weapon_deagle",
     "paint": "0",
-    "image": "../img/weapon/weapon_deagle.png",
+    "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGJKz2lu_XuWbwcuyMESA4Fdl-4nnpU7iQA3-kKnk-CNc4_fgOfA8cfGRDTfGku13seI4Fyq2wUQm5DjWzo38IH3BO1N2W5MmTe5etw74zINmLLSKdA",
     "weapon_defindex": 1,
     "legacy_model": false,
     "category": "pistols",
-    "weaponLabel": "DEAGLE"
+    "weaponLabel": "DEAGLE",
+    "imagePath": "../img/skins/Desert Eagle _ Default.png"
   },
   {
     "name": "Desert Eagle | Firebreathing",
@@ -7469,11 +7472,12 @@
     "name": "★ Paracord Knife | Doppler",
     "weapon": "weapon_knife_cord",
     "paint": "415",
-    "image": "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20640%20420%22%3E%3Ctitle%3E%E2%98%85%20Paracord%20Knife%20%7C%20Doppler%3C%2Ftitle%3E%3Cdesc%3EGenerated%20FragCity%20illustrative%20placeholder%2C%20not%20an%20official%20CS2%20render.%3C%2Fdesc%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22b%22%3E%3Cstop%20stop-color%3D%22%23101827%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23080b13%22%2F%3E%3C%2FlinearGradient%3E%3ClinearGradient%20id%3D%22s%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20stop-color%3D%22%23ff805d%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%238b2cf5%22%2F%3E%3C%2FlinearGradient%3E%3Cpattern%20id%3D%22p%22%20width%3D%2228%22%20height%3D%2228%22%20patternUnits%3D%22userSpaceOnUse%22%3E%3Cpath%20d%3D%22M28%200H0V28%22%20fill%3D%22none%22%20stroke%3D%22%239fb5d0%22%20stroke-opacity%3D%22.1%22%2F%3E%3C%2Fpattern%3E%3C%2Fdefs%3E%3Crect%20width%3D%22640%22%20height%3D%22420%22%20rx%3D%2224%22%20fill%3D%22url(%23b)%22%2F%3E%3Crect%20width%3D%22640%22%20height%3D%22420%22%20rx%3D%2224%22%20fill%3D%22url(%23p)%22%2F%3E%3Ccircle%20cx%3D%22320%22%20cy%3D%22190%22%20r%3D%22125%22%20fill%3D%22%23ff805d%22%20opacity%3D%22.13%22%2F%3E%3Cg%20transform%3D%22translate(78%2095)%20rotate(-7%20240%2090)%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M58%20120L100%2095L285%2091L319%2072L415%2077L445%2091L480%2092L494%20104L480%20114L420%20115L396%20132L312%20130L278%20144L180%20142L155%20176L112%20174L126%20139L80%20138Z%22%20fill%3D%22%2305080f%22%20stroke%3D%22%23dce8f7%22%20stroke-opacity%3D%22.65%22%20stroke-width%3D%223%22%2F%3E%3Cpath%20d%3D%22M76%20118L115%20105L279%20103L309%2086L406%2089L434%2098L472%20100L416%20106L388%20121L308%20119L270%20132L180%20130L151%20161L127%20160L138%20130L88%20129Z%22%20fill%3D%22url(%23s)%22%2F%3E%3Cpath%20d%3D%22M185%20121L226%20121L215%20163L183%20163Z%22%20fill%3D%22%230b1220%22%20stroke%3D%22%23ffdc69%22%20stroke-width%3D%223%22%2F%3E%3Cpath%20d%3D%22M236%20108L252%20108L253%20121L235%20121Z%22%20fill%3D%22%23ffdc69%22%2F%3E%3Cpath%20d%3D%22M318%2086L318%2069L344%2070L348%2086Z%22%20fill%3D%22%23202b3c%22%20stroke%3D%22%23dce8f7%22%20stroke-opacity%3D%22.5%22%2F%3E%3Cpath%20d%3D%22M432%2099L475%20101%22%20stroke%3D%22%23ffdc69%22%20stroke-width%3D%224%22%2F%3E%3C%2Fg%3E%3Ctext%20x%3D%2234%22%20y%3D%2235%22%20fill%3D%22%23f8fafc%22%20font-family%3D%22Arial%22%20font-size%3D%2214%22%20font-weight%3D%22700%22%20letter-spacing%3D%223%22%3EFRAGCITY%20%2F%20GENERATED%20ART%3C%2Ftext%3E%3Ctext%20x%3D%2234%22%20y%3D%22370%22%20fill%3D%22%23f8fafc%22%20font-family%3D%22Arial%22%20font-size%3D%2221%22%20font-weight%3D%22700%22%3E%E2%98%85%20Paracord%20Knife%20%7C%20Doppler%3C%2Ftext%3E%3Ctext%20x%3D%2236%22%20y%3D%22394%22%20fill%3D%22%23ffdc69%22%20font-family%3D%22Arial%22%20font-size%3D%2212%22%20font-weight%3D%22700%22%20letter-spacing%3D%222%22%3EKNIFE_CORD%20%E2%80%A2%20PLACEHOLDER%3C%2Ftext%3E%3C%2Fsvg%3E",
+    "image": "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpovbSsLQJf0PzadQJD4eO0mIGInOfxMqndqWZQ-sd9j-Db8IjKhF2zowdyNjqhI9SQdw9tYQ3V-la6lb3ngJLv78jJzXcwvnQj7HeLmhyygkkYO_sv26IMYqz0aQ",
     "weapon_defindex": 517,
     "legacy_model": false,
     "category": "utility",
-    "weaponLabel": "KNIFE CORD"
+    "weaponLabel": "KNIFE CORD",
+    "imagePath": "../img/skins/★ Paracord Knife _ Doppler.png"
   },
   {
     "name": "★ Paracord Knife | Doppler",
@@ -8183,11 +8187,12 @@
     "name": "★ Flip Knife  | Default",
     "weapon": "weapon_knife_flip",
     "paint": "0",
-    "image": "../img/weapon/weapon_knife_flip.png",
+    "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGJKz2lu_XuWbwcuyMESA4Fdl-4nnpU7iQA3-kKnr8ytd6s2oZK19bqjKVjbDkbtwtbU4S3jhwElw4DvVzomhd3_CblV1CZd2TO5f4RG4lID5d7S15Y9TpQQ",
     "weapon_defindex": 505,
     "legacy_model": false,
     "category": "utility",
-    "weaponLabel": "KNIFE FLIP"
+    "weaponLabel": "KNIFE FLIP",
+    "imagePath": "../img/skins/★ Flip Knife _ Default.png"
   },
   {
     "name": "★ Flip Knife | Fade",
@@ -9612,11 +9617,12 @@
     "name": "★ Kukri Knife  | Default",
     "weapon": "weapon_knife_kukri",
     "paint": "0",
-    "image": "../img/weapon/weapon_knife_kukri.png",
+    "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGJKz2lu_XuWbwcuyMESA4Fdl-4nnpU7iQA3-kKnr8ytd6s2lfa9_Kb6VXmPGwuogsbNvSyi3zR4jsTnQztyqdS6QP1IoXpoiEeAC5Be5l9CxKaq8sIvgdE5J",
     "weapon_defindex": 526,
     "legacy_model": false,
     "category": "utility",
-    "weaponLabel": "KNIFE KUKRI"
+    "weaponLabel": "KNIFE KUKRI",
+    "imagePath": "../img/skins/★ Kukri Knife _ Default.png"
   },
   {
     "name": "★ Kukri Knife | Fade",
@@ -11734,11 +11740,12 @@
     "name": "★ Huntsman Knife  | Default",
     "weapon": "weapon_knife_tactical",
     "paint": "0",
-    "image": "../img/weapon/weapon_knife_tactical.png",
+    "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGJKz2lu_XuWbwcuyMESA4Fdl-4nnpU7iQA3-kKnr8ytd6s26aad5KfOSAimVlugu47U5HSrmzEp14zncz4ygICiealIiAsF2EOdYtkTpwNXuYbjk-UWA3JpY_ZDP",
     "weapon_defindex": 509,
     "legacy_model": false,
     "category": "utility",
-    "weaponLabel": "KNIFE TACTICAL"
+    "weaponLabel": "KNIFE TACTICAL",
+    "imagePath": "../img/skins/★ Huntsman Knife _ Default.png"
   },
   {
     "name": "★ Huntsman Knife | Fade",
@@ -12393,11 +12400,12 @@
     "name": "★ Talon Knife  | Default",
     "weapon": "weapon_knife_widowmaker",
     "paint": "0",
-    "image": "../img/weapon/weapon_knife_widowmaker.png",
+    "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGJKz2lu_XuWbwcuyMESA4Fdl-4nnpU7iQA3-kKnr8ytd6s25YaBiN_2SBWKCj7ghsrRrTHDnzB8h4mTRw9iudC_DPFVyCsF3R-Zc4xK_ldXgNb7qsgDAy9USS1NPX9M",
     "weapon_defindex": 523,
     "legacy_model": false,
     "category": "utility",
-    "weaponLabel": "KNIFE WIDOWMAKER"
+    "weaponLabel": "KNIFE WIDOWMAKER",
+    "imagePath": "../img/skins/★ Talon Knife _ Default.png"
   },
   {
     "name": "★ Talon Knife | Fade",
@@ -17078,11 +17086,12 @@
     "name": "P250  | Default",
     "weapon": "weapon_p250",
     "paint": "0",
-    "image": "../img/weapon/weapon_p250.png",
+    "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGJKz2lu_XuWbwcuyMESA4Fdl-4nnpU7iQA3-kKnwr3cLoaf4avNvJqKXXmKUlrp0s-U9HCvgw0V05WSDw96pIC6VOw92X8QkROAU8k7vNwsvFQ4",
     "weapon_defindex": 36,
     "legacy_model": false,
     "category": "pistols",
-    "weaponLabel": "P250"
+    "weaponLabel": "P250",
+    "imagePath": "../img/skins/P250 _ Default.png"
   },
   {
     "name": "P250 | Kintsugi",
@@ -18991,11 +19000,12 @@
     "name": "SCAR-20  | Default",
     "weapon": "weapon_scar20",
     "paint": "0",
-    "image": "../img/weapon/weapon_scar20.png",
+    "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGJKz2lu_XuWbwcuyMESA4Fdl-4nnpU7iQA3-kKnz_iNJvaLgbqY_JqbKV2TExL11s7JoGnjkl05-4TvUw96vdHiQOwZ1AsMiQuMOtQ74zINGfpXf5Q",
     "weapon_defindex": 38,
     "legacy_model": false,
     "category": "snipers",
-    "weaponLabel": "SCAR20"
+    "weaponLabel": "SCAR20",
+    "imagePath": "../img/skins/SCAR-20 _ Default.png"
   },
   {
     "name": "SCAR-20 | Army Sheen",
@@ -21861,11 +21871,12 @@
     "name": "XM1014  | Default",
     "weapon": "weapon_xm1014",
     "paint": "0",
-    "image": "../img/weapon/weapon_xm1014.png",
+    "image": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/weapons/base_weapons/weapon_xm1014_png.png",
     "weapon_defindex": 25,
     "legacy_model": false,
     "category": "shotguns",
-    "weaponLabel": "XM1014"
+    "weaponLabel": "XM1014",
+    "imagePath": "../img/skins/XM1014 _ Default.png"
   },
   {
     "name": "XM1014 | Ancient Lore",
