@@ -13,7 +13,7 @@
   const languageButton = document.querySelector('.language-toggle');
   if (languageButton) languageButton.remove();
   const languageStyle = document.createElement('style');
-  languageStyle.textContent = '.topbar, .topbar nav, footer { direction:rtl } .topbar nav { margin-inline:auto } footer .fc-powered-by { direction:ltr; white-space:nowrap } #fc-non-skin-notice { direction:rtl }';
+  languageStyle.textContent = '.topbar, .topbar nav, footer { direction:rtl } .topbar nav { margin-inline:auto } .language-toggle { display:none!important } footer .fc-powered-by { direction:ltr; white-space:nowrap } #fc-non-skin-notice { direction:rtl }';
   document.head.appendChild(languageStyle);
 
   const backendBase = () => String(
