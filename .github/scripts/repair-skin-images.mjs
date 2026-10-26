@@ -140,3 +140,10 @@ for (const item of catalog) {
 }
 await fs.writeFile(catalogPath, JSON.stringify(catalog,null,2)+'\n');
 const report={generatedAt:new Date().toISOString(),catalogItems:catalog.length,sourceItems:sources.length,existingAndValidatedLocalImages:alreadyGood,pathsCorrected:fixedPaths,imagesDownloaded:downloaded,unmatchedItems:missing,downloadFailures:failed,invalidFiles,unresolved:missingItems}
+await fs.writeFile(reportPath, JSON.stringify(report, null, 2) + '\n');
+console.log(JSON.stringify({
+  ...report,
+  reportPath: path.relative(root, reportPath),
+  catalogPath: path.relative(root, catalogPath),
+  note: 'Validation checks local file presence, size, extension and basic signature. It does not prove full image decoding or visual identity match.'
+}, null, 2));
