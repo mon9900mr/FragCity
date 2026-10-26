@@ -9,7 +9,9 @@ const apiUrls = [
   'https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/skins_not_grouped.json',
   'https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/skins.json',
   'https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/agents.json',
-  'https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/gloves.json'
+  'https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/gloves.json',
+  'https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/base_weapons.json',
+  'https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/all.json'
 ];
 const norm = v => String(v || '').normalize('NFKD').toLowerCase()
   .replace(/[★™®]/g, '').replace(/[^a-z0-9]+/g, ' ').trim().replace(/\s+/g, ' ');
@@ -25,7 +27,7 @@ async function downloadImage(url, dest) {
       const r = await fetch(url, {headers:{'user-agent':'FragCity-SkinImageRepair/1.0'}, signal:AbortSignal.timeout(25000), redirect:'follow'});
       if (!r.ok) throw new Error('HTTP '+r.status);
       const type = (r.headers.get('content-type') || '').toLowerCase();
-      if (!type.startsWith('image/')) throw new Error('Not an image: '+type);
+      if (type && !type.startsWith('image/') && !type.includes('octet-stream')) throw new Error('Not an image: '+type);
       const bytes = Buffer.from(await r.arrayBuffer());
       if (bytes.length < 100 || bytes.length > 12*1024*1024) throw new Error('Unexpected image size '+bytes.length);
       const sig = bytes.subarray(0, 12);
@@ -81,8 +83,10 @@ for (const item of catalog) {
     alreadyGood++;
     continue;
   }
-  const source = sourceByName.get(norm(item.name)) ||
-    sourceByName.get(norm(String(item.name).replace(/\s*\([^)]*\)\s*$/, '')));
+  const normalizedName = norm(item.name);
+  const source = sourceByName.get(normalizedName) ||
+    sourceByName.get(norm(String(item.name).replace(/\s*\([^)]*\)\s*$/, ''))) ||
+    (/(^| )default$/.test(normalizedName) ? sourceByName.get(norm(String(item.name).replace(/\s*\|\s*default\s*$/i, ''))) : null);
   if (!source?.image) {
     missing++; missingItems.push({name:item.name, reason:'not-found-in-image-source'}); continue;
   }
