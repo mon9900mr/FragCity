@@ -96,7 +96,7 @@ for (const item of catalog) {
     .filter(v=>typeof v==='string' && !v.startsWith('data:') && !/^https?:\\/\\//i.test(v));
   let localFile = null;
   for (const p of candidatePaths) {
-    const normalized=p.split(/[?#]/)[0].replace(/\\\\/g,'/');
+    const normalized=p.split(/[?#]/)[0].replace(/\\/g,'/');
     const base=path.basename(normalized);
     if (!base) continue;
     if (fileSet.has(base) && await isReadableImage(base)) { localFile=base; break; }
@@ -117,7 +117,7 @@ for (const item of catalog) {
     missing++; missingItems.push({name:item.name,reason:'not-found-in-image-source',oldPath:item.imagePath||null}); continue;
   }
   const ext=/\\.jpe?g(?:[?#]|$)/i.test(source.image)?'.jpg':/\\.webp(?:[?#]|$)/i.test(source.image)?'.webp':'.png';
-  const baseName=String(item.name).replace(/[<>:"/\\\\|?*\\x00-\\x1F]/g,'_').replace(/\\s+/g,' ').trim().slice(0,150);
+  const baseName=String(item.name).replace(/[<>:"/\\|?*\\x00-\\x1F]/g,'_').replace(/\\s+/g,' ').trim().slice(0,150);
   let filename=baseName+ext, n=2;
   while(reserved.has(filename.toLowerCase())) filename=baseName+' ('+n+++')'+ext;
   const dest=path.join(imageDir,filename);
