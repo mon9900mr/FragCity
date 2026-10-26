@@ -63,50 +63,73 @@ for (const item of sources) {
   if (!sourceByName.has(key)) sourceByName.set(key, item);
   if (item.market_hash_name) sourceByName.set(norm(item.market_hash_name), item);
 }
-let alreadyGood=0, fixedPaths=0, downloaded=0, missing=0, failed=0;
+let alreadyGood=0, fixedPaths=0, downloaded=0, missing=0, failed=0, invalidFiles=0;
 const missingItems=[];
+const invalidItems=[];
 const reserved=new Set(files.map(f=>f.toLowerCase()));
+const fileSet=new Set(files);
+const imageExts=new Set(['.png','.jpg','.jpeg','.webp','.gif','.svg']);
+async function isReadableImage(filename) {
+  try {
+    const full=path.join(imageDir,filename);
+    const st=await fs.stat(full);
+    if (!st.isFile() || st.size < 100) return false;
+    const ext=path.extname(filename).toLowerCase();
+    if (!imageExts.has(ext)) return false;
+    const h=await fs.open(full,'r');
+    try {
+      const b=Buffer.alloc(16);
+      const {bytesRead}=await h.read(b,0,b.length,0);
+      if (bytesRead < 3) return false;
+      return (b[0]===0x89 && b.toString('ascii',1,4)==='PNG') ||
+        (b[0]===0xff && b[1]===0xd8) ||
+        b.toString('ascii',0,4)==='RIFF' ||
+        b.toString('ascii',0,3)==='GIF' ||
+        b.toString('ascii',0,4)==='<svg' ||
+        b.toString('ascii',0,5)==='<?xml';
+    } finally { await h.close(); }
+  } catch { return false; }
+}
 for (const item of catalog) {
   if (!item || typeof item!=='object' || !item.name) continue;
   const candidatePaths = [item.imagePath, item.image_path, item.localImage, item.image]
-    .filter(v=>typeof v==='string' && !v.startsWith('data:') && !/^https?:\/\//i.test(v));
+    .filter(v=>typeof v==='string' && !v.startsWith('data:') && !/^https?:\\/\\//i.test(v));
   let localFile = null;
   for (const p of candidatePaths) {
-    const base = path.basename(p.split(/[?#]/)[0].replace(/\\/g,'/'));
-    if (base && files.includes(base)) { localFile=base; break; }
+    const normalized=p.split(/[?#]/)[0].replace(/\\\\/g,'/');
+    const base=path.basename(normalized);
+    if (!base) continue;
+    if (fileSet.has(base) && await isReadableImage(base)) { localFile=base; break; }
     const matched=fileMap.get(norm(path.parse(base).name));
-    if (matched) { localFile=matched; break; }
+    if (matched && await isReadableImage(matched)) { localFile=matched; break; }
   }
   if (localFile) {
-    const correct = '../img/skins/' + localFile;
+    const correct='../img/skins/'+localFile;
     if (item.imagePath !== correct) { item.imagePath=correct; fixedPaths++; }
     alreadyGood++;
     continue;
   }
-  const normalizedName = norm(item.name);
-  const source = sourceByName.get(normalizedName) ||
-    sourceByName.get(norm(String(item.name).replace(/\s*\([^)]*\)\s*$/, ''))) ||
-    (/(^| )default$/.test(normalizedName) ? sourceByName.get(norm(String(item.name).replace(/\s*\|\s*default\s*$/i, ''))) : null);
+  const normalizedName=norm(item.name);
+  const source=sourceByName.get(normalizedName) ||
+    sourceByName.get(norm(String(item.name).replace(/\\s*\\([^)]*\\)\\s*$/, ''))) ||
+    (/(^| )default$/.test(normalizedName) ? sourceByName.get(norm(String(item.name).replace(/\\s*\\|\\s*default\\s*$/i, ''))) : null);
   if (!source?.image) {
-    missing++; missingItems.push({name:item.name, reason:'not-found-in-image-source'}); continue;
+    missing++; missingItems.push({name:item.name,reason:'not-found-in-image-source',oldPath:item.imagePath||null}); continue;
   }
-  const ext = /\.jpe?g(?:[?#]|$)/i.test(source.image) ? '.jpg' : /\.webp(?:[?#]|$)/i.test(source.image) ? '.webp' : '.png';
-  const baseName = String(item.name).replace(/[<>:"/\\|?*\x00-\x1F]/g,'_').replace(/\s+/g,' ').trim().slice(0,150);
-  let filename = baseName + ext;
-  let n=2;
-  while (reserved.has(filename.toLowerCase())) { filename=baseName+' ('+n+++')'+ext; }
+  const ext=/\\.jpe?g(?:[?#]|$)/i.test(source.image)?'.jpg':/\\.webp(?:[?#]|$)/i.test(source.image)?'.webp':'.png';
+  const baseName=String(item.name).replace(/[<>:"/\\\\|?*\\x00-\\x1F]/g,'_').replace(/\\s+/g,' ').trim().slice(0,150);
+  let filename=baseName+ext, n=2;
+  while(reserved.has(filename.toLowerCase())) filename=baseName+' ('+n+++')'+ext;
   const dest=path.join(imageDir,filename);
   const ok=await downloadImage(source.image,dest);
-  if (ok) {
-    reserved.add(filename.toLowerCase()); files.push(filename);
-    item.imagePath='../img/skins/'+filename;
-    item.image=source.image;
+  if(ok && await isReadableImage(filename)) {
+    reserved.add(filename.toLowerCase()); files.push(filename); fileSet.add(filename);
+    item.imagePath='../img/skins/'+filename; item.image=source.image;
     downloaded++; fileMap.set(norm(path.parse(filename).name),filename);
   } else {
-    failed++; missingItems.push({name:item.name, reason:'download-failed', source:source.image});
+    failed++; invalidFiles++;
+    missingItems.push({name:item.name,reason:'download-failed-or-invalid-image',source:source.image,oldPath:item.imagePath||null});
   }
 }
 await fs.writeFile(catalogPath, JSON.stringify(catalog,null,2)+'\n');
-const report={generatedAt:new Date().toISOString(),catalogItems:catalog.length,sourceItems:sources.length,existingOrMatchedLocalImages:alreadyGood,pathsNormalized:fixedPaths,imagesDownloaded:downloaded,unmatchedItems:missing,downloadFailures:failed,unresolved:missingItems};
-await fs.writeFile(reportPath, JSON.stringify(report,null,2)+'\n');
-console.log(JSON.stringify(report,null,2));
+const report={generatedAt:new Date().toISOString(),catalogItems:catalog.length,sourceItems:sources.length,existingAndValidatedLocalImages:alreadyGood,pathsCorrected:fixedPaths,imagesDownloaded:downloaded,unmatchedItems:missing,downloadFailures:failed,invalidFiles,unresolved:missingItems}
