@@ -5,6 +5,17 @@
   const path = location.pathname.toLowerCase();
   if (path.endsWith('/skins.html') || path.endsWith('/skin.html')) return;
 
+  // Persian is the sole UI language on non-skin pages; preserve RTL even if an
+  // older browser preference previously stored English. The skin page is excluded.
+  document.documentElement.lang = 'fa';
+  document.documentElement.dir = 'rtl';
+  try { localStorage.setItem('fragcity-language', 'fa'); } catch (_) {}
+  const languageButton = document.querySelector('.language-toggle');
+  if (languageButton) languageButton.remove();
+  const languageStyle = document.createElement('style');
+  languageStyle.textContent = '.topbar, .topbar nav, footer { direction:rtl } .topbar nav { margin-inline:auto } footer .fc-powered-by { direction:ltr; white-space:nowrap } #fc-non-skin-notice { direction:rtl }';
+  document.head.appendChild(languageStyle);
+
   const backendBase = () => String(
     window.FRAGCITY_BACKEND_URL ||
     document.querySelector('meta[name="fragcity-backend-url"]')?.content ||
