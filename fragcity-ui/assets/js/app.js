@@ -175,8 +175,8 @@
       const data=await response.json();
       if(!Array.isArray(data)||!data.length)throw new Error('Skin catalog is empty');
       if(window.FragCitySkinBackend&&typeof window.FragCitySkinBackend.loadCatalog==='function'){
-        try{catalog=await window.FragCitySkinBackend.loadCatalog(catalogUrl,data);}catch(scanError){console.warn('Repository image scan unavailable; using catalog image paths:',scanError);catalog=data.filter(s=>s.name&&s.image&&s.category).map(s=>({...s,imagePath:String(s.image).startsWith('img/')?s.image:'img/skins/'+String(s.image).split('/').pop()}));}
-      }else{catalog=data.filter(s=>s.name&&s.image&&s.category).map(s=>({...s,imagePath:String(s.image).startsWith('img/')?s.image:'img/skins/'+String(s.image).split('/').pop()}));}
+        try{catalog=await window.FragCitySkinBackend.loadCatalog(catalogUrl,data);}catch(scanError){console.warn('Repository image scan unavailable; using catalog image paths:',scanError);catalog=data.filter(s=>s.name&&s.image&&s.category).map(s=>{const image=String(s.image||'').trim();const local=/^(?:\.\.\/)?img\/skins\//i.test(image)||(!/^https?:\/\//i.test(image)&&!image.startsWith('data:image/'));return {...s,imagePath:s.imagePath||(local?image:'')};});}
+      }else{catalog=data.filter(s=>s.name&&s.image&&s.category).map(s=>{const image=String(s.image||'').trim();const local=/^(?:\.\.\/)?img\/skins\//i.test(image)||(!/^https?:\/\//i.test(image)&&!image.startsWith('data:image/'));return {...s,imagePath:s.imagePath||(local?image:'')};});}
       if(!catalog.length)throw new Error('No usable skin entries');
       buildTree();render();
       try{
