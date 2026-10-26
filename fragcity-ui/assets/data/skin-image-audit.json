@@ -1,11 +1,12 @@
 {
-  "generatedAt": "2026-10-26T13:35:26.184Z",
+  "generatedAt": "2026-10-26T13:47:36.645Z",
   "catalogItems": 2033,
   "sourceItems": 23671,
-  "existingOrMatchedLocalImages": 2022,
-  "pathsNormalized": 0,
-  "imagesDownloaded": 11,
+  "existingAndValidatedLocalImages": 2033,
+  "pathsCorrected": 0,
+  "imagesDownloaded": 0,
   "unmatchedItems": 0,
   "downloadFailures": 0,
+  "invalidFiles": 0,
   "unresolved": []
 }
