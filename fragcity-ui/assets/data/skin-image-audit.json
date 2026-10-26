@@ -1,0 +1,59 @@
+{
+  "generatedAt": "2026-10-26T13:30:48.011Z",
+  "catalogItems": 2033,
+  "sourceItems": 23596,
+  "existingOrMatchedLocalImages": 1596,
+  "pathsNormalized": 1596,
+  "imagesDownloaded": 426,
+  "unmatchedItems": 8,
+  "downloadFailures": 3,
+  "unresolved": [
+    {
+      "name": "★ Bayonet | Gamma Doppler",
+      "reason": "download-failed",
+      "source": "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpotLu8JAllx8zJfAJH4dmklYyPqPr1Ibndk2JL7cFOhuDG_Zi73VG2qUQ_am36LNKWcwM2Ml3X_FS8wL3vhMC0vJXOn3ZkuSAl7HiOmwv3308XDHXucw"
+    },
+    {
+      "name": "★ Bayonet | Gamma Doppler",
+      "reason": "download-failed",
+      "source": "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpotLu8JAllx8zJfAJH4dmklYyPqPr1Ibndk2JL7cFOhuDG_Zi73VG2qUQ_am36LNKWcwM2Ml3X_FS8wL3vhMC0vJXOn3ZkuSAl7HiOmwv3308XDHXucw"
+    },
+    {
+      "name": "Desert Eagle  | Default",
+      "reason": "not-found-in-image-source"
+    },
+    {
+      "name": "★ Paracord Knife | Doppler",
+      "reason": "download-failed",
+      "source": "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpovbSsLQJf0PzadQJD4eO0mIGInOfxMqndqWZQ-sd9j-Db8IjKhF2zowdyNjqhI9SQdw9tYQ3V-la6lb3ngJLv78jJzXcwvnQj7HeLmhyygkkYO_sv26IMYqz0aQ"
+    },
+    {
+      "name": "★ Flip Knife  | Default",
+      "reason": "not-found-in-image-source"
+    },
+    {
+      "name": "★ Kukri Knife  | Default",
+      "reason": "not-found-in-image-source"
+    },
+    {
+      "name": "★ Huntsman Knife  | Default",
+      "reason": "not-found-in-image-source"
+    },
+    {
+      "name": "★ Talon Knife  | Default",
+      "reason": "not-found-in-image-source"
+    },
+    {
+      "name": "P250  | Default",
+      "reason": "not-found-in-image-source"
+    },
+    {
+      "name": "SCAR-20  | Default",
+      "reason": "not-found-in-image-source"
+    },
+    {
+      "name": "XM1014  | Default",
+      "reason": "not-found-in-image-source"
+    }
+  ]
+}
