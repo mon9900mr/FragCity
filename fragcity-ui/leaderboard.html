@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101012">
+<meta name="fragcity-leaderboard-api" content="">
+<title>جدول رتبه‌بندی — FRAG CITY</title>
+<link rel="stylesheet" href="assets/css/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{font-family:Vazirmatn,Tahoma,sans-serif}.leader-wrap{max-width:1120px;margin:auto;padding:48px 22px 90px}.leader-hero{padding:34px 30px;background:linear-gradient(135deg,#251019,#141416 68%);border:1px solid #ff17644d;box-shadow:0 0 35px #ff17640c;margin-bottom:25px;position:relative;overflow:hidden}.leader-hero:after{content:'TOP 10';position:absolute;left:18px;bottom:-32px;font:900 88px/1 'Barlow Condensed',sans-serif;color:#ff17640b;pointer-events:none}.leader-hero .eyebrow{color:#ff1764}.leader-hero h1{font-size:clamp(34px,5vw,58px);margin:12px 0}.leader-hero p{color:var(--muted);max-width:650px}.leader-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.leader-panel{border:1px solid var(--line);background:var(--panel);padding:18px}.leader-panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}.leader-panel-head h2{margin:0;font-size:20px}.leader-status{color:var(--muted);font-size:12px}.leader-table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:560px}th,td{text-align:right;padding:14px 12px;border-bottom:1px solid #ffffff10}th{font-size:11px;color:#ff1764;background:#ff17640b}td{font-size:13px}tbody tr:hover{background:#ff176408}.rank{display:inline-grid;place-items:center;width:32px;height:32px;border:1px solid #ff17644d;color:#ff1764;font-weight:900}.player-cell{display:flex;align-items:center;gap:10px;font-weight:800}.player-avatar{width:32px;height:32px;display:grid;place-items:center;background:#ff176415;border:1px solid #ff17644d;color:#ff1764}.points{font-weight:900;color:#ff1764}.leader-message{padding:24px;text-align:center;border:1px dashed #ff17644d;color:var(--muted);line-height:2}.leader-message strong{display:block;color:#f4f3f1;font-size:16px;margin-bottom:6px}.leader-error{color:#ff8cae}.leader-footnote{font-size:11px;color:var(--muted);margin-top:14px}
+@media(max-width:650px){.leader-wrap{padding:26px 14px 55px}.leader-hero{padding:24px 18px}.leader-panel{padding:12px}}
+</style></head>
+<body>
+<header class="topbar">
+<a class="brand" href="index.html"><span class="brand-mark">F</span><span>FRAG<span class="red">CITY</span><small>میدان بازی، قوانین تو</small></span></a>
+<button class="menu-toggle" aria-label="باز کردن منو">☰</button>
+<nav><a href="index.html">خانه</a><a href="servers.html">سرورها</a><a href="skins.html">اسکین‌ها</a><a href="guides.html">راهنما</a><a class="active" href="leaderboard.html">لیدربرد</a><a href="account.html">حساب کاربری</a></nav>
+<a class="button button-small" href="account.html">حساب کاربری ↗</a>
+</header>
+<main class="leader-wrap">
+<section class="leader-hero"><div class="eyebrow"><i></i> FRAG CITY / PLAYER RANKINGS</div><h1>جدول <span class="red">رتبه‌بندی</span></h1><p>رتبه بازیکن‌ها بر اساس آمار ثبت‌شده در بک‌اند سرور. اطلاعات نمایشی ساختگی نیست؛ اگر API در دسترس نباشد، جدول به‌جای امتیازهای جعلی وضعیت اتصال را نشان می‌دهد.</p><div class="leader-actions"><button class="button" id="refresh-leaderboard" type="button">↻ بروزرسانی جدول</button><a class="button button-ghost" href="index.html">بازگشت به خانه</a></div></section>
+<section class="leader-panel"><div class="leader-panel-head"><h2>🏆 بازیکن‌های برتر</h2><span class="leader-status" id="leader-status" role="status">در حال بررسی اتصال…</span></div>
+<div id="leader-content" class="leader-message"><strong>در حال دریافت آمار</strong>لطفاً چند لحظه صبر کن.</div>
+<p class="leader-footnote">منبع داده: API بک‌اند FRAG CITY. برای استفاده روی نسخه استاتیک، آدرس endpoint جدول رتبه‌بندی را در meta با نام <code>fragcity-leaderboard-api</code> قرار بده.</p>
+</section>
+</main>
+<script>
+(()=> {
+ const status=document.getElementById('leader-status'), content=document.getElementById('leader-content'), refresh=document.getElementById('refresh-leaderboard');
+ const configured=document.querySelector('meta[name="fragcity-leaderboard-api"]')?.content.trim();
+ const preview=/raw\.githack\.com|github\.io|github\.com$/.test(location.hostname);
+ const endpoint=configured || (!preview ? new URL('../index.php?page=leaderboard&format=json',location.href).href : '');
+ const esc=v=>String(v??'—').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ function rowsFrom(data){if(Array.isArray(data))return data;for(const k of ['players','leaderboard','rankings','data','results'])if(Array.isArray(data?.[k]))return data[k];return null}
+ function showError(message, title='اتصال به داده‌های لیدربرد برقرار نشد'){status.textContent='آفلاین';content.className='leader-message leader-error';content.innerHTML='<strong>'+esc(title)+'</strong>'+esc(message)}
+ async function load(){
+  if(!endpoint){status.textContent='نیاز به تنظیم بک‌اند';content.className='leader-message';content.innerHTML='<strong>آدرس API هنوز تنظیم نشده</strong>نسخه فعلی از طریق GitHub نمایش داده می‌شود و به PHP بک‌اند دسترسی مستقیم ندارد. آدرس endpoint واقعی لیدربرد را در meta با نام fragcity-leaderboard-api تنظیم کن؛ پس از اتصال، اطلاعات زنده نمایش داده می‌شود.';return}
+  refresh.disabled=true;status.textContent='در حال دریافت…';content.className='leader-message';content.textContent='در حال دریافت آمار از بک‌اند…';
+  try{
+   const response=await fetch(endpoint,{headers:{Accept:'application/json'},credentials:'same-origin',cache:'no-store'});
+   if(!response.ok)throw new Error('پاسخ سرور: HTTP '+response.status);
+   const data=await response.json();const players=rowsFrom(data);
+   if(!players)throw new Error('ساختار JSON شناخته نشد؛ پاسخ باید آرایه بازیکن‌ها یا players/data/results باشد.');
+   const normalized=players.map((p,i)=>({rank:p.rank??p.position??i+1,name:p.name??p.username??p.player_name??p.steam_name??'بازیکن ناشناس',score:p.score??p.points??p.kills??p.total_score??'—',wins:p.wins??p.matches_won??p.games_won??'—',hours:p.hours??p.playtime??p.time_played??'—'}));
+   if(!normalized.length){content.className='leader-message';content.innerHTML='<strong>هنوز آماری ثبت نشده</strong>بک‌اند جدول خالی برگرداند.';status.textContent='بدون داده';return}
+   content.className='leader-table-wrap';content.innerHTML='<table><thead><tr><th>رتبه</th><th>بازیکن</th><th>امتیاز / کیل</th><th>برد</th><th>زمان بازی</th></tr></thead><tbody>'+normalized.map(p=>'<tr><td><span class="rank">'+esc(p.rank)+'</span></td><td><div class="player-cell"><span class="player-avatar">F</span>'+esc(p.name)+'</div></td><td class="points">'+esc(p.score)+'</td><td>'+esc(p.wins)+'</td><td>'+esc(p.hours)+'</td></tr>').join('')+'</tbody></table>';
+   status.textContent=normalized.length+' بازیکن • بروزرسانی شد';
+  }catch(e){showError(e.message+'؛ endpoint و دسترسی CORS/JSON بک‌اند را بررسی کن.')}
+  finally{refresh.disabled=false}
+ }
+ refresh.addEventListener('click',load);load();
+})();
+</script><script src="assets/js/app.js"></script>
+</body></html>
