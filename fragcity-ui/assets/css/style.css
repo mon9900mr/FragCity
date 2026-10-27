@@ -718,3 +718,37 @@ footer a:hover{color:var(--fc-cyan);text-shadow:0 0 12px #00f5ff66}
 .hero-art:before{background:linear-gradient(125deg,transparent 35%,#ff176422 36%,transparent 37%),linear-gradient(35deg,transparent 55%,#fff1 55.2%,transparent 55.7%)}
 .ring{border-color:#ff17645c}.ring-two{border-color:#ffffff35}.crosshair{color:#ff1764}
 .feature-card:hover{border-color:#ff17646b}
+
+
+/* Final global button pass: every button uses one solid neon-pink color. */
+:root{--button-neon:#ff1764;--button-neon-shadow:#9c0b3c}
+button,.button,input[type="button"],input[type="submit"],input[type="reset"],[role="button"],.filter,.skin-tree-node,.skin-tree-leaf,.preview-sticker{
+  background-color:var(--button-neon)!important;
+  background-image:none!important;
+  border-color:var(--button-neon)!important;
+  color:#fff!important;
+  box-shadow:0 4px 0 var(--button-neon-shadow),0 0 16px #ff17644d!important;
+}
+button:hover,.button:hover,input[type="button"]:hover,input[type="submit"]:hover,input[type="reset"]:hover,[role="button"]:hover,.filter:hover,.skin-tree-node:hover,.skin-tree-leaf:hover,.preview-sticker:hover{
+  background-color:var(--button-neon)!important;
+  background-image:none!important;
+  border-color:var(--button-neon)!important;
+  color:#fff!important;
+  box-shadow:0 4px 0 var(--button-neon-shadow),0 0 24px #ff176488!important;
+  filter:brightness(1.08);
+}
+button:active,.button:active,input[type="button"]:active,input[type="submit"]:active,input[type="reset"]:active,[role="button"]:active,.filter:active,.skin-tree-node:active,.skin-tree-leaf:active,.preview-sticker:active{
+  background-color:var(--button-neon)!important;
+  background-image:none!important;
+  transform:translateY(3px) scale(.985)!important;
+  box-shadow:inset 0 3px 7px #79052d,0 1px 0 var(--button-neon-shadow)!important;
+  filter:brightness(.95);
+}
+/* Prevent ghost/danger variants and decorative pseudo-elements from adding a second color. */
+.button-ghost,.button-danger,.menu-toggle{
+  background-color:var(--button-neon)!important;
+  background-image:none!important;
+  border-color:var(--button-neon)!important;
+  color:#fff!important;
+}
+button::before,button::after,.button::before,.button::after{background-image:none}
