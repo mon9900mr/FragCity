@@ -110,7 +110,37 @@
     $$('input,textarea').forEach(el=>{if(!originalPlaceholders.has(el))originalPlaceholders.set(el,el.getAttribute('placeholder'));const p=originalPlaceholders.get(el);if(fa&&p)el.setAttribute('placeholder',dict[p]||p);else if(!fa&&p!==null)el.setAttribute('placeholder',p);});
     document.title=fa?'فرگ سیتی — صاحب میدان باش':originalTitle;
   }
-  const nav=$('nav'),menu=$('.menu-toggle');if(menu&&nav)menu.addEventListener('click',()=>{const open=nav.classList.toggle('open');menu.setAttribute('aria-expanded',String(open));});
+  const nav=$('nav'),menu=$('.menu-toggle');
+  if(menu&&nav){
+    nav.classList.remove('open');
+    menu.setAttribute('aria-expanded','false');
+    menu.addEventListener('click',e=>{
+      e.preventDefault();
+      e.stopPropagation();
+      const open=nav.classList.toggle('open');
+      menu.setAttribute('aria-expanded',String(open));
+      menu.setAttribute('aria-label',open?'بستن منو':'باز کردن منو');
+    });
+    nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+      nav.classList.remove('open');
+      menu.setAttribute('aria-expanded','false');
+      menu.setAttribute('aria-label','باز کردن منو');
+    }));
+    document.addEventListener('click',e=>{
+      if(!nav.contains(e.target)&&!menu.contains(e.target)){
+        nav.classList.remove('open');
+        menu.setAttribute('aria-expanded','false');
+        menu.setAttribute('aria-label','باز کردن منو');
+      }
+    });
+    document.addEventListener('keydown',e=>{
+      if(e.key==='Escape'){
+        nav.classList.remove('open');
+        menu.setAttribute('aria-expanded','false');
+        menu.setAttribute('aria-label','باز کردن منو');
+      }
+    });
+  }
   function toast(message){const old=$('.toast');if(old)old.remove();const el=document.createElement('div');el.className='toast';el.setAttribute('role','status');el.textContent=message;document.body.appendChild(el);setTimeout(()=>el.remove(),4200);}
   $$('.choose-plan').forEach(b=>b.addEventListener('click',()=>{if(preview)toast(fa?'برای خرید واقعی باید سایت روی سرور PHP اجرا شود؛ این لینک فقط پیش‌نمایش است.':'Live checkout needs the PHP site; this is a static preview.');else location.href='../index.php?page=buyserveropen';}));
   $$('.demo-action').forEach(b=>b.addEventListener('click',()=>{const a=b.dataset.action;const en={start:'Preview only: connect a protected server API to start the server.',restart:'Preview only: connect a protected server API to restart the server.',stop:'Preview only: connect a protected server API to stop the server.'};const faText={start:'این فقط پیش‌نمایش است؛ برای روشن‌کردن سرور باید API امن متصل شود.',restart:'این فقط پیش‌نمایش است؛ برای راه‌اندازی مجدد باید API امن متصل شود.',stop:'این فقط پیش‌نمایش است؛ برای خاموش‌کردن سرور باید API امن متصل شود.'};toast((fa?faText:en)[a]);}));
