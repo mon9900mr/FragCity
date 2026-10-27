@@ -342,7 +342,7 @@
     let lastSoundAt=0;
     function playKeySound(){
       const now=performance.now();
-      if(now-lastSoundAt<45)return;
+      if(now-lastSoundAt<65)return;
       lastSoundAt=now;
       try{
         const AudioCtx=window.AudioContext||window.webkitAudioContext;
@@ -361,10 +361,10 @@
         for(let i=0;i<length;i++)data[i]=(Math.random()*2-1)*Math.pow(1-i/length,2.8);
         const noise=ctx.createBufferSource();noise.buffer=buffer;
         filter.type='bandpass';filter.frequency.value=2400;filter.Q.value=.8;
-        gain.gain.setValueAtTime(.0001,t);gain.gain.exponentialRampToValueAtTime(.14,t+.0015);gain.gain.exponentialRampToValueAtTime(.0001,t+.023);
+        gain.gain.setValueAtTime(.0001,t);gain.gain.exponentialRampToValueAtTime(.22,t+.0015);gain.gain.exponentialRampToValueAtTime(.0001,t+.023);
         noise.connect(filter);filter.connect(gain);gain.connect(ctx.destination);noise.start(t);noise.stop(t+.024);
         osc.type='triangle';osc.frequency.setValueAtTime(185,t);osc.frequency.exponentialRampToValueAtTime(92,t+.035);
-        volume.gain.setValueAtTime(.0001,t);volume.gain.exponentialRampToValueAtTime(.055,t+.002);volume.gain.exponentialRampToValueAtTime(.0001,t+.04);
+        volume.gain.setValueAtTime(.0001,t);volume.gain.exponentialRampToValueAtTime(.085,t+.002);volume.gain.exponentialRampToValueAtTime(.0001,t+.04);
         osc.connect(volume);volume.connect(ctx.destination);osc.start(t);osc.stop(t+.042);
       }catch(e){/* Audio is optional; button functionality must never depend on sound. */}
     }
