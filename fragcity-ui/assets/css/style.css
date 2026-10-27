@@ -517,3 +517,9 @@ footer a{transition:color .2s}
 @media(prefers-reduced-motion:reduce) {
   .fc-contact-card { transform:none!important; }
 }
+
+
+/* TeamSpeak card: keep connect action visibly clickable */
+.fc-ts-card .fc-ts-connect { display:flex; width:100%; cursor:pointer; text-decoration:none; }
+.fc-ts-card .fc-ts-web { display:inline-block; align-self:flex-start; margin-top:10px; color:#b8b6bf; text-decoration:underline; font-size:10px; }
+.fc-ts-card .fc-ts-hint { display:block; margin-top:8px; color:#777680; font-size:9px; line-height:1.6; }
