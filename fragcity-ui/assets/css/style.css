@@ -288,3 +288,47 @@ footer a{transition:color .2s}
   .topbar .menu-toggle { flex-basis: 36px; width: 36px; height: 38px; }
   .topbar > .button { max-width: 76px; padding: 8px 7px; font-size: 9px; }
 }
+
+
+/* FINAL mobile hamburger fix: compact dropdown, never a full-page menu */
+@media (max-width: 700px) {
+  header.topbar { position: sticky; isolation: isolate; }
+  header.topbar nav,
+  header.topbar nav:not(.open) {
+    display: none !important;
+    position: absolute !important;
+    inset: calc(100% + 1px) 8px auto 8px !important;
+    width: auto !important;
+    max-height: min(55dvh, 360px) !important;
+    overflow-y: auto !important;
+    padding: 8px !important;
+    margin: 0 !important;
+    gap: 3px !important;
+    flex-direction: column !important;
+    background: #18181c !important;
+    border: 1px solid #34343b !important;
+    border-radius: 6px !important;
+    box-shadow: 0 14px 32px #000b !important;
+  }
+  header.topbar nav.open { display: flex !important; }
+  header.topbar nav a {
+    display: flex !important;
+    align-items: center !important;
+    min-height: 38px !important;
+    height: auto !important;
+    padding: 7px 12px !important;
+    margin: 0 !important;
+    line-height: 1.4 !important;
+    border: 0 !important;
+    border-radius: 4px !important;
+    background: transparent !important;
+    font-size: 13px !important;
+  }
+  header.topbar nav a.active { background: #302024 !important; color: #fff !important; }
+  header.topbar nav a:after { display: none !important; }
+  header.topbar .menu-toggle { cursor: pointer; touch-action: manipulation; }
+}
+@media (max-width: 380px) {
+  header.topbar nav { inset-inline: 6px !important; }
+  header.topbar nav a { min-height: 36px !important; font-size: 12px !important; }
+}
