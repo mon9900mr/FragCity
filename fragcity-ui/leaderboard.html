@@ -19,18 +19,19 @@ body{font-family:Vazirmatn,Tahoma,sans-serif}.leader-wrap{max-width:1120px;margi
 <a class="button button-small" href="account.html">حساب کاربری ↗</a>
 </header>
 <main class="leader-wrap">
-<section class="leader-hero"><div class="eyebrow"><i></i> FRAG CITY / PLAYER RANKINGS</div><h1>جدول <span class="red">رتبه‌بندی</span></h1><p>رتبه بازیکن‌ها بر اساس آمار ثبت‌شده در بک‌اند سرور. اطلاعات نمایشی ساختگی نیست؛ اگر API در دسترس نباشد، جدول به‌جای امتیازهای جعلی وضعیت اتصال را نشان می‌دهد.</p><div class="leader-actions"><button class="button" id="refresh-leaderboard" type="button">↻ بروزرسانی جدول</button><a class="button button-ghost" href="index.html">بازگشت به خانه</a></div></section>
+<section class="leader-hero"><div class="eyebrow"><i></i> FRAG CITY / PLAYER RANKINGS</div><h1>جدول <span class="red">رتبه‌بندی</span></h1><p>رتبه بازیکن‌ها بر اساس آمار ثبت‌شده در بک‌اند سرور. اطلاعات نمایشی ساختگی نیست؛ اگر API در دسترس نباشد، جدول به‌جای امتیازهای جعلی وضعیت اتصال را نشان می‌دهد.</p><div class="leader-actions"><button class="button" id="refresh-leaderboard" type="button">↻ بروزرسانی جدول</button><a class="button button-ghost" href="../index.php?page=leaderboard" id="live-leaderboard-link">لیدربرد سایت اصلی ↗</a><a class="button button-ghost" href="index.html">بازگشت به خانه</a></div></section>
 <section class="leader-panel"><div class="leader-panel-head"><h2>🏆 بازیکن‌های برتر</h2><span class="leader-status" id="leader-status" role="status">در حال بررسی اتصال…</span></div>
-<div id="leader-content" class="leader-message"><strong>در حال دریافت آمار</strong>لطفاً چند لحظه صبر کن.</div>
+<label for="leader-search" style="display:block;margin:0 0 14px;color:var(--muted)">جست‌وجوی بازیکن</label><input id="leader-search" type="search" placeholder="نام بازیکن را وارد کن…" style="width:100%;margin-bottom:16px;padding:12px 14px;background:#101012;color:#fff;border:1px solid var(--line);outline-color:#ff1764"><div id="leader-content" class="leader-message"><strong>در حال دریافت آمار</strong>لطفاً چند لحظه صبر کن.</div>
 <p class="leader-footnote">منبع داده: API بک‌اند FRAG CITY. برای استفاده روی نسخه استاتیک، آدرس endpoint جدول رتبه‌بندی را در meta با نام <code>fragcity-leaderboard-api</code> قرار بده.</p>
 </section>
 </main>
 <script>
 (()=> {
- const status=document.getElementById('leader-status'), content=document.getElementById('leader-content'), refresh=document.getElementById('refresh-leaderboard');
+ const status=document.getElementById('leader-status'), content=document.getElementById('leader-content'), refresh=document.getElementById('refresh-leaderboard'), search=document.getElementById('leader-search');
  const configured=document.querySelector('meta[name="fragcity-leaderboard-api"]')?.content.trim();
  const preview=/raw\.githack\.com|github\.io|github\.com$/.test(location.hostname);
- const endpoint=configured || (!preview ? new URL('../index.php?page=leaderboard&format=json',location.href).href : '');
+ const backendBase=(window.FRAGCITY_BACKEND_URL||'').trim();
+ const endpoint=configured || (backendBase ? new URL('index.php?page=leaderboard&format=json',backendBase.endsWith('/')?backendBase:backendBase+'/').href : (!preview ? new URL('../index.php?page=leaderboard&format=json',location.href).href : ''));
  const esc=v=>String(v??'—').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  function rowsFrom(data){if(Array.isArray(data))return data;for(const k of ['players','leaderboard','rankings','data','results'])if(Array.isArray(data?.[k]))return data[k];return null}
  function showError(message, title='اتصال به داده‌های لیدربرد برقرار نشد'){status.textContent='آفلاین';content.className='leader-message leader-error';content.innerHTML='<strong>'+esc(title)+'</strong>'+esc(message)}
@@ -49,6 +50,7 @@ body{font-family:Vazirmatn,Tahoma,sans-serif}.leader-wrap{max-width:1120px;margi
   }catch(e){showError(e.message+'؛ endpoint و دسترسی CORS/JSON بک‌اند را بررسی کن.')}
   finally{refresh.disabled=false}
  }
+ search?.addEventListener('input',()=>{const q=search.value.trim().toLocaleLowerCase();content.querySelectorAll('tbody tr').forEach(row=>{row.hidden=!row.textContent.toLocaleLowerCase().includes(q)})});
  refresh.addEventListener('click',load);load();
 })();
 </script><script src="assets/js/app.js"></script>
