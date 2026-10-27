@@ -268,4 +268,40 @@
   });
   const form=$('#support-form');if(form)form.addEventListener('submit',e=>{e.preventDefault();toast(fa?'این فرم نمایشی است؛ برای ثبت واقعی تیکت، صفحه پشتیبانی اصلی را باز کن.':'This is a preview form. Open the live support page to submit a real ticket.');});
   setLanguage(true);
+
+  // Scroll-triggered reveals: cinematic entrance without changing page behavior.
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reducedMotion && 'IntersectionObserver' in window) {
+    const revealTargets = $('.section-head, .feature-card, .guide-list article, .panel-box, .dash-metrics > div, .support-tip, .support-form, .skin-hero, .skin-card, .custom-panel, .cta, .strip > div');
+    revealTargets.forEach((el, index) => {
+      el.classList.add('fc-reveal');
+      el.dataset.fcDelay = String(index % 4);
+    });
+    const revealObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('fc-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -35px 0px' });
+    revealTargets.forEach(el => revealObserver.observe(el));
+  }
+
+  // Subtle pointer parallax on the arena artwork, disabled on touch/reduced motion.
+  if (!reducedMotion && window.matchMedia('(pointer: fine)').matches) {
+    const art = $('.hero-art');
+    if (art) {
+      art.addEventListener('pointermove', e => {
+        const rect = art.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - .5;
+        const y = (e.clientY - rect.top) / rect.height - .5;
+        art.style.setProperty('--fc-parallax-x', (x * 8).toFixed(2) + 'px');
+        art.style.setProperty('--fc-parallax-y', (y * 8).toFixed(2) + 'px');
+        art.style.transform = 'perspective(900px) rotateY(' + (x * 2.2).toFixed(2) + 'deg) rotateX(' + (-y * 2.2).toFixed(2) + 'deg)';
+      });
+      art.addEventListener('pointerleave', () => { art.style.transform = ''; });
+    }
+  }
+
 })();
