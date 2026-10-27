@@ -58,6 +58,24 @@
 .skin-card-info .select-skin{width:100%;margin-top:auto;border-radius:5px;padding:8px 10px;font-size:11px}
 @media(max-width:620px){.weapon-grid,.skin-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.weapon-art{height:124px;padding:10px}.weapon-copy,.skin-card-info{padding:10px}.weapon-copy h3,.skin-card-info h3{font-size:13px}.skin-image{height:125px;padding:9px}}
 </style>
+
+<style id="fragcity-card-refresh-v2">
+/* ONLY weapon/skin cards: CS2RED-inspired image-first tiles */
+.weapon-grid{grid-template-columns:repeat(auto-fill,minmax(210px,1fr))!important;gap:12px!important;align-items:stretch}
+.weapon-card,.related-item{display:flex;flex-direction:column;min-width:0;overflow:hidden;background:#17181c!important;border:1px solid #303137!important;border-radius:8px!important;box-shadow:0 3px 12px #0003;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+.weapon-card:hover,.related-item:hover{transform:translateY(-3px);border-color:#a8323b!important;box-shadow:0 9px 22px #0006}
+.weapon-art,.related-image{position:relative;height:156px!important;min-height:156px;background:radial-gradient(ellipse at 50% 45%,#35363c 0%,#25262b 48%,#191a1e 100%)!important;border-bottom:1px solid #303137;padding:13px!important;display:grid;place-items:center;overflow:hidden}
+.weapon-art:after,.related-image:after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,transparent 49.5%,#ffffff08 50%,transparent 50.5%);pointer-events:none}
+.weapon-art img,.related-image img{position:relative;z-index:1;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 7px 8px #0009);transition:transform .2s ease}
+.weapon-card:hover .weapon-art img,.related-item:hover .related-image img{transform:scale(1.07)}
+.weapon-copy,.related-info{display:flex;flex:1;flex-direction:column;align-items:stretch;gap:5px;padding:12px 13px 13px!important;background:#191a1e}
+.weapon-copy small,.related-info small{font-size:10px!important;line-height:1.4;color:#a4a5ad!important;letter-spacing:.35px;text-transform:none!important}
+.weapon-copy h3,.related-info h3{font-size:14px!important;font-weight:700;line-height:1.45;margin:2px 0 4px!important;color:#f4f4f6;overflow-wrap:anywhere;min-height:0!important}
+.weapon-copy p{font-size:11px!important;line-height:1.5;color:#9b9ca5!important;margin:0 0 7px!important}
+.weapon-copy .button,.related-info .button{display:block;width:100%;text-align:center;margin-top:auto!important;padding:8px 10px!important;min-height:34px;border-radius:5px!important;background:#24252a;border:1px solid #393a41;color:#ededf0;font-size:11px!important}
+.weapon-card:hover .weapon-copy .button,.related-item:hover .related-info .button{background:#382024;border-color:#8b3038;color:#fff}
+@media(max-width:620px){.weapon-grid,.related-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important}.weapon-art,.related-image{height:124px!important;min-height:124px;padding:9px!important}.weapon-copy,.related-info{padding:10px!important}.weapon-copy h3,.related-info h3{font-size:12px!important}}
+</style>
 </head><body>
 <header class="topbar"><a class="brand" href="index.html"><span class="brand-mark">F</span><span>FRAG<span class="red">CITY</span><small>میزبانی سرورهای کانتر استرایک</small></span></a><button class="menu-toggle" aria-label="باز کردن منو">☰</button><nav><a href="index.html">خانه</a><a href="servers.html">سرورها</a><a class="active" href="skins.html">اسکین‌ها</a><a href="guides.html">راهنما</a><a href="support.html">پشتیبانی</a><a href="account.html">حساب کاربری</a><a href="leaderboard.html">لیدربرد</a></nav><a class="button button-small" href="manage.html">پنل مدیریت ↗</a><a class="button button-small leaderboard-header-button" href="leaderboard.html"><span aria-hidden="true">🏆</span> لیدربرد</a></header>
 <main class="skin-wrap"><section class="skin-hero"><div class="eyebrow">FRAG CITY / ARSENAL</div><h1>SKIN <span class="red">VAULT.</span></h1><p>سلاح موردعلاقه‌ات رو انتخاب کن و بین اسکین‌های موجود بگرد. آیتم رو باز کن تا جزئیاتش رو ببینی و در صورت پشتیبانی سرور، درخواست اعمالش رو ثبت کنی.</p><p id="catalog-summary">داریم اسلحه‌ها و آیتم‌ها رو از کاتالوگ آماده می‌کنیم…</p></section>
