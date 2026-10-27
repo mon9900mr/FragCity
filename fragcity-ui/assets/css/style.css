@@ -209,3 +209,82 @@ footer a{transition:color .2s}
 @keyframes fc-word-reveal{from{opacity:0;transform:translateY(16px) skew(-7deg)}to{opacity:1;transform:translateY(0) skew(-7deg)}}
 @keyframes fc-cta-sweep{0%,20%{left:-35%;opacity:0}40%{opacity:1}70%,100%{left:120%;opacity:0}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.fc-reveal{opacity:1;transform:none}}
+
+
+/* Mobile header repair: keep navigation compact and out of the content flow */
+@media (max-width: 700px) {
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    height: 64px;
+    min-height: 64px;
+    padding: 0 12px;
+    gap: 8px;
+    flex-wrap: nowrap;
+  }
+  .topbar .brand { flex: 0 1 auto; min-width: 0; gap: 7px; font-size: 14px; }
+  .topbar .brand-mark { flex: 0 0 32px; width: 32px; height: 32px; }
+  .topbar .brand small { font-size: 7px; letter-spacing: .4px; margin-top: 3px; }
+  .topbar .menu-toggle {
+    display: inline-flex;
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #34343b;
+    background: #18181c;
+    border-radius: 4px;
+    font-size: 22px;
+    line-height: 1;
+  }
+  .topbar nav {
+    display: none !important;
+    position: absolute;
+    top: calc(100% + 1px);
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-height: calc(100dvh - 66px);
+    overflow-y: auto;
+    padding: 10px 14px 14px;
+    margin: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+    background: #141417;
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 16px 24px #0007;
+  }
+  .topbar nav.open { display: flex !important; }
+  .topbar nav a {
+    display: flex;
+    align-items: center;
+    min-height: 42px;
+    padding: 9px 12px;
+    white-space: normal;
+    border-bottom: 1px solid #ffffff0b;
+  }
+  .topbar nav a:after { display: none; }
+  .topbar > .button {
+    display: inline-flex;
+    flex: 0 0 auto;
+    max-width: 90px;
+    margin: 0;
+    padding: 9px 10px;
+    font-size: 10px;
+    gap: 5px;
+    white-space: nowrap;
+  }
+  .topbar > .button:after { content: none; }
+}
+@media (max-width: 380px) {
+  .topbar { padding-inline: 8px; gap: 6px; }
+  .topbar .brand { font-size: 12px; gap: 5px; }
+  .topbar .brand small { letter-spacing: 0; font-size: 6px; }
+  .topbar .menu-toggle { flex-basis: 36px; width: 36px; height: 38px; }
+  .topbar > .button { max-width: 76px; padding: 8px 7px; font-size: 9px; }
+}
