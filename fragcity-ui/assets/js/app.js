@@ -334,4 +334,46 @@
     }
   }
 
+
+  // Mechanical keyboard click sound, synthesized locally (no audio file or network needed).
+  // Only fires for intentional button-like controls and respects mute/reduced-motion preferences.
+  (function initKeyboardClickSound(){
+    let audioContext=null;
+    let lastSoundAt=0;
+    function playKeySound(){
+      const now=performance.now();
+      if(now-lastSoundAt<45)return;
+      lastSoundAt=now;
+      try{
+        const AudioCtx=window.AudioContext||window.webkitAudioContext;
+        if(!AudioCtx)return;
+        if(!audioContext)audioContext=new AudioCtx();
+        if(audioContext.state==='suspended')audioContext.resume();
+        const ctx=audioContext,t=ctx.currentTime;
+        const gain=ctx.createGain();
+        const filter=ctx.createBiquadFilter();
+        const osc=ctx.createOscillator();
+        const volume=ctx.createGain();
+        // Short, tactile "thock": a tiny filtered noise transient plus a muted low key body.
+        const length=Math.max(1,Math.floor(ctx.sampleRate*.022));
+        const buffer=ctx.createBuffer(1,length,ctx.sampleRate);
+        const data=buffer.getChannelData(0);
+        for(let i=0;i<length;i++)data[i]=(Math.random()*2-1)*Math.pow(1-i/length,2.8);
+        const noise=ctx.createBufferSource();noise.buffer=buffer;
+        filter.type='bandpass';filter.frequency.value=2400;filter.Q.value=.8;
+        gain.gain.setValueAtTime(.0001,t);gain.gain.exponentialRampToValueAtTime(.14,t+.0015);gain.gain.exponentialRampToValueAtTime(.0001,t+.023);
+        noise.connect(filter);filter.connect(gain);gain.connect(ctx.destination);noise.start(t);noise.stop(t+.024);
+        osc.type='triangle';osc.frequency.setValueAtTime(185,t);osc.frequency.exponentialRampToValueAtTime(92,t+.035);
+        volume.gain.setValueAtTime(.0001,t);volume.gain.exponentialRampToValueAtTime(.055,t+.002);volume.gain.exponentialRampToValueAtTime(.0001,t+.04);
+        osc.connect(volume);volume.connect(ctx.destination);osc.start(t);osc.stop(t+.042);
+      }catch(e){/* Audio is optional; button functionality must never depend on sound. */}
+    }
+    document.addEventListener('click',function(event){
+      const control=event.target.closest('button,.button,.filter,.skin-tree-node,.skin-tree-leaf,.preview-sticker,[role="button"]');
+      if(!control||control.disabled||control.getAttribute('aria-disabled')==='true')return;
+      if(control.matches('input,textarea,select,[data-sound="off"]'))return;
+      playKeySound();
+    },true);
+  })();
+
 })();
