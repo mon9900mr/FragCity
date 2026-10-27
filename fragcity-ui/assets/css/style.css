@@ -574,3 +574,112 @@ footer a{transition:color .2s}
 .fc-account-panel>a{margin-top:auto;padding-top:7px;color:#ff6872;font-size:12px;font-weight:800;text-decoration:none}
 .fc-account-panel>a:hover{text-decoration:underline}
 @media(max-width:760px){.fc-account-heading{align-items:flex-start;flex-wrap:wrap}.fc-steam-login{width:100%}.fc-account-panels{grid-template-columns:1fr}.fc-account-dashboard{padding:16px}}
+
+
+/* FRAG CITY // NEON OVERDRIVE visual layer */
+:root{
+  --bg:#07080d;--panel:#10121c;--panel2:#171a29;--line:#292d43;
+  --text:#f5f7ff;--muted:#a3aac2;--red:#ff244f;--red2:#a90d35;
+  --fc-cyan:#00f5ff;--fc-violet:#a855ff;--fc-pink:#ff2bd6;
+  color-scheme:dark;
+}
+html{scroll-padding-top:95px}
+body{
+  background:
+    radial-gradient(ellipse at 8% 8%,#ff174d12 0,transparent 34%),
+    radial-gradient(ellipse at 92% 25%,#00eaff0d 0,transparent 30%),
+    radial-gradient(ellipse at 55% 100%,#832bff0b 0,transparent 38%),#07080d;
+  background-attachment:fixed;
+}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.2;
+  background-image:linear-gradient(#a9baff0a 1px,transparent 1px),linear-gradient(90deg,#a9baff0a 1px,transparent 1px);
+  background-size:44px 44px;mask-image:linear-gradient(to bottom,#000,transparent 88%);
+}
+::selection{background:#ff244f;color:#fff}
+.topbar{
+  background:linear-gradient(100deg,#080910f2,#10111cf0 55%,#080b12f2);
+  border-bottom:1px solid #ff244f55;box-shadow:0 8px 35px #0008,0 1px 0 #00f5ff18;
+}
+.brand-mark{
+  background:linear-gradient(135deg,#ff244f,#ff2bd6 58%,#00f5ff);
+  box-shadow:0 0 14px #ff244f8c,0 0 34px #ff244f35;animation:fc-neon-mark 3s ease-in-out infinite alternate;
+}
+.brand small{color:#8f9bb6}
+nav a{position:relative;transition:color .25s,text-shadow .25s}
+nav a:after{content:"";position:absolute;left:0;right:100%;bottom:-9px;height:2px;background:linear-gradient(90deg,var(--red),var(--fc-cyan));box-shadow:0 0 10px var(--red);transition:right .25s}
+nav a:hover,nav a.active{color:#fff;text-shadow:0 0 14px #ff244f99}
+nav a:hover:after,nav a.active:after{right:0}
+.button{
+  position:relative;isolation:isolate;overflow:hidden;
+  border:1px solid #ff466b;background:linear-gradient(115deg,#ff174b,#c80d57 55%,#8b22c8);
+  box-shadow:0 0 12px #ff174b55,inset 0 0 14px #ffffff0c;
+  transition:transform .25s,box-shadow .25s,border-color .25s,filter .25s;
+}
+.button:before{content:"";position:absolute;z-index:-1;top:-50%;bottom:-50%;left:-80%;width:45%;transform:skewX(-22deg);background:linear-gradient(90deg,transparent,#ffffff55,transparent);transition:left .55s}
+.button:hover{transform:translateY(-3px);filter:saturate(1.3);box-shadow:0 0 12px #ff174b99,0 0 32px #ff174b45,0 0 54px #9d25ff22}
+.button:hover:before{left:140%}
+.button-ghost{background:#0e111b;border-color:#00dce7a3;box-shadow:inset 0 0 18px #00f5ff09,0 0 13px #00f5ff12}
+.button-ghost:hover{background:#111c27;border-color:var(--fc-cyan);box-shadow:0 0 18px #00f5ff45,inset 0 0 18px #00f5ff12}
+.hero{position:relative}
+.hero h1{text-shadow:0 0 24px #ff244f13}
+.outline{-webkit-text-stroke:1px #00f5ff;color:transparent;filter:drop-shadow(0 0 12px #00f5ff35)}
+.eyebrow{color:#d6d9ee}
+.eyebrow i{background:var(--fc-cyan);box-shadow:0 0 7px var(--fc-cyan),0 0 18px #00f5ffbb;animation:fc-neon-blink 2s ease-in-out infinite}
+.hero-art{
+  border:1px solid #ff244f70;
+  background:radial-gradient(ellipse at 50% 48%,#4c1238 0,#17162c 42%,#080a12 78%);
+  box-shadow:0 0 20px #ff244f20,0 0 65px #712aff18,inset 0 0 45px #00eaff0b;
+  animation:fc-arena-breathe 7s ease-in-out infinite;
+}
+.hero-art:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 0 43%,#00f5ff0d 44%,transparent 45% 68%,#ff2bd610 69%,transparent 70%);mix-blend-mode:screen}
+.art-grid{background-image:linear-gradient(#b5caff0d 1px,transparent 1px),linear-gradient(90deg,#b5caff0d 1px,transparent 1px)}
+.ring{border-color:#ff244f99;box-shadow:0 0 22px #ff244f1c,inset 0 0 18px #ff244f0c}
+.ring-two{border-color:#00f5ff6b}
+.crosshair{color:var(--fc-cyan);text-shadow:0 0 15px var(--fc-cyan),0 0 36px #00f5ff9c;animation:fc-crosshair 6s linear infinite}
+.art-word span{color:#ff315e;text-shadow:0 0 18px #ff174b88,0 0 45px #ff174b4d}
+.art-bottom{background:#070910df;border-top-color:#00f5ff2b}
+.strip{border-color:#2c3046;background:linear-gradient(90deg,#0b0d15aa,#12101aaa,#0b0d15aa)}
+.strip strong{color:#ff315e;text-shadow:0 0 18px #ff244f66}
+.section-head h2,.cta h2,.support-copy h2{ text-shadow:0 0 25px #ff244f15}
+.feature-card,.plan,.dash-nav,.dash-main,.skin-card,.support-form,.fc-account-dashboard{
+  background:linear-gradient(145deg,#141622f2,#0c0e17f5);
+  border-color:#30334b;box-shadow:0 10px 35px #0002;transition:border-color .3s,transform .3s,box-shadow .3s;
+}
+.feature-card:hover,.skin-card:hover,.plan:hover{
+  border-color:#ff315eaa;box-shadow:0 0 0 1px #ff244f20,0 0 28px #ff244f17,0 18px 45px #0006;transform:translateY(-5px);
+}
+.feature-icon,.fc-panel-icon{color:#ff315e;text-shadow:0 0 16px #ff244f88}
+.feature-card h3{color:#f6f7ff}
+.text-link,.fc-account-panel>a{color:#00eaf5}
+.text-link:hover,.fc-account-panel>a:hover{text-shadow:0 0 12px #00f5ff99}
+.cta{position:relative;overflow:hidden;background:linear-gradient(105deg,#25101e,#101321 60%,#101a22);border-color:#ff244f77;box-shadow:0 0 32px #ff244f10,inset 0 0 35px #00f5ff06}
+.cta:after{content:"";position:absolute;top:-60%;bottom:-60%;right:-15%;width:2px;background:var(--fc-cyan);box-shadow:0 0 15px var(--fc-cyan),0 0 45px var(--fc-cyan);transform:rotate(24deg);opacity:.8}
+footer{border-color:#292d43;background:#080910}
+footer a:hover{color:var(--fc-cyan);text-shadow:0 0 12px #00f5ff66}
+.filter,.skin-toolbar input,.skin-toolbar select,.skin-control-grid input[type=text],.support-form input,.support-form select,.support-form textarea{
+  background:#0b0e17;border-color:#30364f;color:#f3f5ff;transition:border-color .2s,box-shadow .2s;
+}
+.filter:hover,.filter.active{background:#241122;border-color:#ff315e;box-shadow:0 0 15px #ff244f1c}
+.skin-image{background:radial-gradient(ellipse at 50% 55%,#25233a 0,#121421 52%,#0a0c13 84%);border-bottom-color:#ffffff12}
+.skin-card.skin-selected{border-color:var(--fc-cyan);box-shadow:0 0 0 1px #00f5ff38,0 0 28px #00f5ff19}
+.skin-card.skin-selected:after{content:"SELECTED";align-self:flex-start;color:var(--fc-cyan);font:800 9px Oxanium,sans-serif;letter-spacing:2px;padding:0 14px 12px;text-shadow:0 0 10px #00f5ff77}
+.status{border-color:#ff315e66;box-shadow:0 0 12px #ff244f12}
+.status i{background:#ff315e;box-shadow:0 0 9px #ff315e;animation:fc-neon-blink 1.5s infinite}
+.dash-nav .dash-active{background:linear-gradient(90deg,#351322,#171321);border-left-color:#ff315e;box-shadow:inset 0 0 22px #ff244f0d}
+.dash-metrics>div,.panel-box,.selected-preview{background:linear-gradient(145deg,#10131e,#0a0c14);border-color:#30344a}
+.support-form input:focus,.support-form textarea:focus,.support-form select:focus,.skin-toolbar input:focus,.skin-toolbar select:focus,.skin-control-grid input:focus{border-color:var(--fc-cyan);box-shadow:0 0 0 2px #00f5ff14,0 0 18px #00f5ff12}
+.toast{background:#101321;border-color:#ff315e;border-left-color:var(--fc-cyan);box-shadow:0 0 25px #ff244f1c,0 15px 45px #0009}
+.fc-boot-mark{background:linear-gradient(135deg,#ff174b,#a21b85 62%,#00cbd8);box-shadow:0 0 24px #ff244f66,0 0 52px #8b22c844}
+.fc-boot-track{background:#24283b}.fc-boot-track i{background:linear-gradient(90deg,#ff244f,#ff2bd6,var(--fc-cyan));box-shadow:0 0 15px #00f5ff99}
+.fc-profile-avatar{border-color:#ff315e99;background:radial-gradient(circle,#4b1532,#111321 72%);box-shadow:0 0 25px #ff244f2c,0 0 45px #00f5ff0a}
+.fc-account-kicker,.fc-account-panel small{color:var(--fc-cyan)}
+@keyframes fc-neon-mark{0%,100%{filter:drop-shadow(0 0 3px #ff244f99)}50%{filter:drop-shadow(0 0 9px #ff2bd6bb) drop-shadow(0 0 15px #00f5ff55)}}
+@keyframes fc-neon-blink{0%,100%{opacity:1}50%{opacity:.55}}
+@keyframes fc-arena-breathe{0%,100%{box-shadow:0 0 20px #ff244f20,0 0 65px #712aff18,inset 0 0 45px #00eaff0b}50%{box-shadow:0 0 32px #ff244f35,0 0 85px #712aff25,inset 0 0 55px #00eaff10}}
+@keyframes fc-crosshair{0%{transform:rotate(0) scale(.92)}50%{transform:rotate(180deg) scale(1.08)}100%{transform:rotate(360deg) scale(.92)}}
+@media(max-width:700px){nav{background:#0b0d16f7;border-bottom-color:#ff244f66}.hero-art{box-shadow:0 0 20px #ff244f17}.cta:after{right:8%}}
+@media(prefers-reduced-motion:reduce){
+ .brand-mark,.eyebrow i,.crosshair,.hero-art,.status i{animation:none!important}
+ .button:before{display:none}.feature-card:hover,.skin-card:hover,.plan:hover{transform:none}
+}
