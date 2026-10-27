@@ -706,42 +706,42 @@ footer a:hover{color:var(--fc-cyan);text-shadow:0 0 12px #00f5ff66}
 
 
 /* FRAG CITY monochrome neon identity: one pink accent, no mixed-color gradients. */
-:root{--red:#ff1764;--red2:#d80b4d;--green:#ff1764}
-.brand-mark{background:#ff1764!important;color:#fff!important;box-shadow:0 0 18px #ff176455}
-.button,.button:not(.button-ghost):not(.button-danger){background:#ff1764;border-color:#ff1764;color:#fff;box-shadow:0 4px 0 #9c0b3c,0 0 18px #ff176433}
-.button:hover{background:#ff1764;border-color:#ff1764;box-shadow:0 4px 0 #9c0b3c,0 0 25px #ff176477}
-.button:active{transform:translateY(3px);box-shadow:0 1px 0 #9c0b3c,inset 0 2px 5px #79052d}
-.button-ghost,.button-danger{background:transparent!important;border-color:#ff1764!important;color:#ff1764!important;box-shadow:0 3px 0 #79052d}
-.button-ghost:hover,.button-danger:hover{background:#ff1764!important;color:#fff!important}
-.eyebrow i{background:#ff1764;box-shadow:0 0 14px #ff176480}
+:root{--red:#ff2028;--red2:#d00018;--green:#ff2028}
+.brand-mark{background:#ff2028!important;color:#fff!important;box-shadow:0 0 18px #ff202855}
+.button,.button:not(.button-ghost):not(.button-danger){background:#ff2028;border-color:#ff2028;color:#fff;box-shadow:0 4px 0 #a50012,0 0 18px #ff202833}
+.button:hover{background:#ff2028;border-color:#ff2028;box-shadow:0 4px 0 #a50012,0 0 25px #ff202877}
+.button:active{transform:translateY(3px);box-shadow:0 1px 0 #a50012,inset 0 2px 5px #85000d}
+.button-ghost,.button-danger{background:transparent!important;border-color:#ff2028!important;color:#ff2028!important;box-shadow:0 3px 0 #85000d}
+.button-ghost:hover,.button-danger:hover{background:#ff2028!important;color:#fff!important}
+.eyebrow i{background:#ff2028;box-shadow:0 0 14px #ff202880}
 .hero-art{background:radial-gradient(ellipse at 55% 45%,#481124 0,#251019 32%,#111114 70%)}
-.hero-art:before{background:linear-gradient(125deg,transparent 35%,#ff176422 36%,transparent 37%),linear-gradient(35deg,transparent 55%,#fff1 55.2%,transparent 55.7%)}
-.ring{border-color:#ff17645c}.ring-two{border-color:#ffffff35}.crosshair{color:#ff1764}
-.feature-card:hover{border-color:#ff17646b}
+.hero-art:before{background:linear-gradient(125deg,transparent 35%,#ff202822 36%,transparent 37%),linear-gradient(35deg,transparent 55%,#fff1 55.2%,transparent 55.7%)}
+.ring{border-color:#ff20285c}.ring-two{border-color:#ffffff35}.crosshair{color:#ff2028}
+.feature-card:hover{border-color:#ff20286b}
 
 
 /* Final global button pass: every button uses one solid neon-pink color. */
-:root{--button-neon:#ff1764;--button-neon-shadow:#9c0b3c}
+:root{--button-neon:#ff2028;--button-neon-shadow:#a50012}
 button,.button,input[type="button"],input[type="submit"],input[type="reset"],[role="button"],.filter,.skin-tree-node,.skin-tree-leaf,.preview-sticker{
   background-color:var(--button-neon)!important;
   background-image:none!important;
   border-color:var(--button-neon)!important;
   color:#fff!important;
-  box-shadow:0 4px 0 var(--button-neon-shadow),0 0 16px #ff17644d!important;
+  box-shadow:0 4px 0 var(--button-neon-shadow),0 0 16px #ff20284d!important;
 }
 button:hover,.button:hover,input[type="button"]:hover,input[type="submit"]:hover,input[type="reset"]:hover,[role="button"]:hover,.filter:hover,.skin-tree-node:hover,.skin-tree-leaf:hover,.preview-sticker:hover{
   background-color:var(--button-neon)!important;
   background-image:none!important;
   border-color:var(--button-neon)!important;
   color:#fff!important;
-  box-shadow:0 4px 0 var(--button-neon-shadow),0 0 24px #ff176488!important;
+  box-shadow:0 4px 0 var(--button-neon-shadow),0 0 24px #ff202888!important;
   filter:brightness(1.08);
 }
 button:active,.button:active,input[type="button"]:active,input[type="submit"]:active,input[type="reset"]:active,[role="button"]:active,.filter:active,.skin-tree-node:active,.skin-tree-leaf:active,.preview-sticker:active{
   background-color:var(--button-neon)!important;
   background-image:none!important;
   transform:translateY(3px) scale(.985)!important;
-  box-shadow:inset 0 3px 7px #79052d,0 1px 0 var(--button-neon-shadow)!important;
+  box-shadow:inset 0 3px 7px #85000d,0 1px 0 var(--button-neon-shadow)!important;
   filter:brightness(.95);
 }
 /* Prevent ghost/danger variants and decorative pseudo-elements from adding a second color. */
