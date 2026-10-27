@@ -766,3 +766,27 @@ button::before,button::after,.button::before,.button::after{background-image:non
 .dash-nav>a,.admin-side>a{display:block!important;position:relative;z-index:5;cursor:pointer;text-decoration:none!important;padding:11px 10px!important;color:#aaa9b1!important;border-right:2px solid transparent;pointer-events:auto}
 .dash-nav>a:hover,.dash-nav>a:focus,.dash-nav>a.dash-active,.admin-side>a:hover,.admin-side>a:focus,.admin-side>a.active{background:#332023!important;color:#fff!important;border-right-color:#ff2028!important;outline:none}
 .dash-nav>a:active,.admin-side>a:active{transform:translateY(2px)}
+
+/* Admin navigation: visible button controls, not plain text */
+.dash-nav,.admin-side{gap:9px!important}
+.dash-nav .admin-nav-button,.admin-side .admin-nav-button{
+ display:flex!important;align-items:center;gap:8px;width:100%;min-height:42px;box-sizing:border-box;
+ padding:11px 12px!important;margin:0!important;
+ background:#17171d!important;background-image:none!important;
+ border:1px solid #33333d!important;border-right:3px solid #4a252c!important;
+ border-radius:3px!important;color:#f2f0f3!important;
+ text-decoration:none!important;font-size:12px!important;font-weight:700!important;
+ line-height:1.5;cursor:pointer;pointer-events:auto;position:relative;z-index:2;
+ box-shadow:0 3px 0 #08080a!important;transition:background .15s,border-color .15s,transform .15s,box-shadow .15s;
+}
+.dash-nav .admin-nav-button:hover,.admin-side .admin-nav-button:hover,
+.dash-nav .admin-nav-button:focus-visible,.admin-side .admin-nav-button:focus-visible{
+ background:#2b151a!important;border-color:#ff2028!important;border-right-color:#ff2028!important;
+ color:#fff!important;box-shadow:0 3px 0 #5d0b12,0 0 13px #ff202833!important;outline:none;
+}
+.dash-nav .admin-nav-button.is-active,.admin-side .admin-nav-button.is-active,.dash-nav .admin-nav-button.dash-active{
+ background:#ff2028!important;background-image:none!important;border-color:#ff2028!important;
+ border-right-color:#ff2028!important;color:#fff!important;box-shadow:0 3px 0 #a50012,0 0 14px #ff202833!important;
+}
+.dash-nav .admin-nav-button:active,.admin-side .admin-nav-button:active{transform:translateY(2px);box-shadow:0 1px 0 #a50012!important}
+.dash-nav>b,.admin-side>b{margin-bottom:12px!important}
