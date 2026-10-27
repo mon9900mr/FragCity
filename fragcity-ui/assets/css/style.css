@@ -752,3 +752,12 @@ button:active,.button:active,input[type="button"]:active,input[type="submit"]:ac
   color:#fff!important;
 }
 button::before,button::after,.button::before,.button::after{background-image:none}
+
+
+/* Explicit visible leaderboard CTA on every header */
+.topbar{gap:12px}
+.leaderboard-header-button{display:inline-flex!important;align-items:center;justify-content:center;gap:7px;flex:0 0 auto;white-space:nowrap;margin-inline-start:8px;padding:11px 14px!important;background:#ff2028!important;background-image:none!important;border:1px solid #ff2028!important;color:#fff!important;box-shadow:0 3px 0 #a50012,0 0 16px #ff202844!important;position:relative;z-index:12}
+.leaderboard-header-button:hover{background:#ff2028!important;background-image:none!important;color:#fff!important;box-shadow:0 3px 0 #a50012,0 0 24px #ff202877!important;filter:brightness(1.08)}
+.leaderboard-header-button:active{transform:translateY(3px)!important;box-shadow:inset 0 3px 7px #79000a,0 1px 0 #a50012!important}
+@media(max-width:1100px){.topbar{padding-inline:16px;gap:8px}.topbar nav{gap:12px}.leaderboard-header-button{padding:10px 10px!important;font-size:10px}}
+@media(max-width:820px){.topbar{flex-wrap:wrap;min-height:76px;height:auto;padding-block:12px}.leaderboard-header-button{order:2;margin-inline-start:auto}.menu-toggle{order:3}.topbar nav{order:4;width:100%;justify-content:center;flex-wrap:wrap;gap:12px;padding:8px 0}.topbar nav a{white-space:nowrap}}
